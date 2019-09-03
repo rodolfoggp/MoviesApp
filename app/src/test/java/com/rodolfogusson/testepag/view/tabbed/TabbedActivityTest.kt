@@ -1,16 +1,17 @@
+package com.rodolfogusson.testepag.view.tabbed
+
 import android.view.View
-import androidx.core.view.size
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.rodolfogusson.testepag.R
-import com.rodolfogusson.testepag.TabbedActivity
 import junit.framework.Assert.assertNotNull
+import kotlinx.android.synthetic.main.activity_main.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
 
 @RunWith(RobolectricTestRunner::class)
 class TabbedActivityTest {
@@ -55,7 +56,7 @@ class TabbedActivityTest {
     }
 
     @Test
-    fun `action bar elevation should be to zero`() {
+    fun `action bar elevation should be zero`() {
         assert(activity.supportActionBar!!.elevation == 0.0f)
     }
 }

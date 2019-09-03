@@ -5,17 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TabbedActivity">
-
-<!--    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark"/>-->
+    tools:context=".view.tabbed.TabbedActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
@@ -29,22 +19,23 @@
             android:background="@color/colorPrimary"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/white"
-            app:tabIconTint="@android:color/white"
-            >
+            app:tabIconTint="@android:color/white">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/movies_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/list"
-                android:text="@string/movies" />
+                android:text="@string/movies"
+                />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/favorites_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/favorite"
-                android:text="@string/favorites" />
+                android:text="@string/favorites"
+                />
         </com.google.android.material.tabs.TabLayout>
     </androidx.viewpager.widget.ViewPager>
 </LinearLayout>
