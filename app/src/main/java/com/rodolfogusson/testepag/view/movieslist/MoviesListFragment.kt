@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
+import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies_list.*
 
 class MoviesListFragment : Fragment() {
@@ -25,7 +26,8 @@ class MoviesListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MoviesListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory())
+            .get(MoviesListViewModel::class.java)
         setupLayout()
         registerObservers()
     }
@@ -35,11 +37,13 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun registerObservers() {
-        recyclerView.adapter = MoviesListAdapter(listOf("a", "b", "c"))
-        /*viewModel.movies.observe(this, Observer {
+        viewModel.movies.observe(this, Observer {
             it?.let {
-
+                MoviesListAdapter(it).apply {
+                    recyclerView.adapter = this
+                    notifyDataSetChanged()
+                }
             }
-        })*/
+        })
     }
 }
