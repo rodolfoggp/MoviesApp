@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies_list.*
+import androidx.recyclerview.widget.DividerItemDecoration
+import com.rodolfogusson.testepag.R
+
 
 class MoviesListFragment : Fragment() {
 
@@ -34,6 +36,12 @@ class MoviesListFragment : Fragment() {
 
     private fun setupLayout() {
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this.activity,
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
     private fun registerObservers() {
