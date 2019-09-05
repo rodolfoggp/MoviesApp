@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="103dp"
+                android:layout_height="150dp"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{movie.imageUrl}" />
 
@@ -39,23 +39,19 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{movie.title}" />
-
-                <LinearLayout
+                    android:text="@{movie.title}"
+                    android:textStyle="bold" />
+                
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:dateText="@{movie.releaseDate}" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:dateText="@{movie.releaseDate}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Açao" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Açao" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
