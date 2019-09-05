@@ -3,6 +3,7 @@ package com.rodolfogusson.testepag.infrastructure.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rodolfogusson.testepag.model.Movie
+import org.threeten.bp.LocalDate
 
 class MoviesRepository {
 
@@ -13,7 +14,7 @@ class MoviesRepository {
             Movie(
                 1,
                 "Filme 1",
-                "2019-09-05",
+                LocalDate.parse("2019-09-05"),
                 "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
                 7.4,
                 10,
@@ -22,7 +23,7 @@ class MoviesRepository {
             Movie(
                 2,
                 "Filme 2",
-                "2019-09-05",
+                LocalDate.parse("2019-09-08"),
                 "/kRLIHHf4KrwYFInU08akbzSGCrW.jpg",
                 8.1,
                 1,

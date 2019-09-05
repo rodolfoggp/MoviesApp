@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="halfSpace">4dp</dimen>
+    <dimen name="singleSpace">8dp</dimen>
+    <dimen name="doubleSpace">16dp</dimen>
+    <dimen name="tripleSpace">24dp</dimen>
+    <dimen name="quadSpace">32dp</dimen>
+</resources>
