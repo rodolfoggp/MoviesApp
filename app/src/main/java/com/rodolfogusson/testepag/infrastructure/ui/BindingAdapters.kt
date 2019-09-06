@@ -4,15 +4,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.rodolfogusson.testepag.R
+import com.rodolfogusson.testepag.infrastructure.network.BaseURL
 import com.squareup.picasso.Picasso
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
 @BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
+    val baseUrl = BaseURL.MOVIES_IMAGES.url
     Picasso
         .get()
-        .load("https://image.tmdb.org/t/p/w185$url")
+        .load("$baseUrl$url")
         .into(imageView)
 }
 
