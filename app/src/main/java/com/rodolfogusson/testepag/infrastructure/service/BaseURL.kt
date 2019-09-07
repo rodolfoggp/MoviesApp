@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.infrastructure.network
+package com.rodolfogusson.testepag.infrastructure.service
 
 enum class BaseURL(val url: String) {
     MOVIES("https://api.themoviedb.org/3/"),

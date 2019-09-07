@@ -11,6 +11,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.threeten.bp.LocalDate
 
 class MoviesListViewModelTest {
     private lateinit var viewModel: MoviesListViewModel
@@ -20,7 +21,7 @@ class MoviesListViewModelTest {
         Movie(
             1,
             "Filme 1",
-            "2019-09-05",
+            LocalDate.parse("2019-09-05"),
             "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
             7.4,
             10,
@@ -29,7 +30,7 @@ class MoviesListViewModelTest {
         Movie(
             2,
             "Filme 2",
-            "2019-09-05",
+            LocalDate.parse("2019-09-05"),
             "/kRLIHHf4KrwYFInU08akbzSGCrW.jpg",
             8.1,
             1,

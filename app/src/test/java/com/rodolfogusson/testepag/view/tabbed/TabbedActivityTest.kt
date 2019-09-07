@@ -3,7 +3,7 @@ package com.rodolfogusson.testepag.view.tabbed
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.rodolfogusson.testepag.R
-import junit.framework.Assert.assertNotNull
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
