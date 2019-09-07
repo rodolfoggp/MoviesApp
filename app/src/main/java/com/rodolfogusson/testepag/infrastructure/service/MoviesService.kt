@@ -1,6 +1,9 @@
 package com.rodolfogusson.testepag.infrastructure.service
 
+import com.google.gson.GsonBuilder
+import com.rodolfogusson.testepag.infrastructure.service.deserializer.LocalDateDeserializer
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
+import org.threeten.bp.LocalDate
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,10 +21,18 @@ interface MoviesService {
 
     companion object {
         fun create(): MoviesService {
+            val gson = GsonBuilder().apply {
+                registerTypeAdapter(
+                    LocalDate::class.java,
+                    LocalDateDeserializer()
+                )
+            }.create()
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(BaseURL.MOVIES.url)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
+
             return retrofit.create(MoviesService::class.java)
         }
     }
