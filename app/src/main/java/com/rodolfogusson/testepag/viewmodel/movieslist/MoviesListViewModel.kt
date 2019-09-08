@@ -1,14 +1,29 @@
 package com.rodolfogusson.testepag.viewmodel.movieslist
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rodolfogusson.testepag.infrastructure.repository.MoviesRepository
+import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Movie
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
-class MoviesListViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
-    var movies: LiveData<List<Movie>>
+class MoviesListViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
+    val movies = MutableLiveData<List<Movie>>()
+    val error = MutableLiveData<Boolean>()
 
     init {
-        movies = moviesRepository.getMovies()
+        getMovies()
+    }
+
+    fun getMovies() {
+        GlobalScope.launch {
+            try {
+                val moviesList = moviesRepository.getMovies()
+                movies.postValue(moviesList)
+            } catch (e: Exception) {
+                error.postValue(true)
+            }
+        }
     }
 }

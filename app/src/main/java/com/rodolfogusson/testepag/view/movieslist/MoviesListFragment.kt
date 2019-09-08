@@ -1,5 +1,8 @@
 package com.rodolfogusson.testepag.view.movieslist
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,7 +34,11 @@ class MoviesListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory())
             .get(MoviesListViewModel::class.java)
         setupLayout()
+    }
+
+    override fun onResume() {
         registerObservers()
+        super.onResume()
     }
 
     private fun setupLayout() {
@@ -50,6 +57,21 @@ class MoviesListFragment : Fragment() {
                 MoviesListAdapter(it).apply {
                     recyclerView.adapter = this
                     notifyDataSetChanged()
+                }
+            }
+        })
+
+        viewModel.error.observe(this, Observer {
+            it?.let { hasError ->
+                if (hasError) {
+                    context?.let { context ->
+                        AlertDialog.Builder(context)
+                            .setTitle(getString(R.string.dialog_error))
+                            .setMessage(getString(R.string.fetch_movies_error))
+                            .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ -> dialog.dismiss() }
+                            .create()
+                            .show()
+                    }
                 }
             }
         })

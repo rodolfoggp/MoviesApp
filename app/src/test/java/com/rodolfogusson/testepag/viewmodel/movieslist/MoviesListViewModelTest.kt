@@ -2,15 +2,18 @@ package com.rodolfogusson.testepag.viewmodel.movieslist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import com.nhaarman.mockitokotlin2.doThrow
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.rodolfogusson.testepag.infrastructure.repository.MoviesRepository
+import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Movie
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.threeten.bp.LocalDate
+import java.lang.Exception
 
 class MoviesListViewModelTest {
     private lateinit var viewModel: MoviesListViewModel
@@ -20,7 +23,7 @@ class MoviesListViewModelTest {
         Movie(
             1,
             "Filme 1",
-            "2019-09-05",
+            LocalDate.parse("2019-09-05"),
             "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
             7.4,
             10,
@@ -29,7 +32,7 @@ class MoviesListViewModelTest {
         Movie(
             2,
             "Filme 2",
-            "2019-09-05",
+            LocalDate.parse("2019-09-05"),
             "/kRLIHHf4KrwYFInU08akbzSGCrW.jpg",
             8.1,
             1,
@@ -57,9 +60,7 @@ class MoviesListViewModelTest {
     @Test
     fun `after getting movies, viewModel should expose them`() {
         //GIVEN
-        val data = MutableLiveData<List<Movie>>()
-        data.value = moviesReturn
-        whenever(moviesRepositoryMock.getMovies()).thenReturn(data)
+        whenever(moviesRepositoryMock.getMovies()).thenReturn(moviesReturn)
 
         //WHEN
         viewModel = MoviesListViewModel(moviesRepositoryMock)
@@ -67,6 +68,20 @@ class MoviesListViewModelTest {
         //THEN
         viewModel.movies.observeForever {
             assertEquals(moviesReturn, it)
+        }
+    }
+
+    @Test
+    fun `when getMovies fails, error is emitted`() {
+        //GIVEN
+        whenever(moviesRepositoryMock.getMovies()).doThrow(Exception())
+
+        //WHEN
+        viewModel = MoviesListViewModel(moviesRepositoryMock)
+
+        //THEN
+        viewModel.error.observeForever {
+            assertEquals(true, it)
         }
     }
 }
