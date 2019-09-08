@@ -4,5 +4,10 @@
     <string name="movies">Filmes</string>
     <string name="favorites">Favoritos</string>
 
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_error">Erro</string>
+
     <string name="release_date">Data de lançamento: %1$s</string>
+    <string name="fetch_movies_error">Não foi possível buscar novos filmes.</string>
+
 </resources>

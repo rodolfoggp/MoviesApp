@@ -1,6 +1,5 @@
 package com.rodolfogusson.testepag.infrastructure.service.dto
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.rodolfogusson.testepag.infrastructure.service.deserializer.LocalDateDeserializer
 import org.junit.Assert.assertEquals
