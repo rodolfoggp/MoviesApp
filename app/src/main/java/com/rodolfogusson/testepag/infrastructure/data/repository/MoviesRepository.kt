@@ -3,6 +3,7 @@ package com.rodolfogusson.testepag.infrastructure.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rodolfogusson.testepag.infrastructure.service.MoviesService
+import com.rodolfogusson.testepag.infrastructure.service.callback
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
 
@@ -12,8 +13,10 @@ open class MoviesRepository(private val service: MoviesService) {
 
     @Throws(Exception::class)
     open fun getMovies(genres: List<Genre>): LiveData<List<Movie>> {
-        val results = service.getMovies(MoviesService.apiKey, "pt-BR")
-            .execute().body()?.results
-        return MutableLiveData<List<Movie>>().apply{ value = results }
+        val liveData = MutableLiveData<List<Movie>>()
+        service.getMovies(MoviesService.apiKey, "pt-BR").enqueue(callback {
+            liveData.value = it?.body()?.results
+        })
+        return liveData
     }
 }
