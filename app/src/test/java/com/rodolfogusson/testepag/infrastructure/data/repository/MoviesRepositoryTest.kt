@@ -8,6 +8,7 @@ import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
 import com.rodolfogusson.testepag.infrastructure.service.deserializer.LocalDateDeserializer
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponseTest
+import com.rodolfogusson.testepag.model.Genre
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
@@ -54,7 +55,7 @@ class MoviesRepositoryTest {
             whenever(callMock.execute()).thenReturn(Response.success(moviesResponse))
 
             //WHEN
-            repository.getMovies()
+            repository.getMovies(listOf())
 
 
             //THEN
@@ -67,7 +68,7 @@ class MoviesRepositoryTest {
         whenever(callMock.execute()).thenReturn(Response.success(moviesResponse))
 
         //WHEN
-        val response = repository.getMovies()
+        val response = repository.getMovies(listOf())
 
         //THEN
         assertEquals(moviesResponse.results, response)
@@ -79,7 +80,7 @@ class MoviesRepositoryTest {
         whenever(callMock.execute()).doThrow(Throwable())
 
         //WHEN
-        repository.getMovies()
+        repository.getMovies(any())
 
         //THEN
         //expects exception

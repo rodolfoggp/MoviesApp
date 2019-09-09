@@ -2,19 +2,21 @@ package com.rodolfogusson.testepag.viewmodel.movieslist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.nhaarman.mockitokotlin2.doThrow
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
+import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.ArgumentCaptor
 import org.threeten.bp.LocalDate
 import java.lang.Exception
 
+@ExperimentalCoroutinesApi
 class MoviesListViewModelTest {
     private lateinit var viewModel: MoviesListViewModel
     private val moviesRepositoryMock = mock<MoviesRepository>()
@@ -49,18 +51,18 @@ class MoviesListViewModelTest {
     }
 
     @Test
-    fun `when viewModel initiates, it should getMovies`() {
+    fun `when viewModel initiates, it should getMovies`() = runBlockingTest {
         //WHEN
         // viewModel is instantiated
 
         //THEN
-        verify(moviesRepositoryMock).getMovies()
+        verify(moviesRepositoryMock).getMovies(any())
     }
 
     @Test
     fun `after getting movies, viewModel should expose them`() {
         //GIVEN
-        whenever(moviesRepositoryMock.getMovies()).thenReturn(moviesReturn)
+        whenever(moviesRepositoryMock.getMovies(any())).thenReturn(moviesReturn)
 
         //WHEN
         viewModel = MoviesListViewModel(moviesRepositoryMock)
@@ -72,9 +74,9 @@ class MoviesListViewModelTest {
     }
 
     @Test
-    fun `when getMovies fails, error is emitted`() {
+    fun `when getMovies fails, error is emitted`() = runBlockingTest {
         //GIVEN
-        whenever(moviesRepositoryMock.getMovies()).doThrow(Exception())
+        whenever(moviesRepositoryMock.getMovies(any())).doThrow(Exception())
 
         //WHEN
         viewModel = MoviesListViewModel(moviesRepositoryMock)

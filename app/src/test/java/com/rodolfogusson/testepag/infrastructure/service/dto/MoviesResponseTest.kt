@@ -9,7 +9,7 @@ import org.threeten.bp.LocalDate
 class MoviesResponseTest {
 
     @Test
-    fun `MoviesResponseTest is correctly deserialized`() {
+    fun `MoviesResponse is correctly deserialized`() {
         //GIVEN
         val jsonString =
             MoviesResponseTest::class.java.getResource("/movies_response.json")?.readText()

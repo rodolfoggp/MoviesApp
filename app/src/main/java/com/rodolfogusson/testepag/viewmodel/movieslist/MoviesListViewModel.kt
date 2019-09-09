@@ -19,7 +19,7 @@ class MoviesListViewModel(private val moviesRepository: MoviesRepository) : View
     fun getMovies() {
         GlobalScope.launch {
             try {
-                val moviesList = moviesRepository.getMovies()
+                val moviesList = moviesRepository.getMovies(listOf())
                 movies.postValue(moviesList)
             } catch (e: Exception) {
                 error.postValue(true)

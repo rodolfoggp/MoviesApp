@@ -8,7 +8,6 @@ import java.lang.Exception
 import java.lang.reflect.Type
 
 class LocalDateDeserializer : JsonDeserializer<LocalDate> {
-
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
@@ -18,5 +17,4 @@ class LocalDateDeserializer : JsonDeserializer<LocalDate> {
         val string = json.asString
         return LocalDate.parse(string)
     }
-
 }
