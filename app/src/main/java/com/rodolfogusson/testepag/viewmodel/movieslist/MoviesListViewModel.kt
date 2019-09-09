@@ -15,7 +15,7 @@ class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: 
 
     val error = MutableLiveData<Boolean>()
 
-    private val genres: LiveData<List<Genre>> = genresRepository.getGenres()
+    val genres: LiveData<List<Genre>> = genresRepository.getGenres()
 
     val movies: LiveData<List<Movie>> = Transformations.switchMap(genres) { genres ->
         try {
