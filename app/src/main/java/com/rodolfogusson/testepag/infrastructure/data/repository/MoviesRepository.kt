@@ -14,8 +14,9 @@ open class MoviesRepository(private val service: MoviesService) {
     @Throws(Exception::class)
     open fun getMovies(genres: List<Genre>): LiveData<List<Movie>> {
         val liveData = MutableLiveData<List<Movie>>()
-        service.getMovies(MoviesService.apiKey, "pt-BR").enqueue(callback {
-            liveData.value = it?.body()?.results
+        service.getMovies(MoviesService.apiKey, "pt-BR").enqueue(callback { response ->
+            val elements = response?.body()?.results
+            liveData.value = elements?.map { it.toMovie(genres) }
         })
         return liveData
     }

@@ -31,7 +31,8 @@ class MoviesListViewModelTest {
             "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
             7.4,
             10,
-            "alsfiae alisejflaiejflaisejlf iajeli"
+            "alsfiae alisejflaiejflaisejlf iajeli",
+            listOf()
         ),
         Movie(
             2,
@@ -40,7 +41,8 @@ class MoviesListViewModelTest {
             "/kRLIHHf4KrwYFInU08akbzSGCrW.jpg",
             8.1,
             1,
-            "afaswefasiejçlfasiejfli slei lsiejlsijlsie"
+            "afaswefasiejçlfasiejfli slei lsiejlsijlsie",
+            listOf()
         )
     )
 

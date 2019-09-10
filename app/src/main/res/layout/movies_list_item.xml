@@ -7,6 +7,8 @@
         <variable
             name="movie"
             type="com.rodolfogusson.testepag.model.Movie" />
+        <import
+            type="com.rodolfogusson.testepag.infrastructure.ui.UIUtils"/>
 
     </data>
 
@@ -50,7 +52,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Açao" />
+                    android:maxEms="15"
+                    android:text="@{UIUtils.genresNames(movie.genres)}" />
 
 
             </LinearLayout>
