@@ -62,7 +62,7 @@ class MoviesListViewModelTest {
 
     @Before
     fun setup() {
-        //Default repository return values:
+        //Default repositories' return values:
         genresReturn.value = Resource.success(genresList)
         moviesReturn.value = Resource.success(moviesList)
 
