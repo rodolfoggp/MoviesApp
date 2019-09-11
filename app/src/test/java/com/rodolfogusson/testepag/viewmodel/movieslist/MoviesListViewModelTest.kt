@@ -3,50 +3,55 @@ package com.rodolfogusson.testepag.viewmodel.movieslist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.jraska.livedata.test
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
+import com.rodolfogusson.testepag.infrastructure.data.Resource
+import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentCaptor
 import org.threeten.bp.LocalDate
-import java.lang.Exception
 
 class MoviesListViewModelTest {
     private lateinit var viewModel: MoviesListViewModel
+
     private val moviesRepositoryMock = mock<MoviesRepository>()
     private val genresRepositoryMock = mock<GenresRepository>()
 
-    private val moviesReturn = listOf(
+    private val moviesReturn = MutableLiveData<Resource<List<Movie>>>()
+    private val genresReturn = MutableLiveData<Resource<List<Genre>>>()
+
+    private val moviesList = listOf(
         Movie(
             1,
             "Filme 1",
-            LocalDate.parse("2019-09-05"),
+            "Descrição 1",
+            LocalDate.parse("2019-08-26"),
             "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
-            7.4,
+            6.4,
             10,
-            "alsfiae alisejflaiejflaisejlf iajeli",
             listOf()
         ),
         Movie(
-            2,
-            "Filme 2",
-            LocalDate.parse("2019-09-05"),
-            "/kRLIHHf4KrwYFInU08akbzSGCrW.jpg",
-            8.1,
             1,
-            "afaswefasiejçlfasiejfli slei lsiejlsijlsie",
+            "Filme 2",
+            "Descrição 2",
+            LocalDate.parse("2019-05-12"),
+            "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
+            7.9,
+            17,
             listOf()
         )
     )
 
-    private val genresReturn = listOf(
+    private val genresList = listOf(
         Genre(1, "AÇÃO"),
         Genre(2, "AVENTURA"),
         Genre(3, "DRAMA")
@@ -57,13 +62,25 @@ class MoviesListViewModelTest {
 
     @Before
     fun setup() {
+        //Default repository return values:
+        genresReturn.value = Resource.success(genresList)
+        moviesReturn.value = Resource.success(moviesList)
+
+        //Repositories' returns config:
+        whenever(genresRepositoryMock.getGenres())
+            .thenReturn(genresReturn)
+
+        whenever(moviesRepositoryMock.getMovies(genresList))
+            .thenReturn(moviesReturn)
+
+        //ViewModel instantiation
         viewModel = MoviesListViewModel(moviesRepositoryMock, genresRepositoryMock)
     }
 
     @Test
     fun `when viewModel inits, it should getGenres`() {
         //WHEN
-        // viewModel is instantiated
+        //viewModel inits
 
         //THEN
         verify(genresRepositoryMock).getGenres()
@@ -71,14 +88,8 @@ class MoviesListViewModelTest {
 
     @Test
     fun `when viewModel inits, it should getMovies`() {
-        //GIVEN
-        whenever(genresRepositoryMock.getGenres())
-            .thenReturn(MutableLiveData<List<Genre>>().apply { value = genresReturn })
-        whenever(moviesRepositoryMock.getMovies(genresReturn))
-            .thenReturn(MutableLiveData<List<Movie>>().apply { value = moviesReturn })
-
         //WHEN
-        viewModel = MoviesListViewModel(moviesRepositoryMock, genresRepositoryMock)
+        //viewModel inits
 
         //THEN
         viewModel.movies
@@ -90,77 +101,55 @@ class MoviesListViewModelTest {
 
     @Test
     fun `after init, genres and movies should contain correct data`() {
-        //GIVEN
-        whenever(genresRepositoryMock.getGenres())
-            .thenReturn(MutableLiveData<List<Genre>>().apply { value = genresReturn })
-        whenever(moviesRepositoryMock.getMovies(genresReturn))
-            .thenReturn(MutableLiveData<List<Movie>>().apply { value = moviesReturn })
-
         //WHEN
-        viewModel = MoviesListViewModel(moviesRepositoryMock, genresRepositoryMock)
+        //viewModel inits
 
         //THEN
-        viewModel.genres
+        val genresResource = viewModel.genres
             .test()
-            .assertHasValue()
-            .assertValue(genresReturn)
+            .value()
+        assertEquals(genresList, genresResource.data)
 
-        viewModel.movies
+        val moviesResource = viewModel.movies
             .test()
-            .assertHasValue()
-            .assertValue(moviesReturn)
-    }
-
-    @Test//(expected = Throwable::class)
-    fun `if getMovies fails, error should be emitted`() {
-        //GIVEN
-        whenever(genresRepositoryMock.getGenres())
-            .thenReturn(MutableLiveData<List<Genre>>().apply { value = genresReturn })
-        whenever(moviesRepositoryMock.getMovies(genresReturn)).doThrow(Exception())
-
-        //WHEN
-        var exceptionOccured = false
-        try {
-            viewModel = MoviesListViewModel(moviesRepositoryMock, genresRepositoryMock)
-            viewModel.error
-                .test()
-                .awaitValue()
-        } catch (e: Exception) {
-            exceptionOccured = true
-        }
-        assert(exceptionOccured)
-
-        //THEN
-        viewModel.error
-            .test()
-            .assertValue(false)
-    }
-
-    /*@Test
-    fun `after getting movies, viewModel should expose them`() {
-        //GIVEN
-        whenever(moviesRepositoryMock.getMovies(any())).thenReturn(moviesReturn)
-
-        //WHEN
-        viewModel = MoviesListViewModel(moviesRepositoryMock)
-
-        //THEN
-        viewModel.movies.observeForever {
-            assertEquals(moviesReturn, it)
-        }
+            .value()
+        assertEquals(moviesList, moviesResource.data)
     }
 
     @Test
-    fun `when getMovies fails, error is emitted`() = runBlockingTest {
+    fun `if getMovies fails, error should be emitted in movies`() {
         //GIVEN
-        whenever(moviesRepositoryMock.getMovies(any())).doThrow(Exception())
+        //getMovies fails
+        moviesReturn.value = Resource.error(Throwable())
 
         //WHEN
-        viewModel = MoviesListViewModel(moviesRepositoryMock)
+        //viewModel getMovies
 
         //THEN
-        viewModel.error.observeForever {
-            assertEquals(true, it)
-        }
-    }*/
+        val moviesResource = viewModel.movies
+            .test()
+            .value()
+        assertEquals(Status.ERROR, moviesResource.status)
+    }
+
+    @Test
+    fun `if getGenres fails, errors should be emitted in movies and genres`() {
+        //GIVEN
+        //getGenres fails
+        genresReturn.value = Resource.error(Throwable())
+
+        //WHEN
+        //viewModel getGenres
+
+        //THEN
+        val genresResource = viewModel.genres
+            .test()
+            .value()
+        assertEquals(Status.ERROR, genresResource.status)
+
+        val moviesResource = viewModel.movies
+            .test()
+            .value()
+        assertEquals(Status.ERROR, moviesResource.status)
+    }
 }
