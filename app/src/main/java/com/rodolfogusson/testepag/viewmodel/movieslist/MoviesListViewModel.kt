@@ -15,13 +15,15 @@ class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: 
 
     val genres: LiveData<Resource<List<Genre>>> = genresRepository.getGenres()
 
-    val movies: LiveData<Resource<List<Movie>>> = Transformations.switchMap(genres) { resource ->
-        resource.error?.let {
-            return@switchMap MutableLiveData<Resource<List<Movie>>>()
-                .apply { value = Resource.error(it) }
-        }
-        resource.data?.let {
-            moviesRepository.getMovies(it)
+    val movies: LiveData<Resource<List<Movie>>> = Transformations.switchMap(genres) {
+        if (it.hasError) {
+            MutableLiveData<Resource<List<Movie>>>().apply {
+                value = Resource.error(it.error)
+            }
+        } else {
+            it.data?.let { allGenres ->
+                moviesRepository.getMovies(allGenres)
+            }
         }
     }
 }

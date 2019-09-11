@@ -2,7 +2,7 @@ package com.rodolfogusson.testepag.infrastructure.data
 
 import com.rodolfogusson.testepag.infrastructure.data.Status.*
 
-class Resource<T> private constructor(val status: Status, val data: T?, val error: Throwable?) {
+class Resource<T> (val status: Status, val data: T?, val error: Throwable?) {
 
 
     val hasError: Boolean

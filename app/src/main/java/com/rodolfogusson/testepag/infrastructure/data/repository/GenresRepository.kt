@@ -13,11 +13,7 @@ open class GenresRepository(val service: MoviesService) {
         val liveData = MutableLiveData<Resource<List<Genre>>>()
         service.getGenres(MoviesService.apiKey, "pt-BR").enqueue(
             then {
-                liveData.value = if (it.hasError) {
-                    Resource.error(it.error)
-                } else {
-                    Resource.success(it.data?.genres)
-                }
+                liveData.value = Resource(it.status, it.data?.genres, it.error)
             }
         )
         return liveData
