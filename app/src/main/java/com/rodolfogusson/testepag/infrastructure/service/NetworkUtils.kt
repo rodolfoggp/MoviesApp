@@ -1,20 +1,24 @@
 package com.rodolfogusson.testepag.infrastructure.service
 
+import com.rodolfogusson.testepag.infrastructure.data.Resource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 /**
- * Simplifies writing callbacks in Retrofit network calls,
- * using this function and passing lambda expressions
- * as arguments.
+ * Simplifies writing callbacks in Retrofit network calls.
  */
-fun <T> callback(
-    failure: (Throwable?) -> Unit = { error -> throw error ?: Throwable()},
-    response: (Response<T>?) -> Unit
+fun <T> then(
+    function: (resource: Resource<T>) -> Unit
 ): Callback<T> {
     return object : Callback<T> {
-        override fun onResponse(call: Call<T>?, r: Response<T>?) = response(r)
-        override fun onFailure(call: Call<T>?, t: Throwable?) = failure(t)
+        override fun onResponse(call: Call<T>?, response: Response<T>?) {
+            function(Resource.success(response?.body()))
+        }
+
+        override fun onFailure(call: Call<T>?, t: Throwable?) {
+            function(Resource.error(t))
+        }
     }
 }
+

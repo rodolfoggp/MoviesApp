@@ -4,26 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.rodolfogusson.testepag.infrastructure.data.Resource
 import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
-import java.lang.Exception
 
 class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: GenresRepository) :
     ViewModel() {
 
-    val error = MutableLiveData<Boolean>()
+    val genres: LiveData<Resource<List<Genre>>> = genresRepository.getGenres()
 
-    val genres: LiveData<List<Genre>> = genresRepository.getGenres()
-
-    val movies: LiveData<List<Movie>> = Transformations.switchMap(genres) { genres ->
-        try {
-            error.value = false
-            moviesRepository.getMovies(genres)
-        } catch (e: Exception) {
-            error.value = true
-            null
+    val movies: LiveData<Resource<List<Movie>>> = Transformations.switchMap(genres) { resource ->
+        resource.error?.let {
+            return@switchMap MutableLiveData<Resource<List<Movie>>>()
+                .apply { value = Resource.error(it) }
+        }
+        resource.data?.let {
+            moviesRepository.getMovies(it)
         }
     }
 }
