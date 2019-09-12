@@ -1,28 +1,36 @@
 package com.rodolfogusson.testepag.infrastructure.data.repository
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.gson.Gson
+import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 import com.rodolfogusson.testepag.infrastructure.service.dto.GenresResponse
+import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class GenresRepositoryTest {
 
     private lateinit var genresRepository: GenresRepository
+
+    private val jsonString =
+        GenresRepositoryTest::class.java.getResource("/genres_response.json")?.readText()
+    private val genresResponse = Gson().fromJson(jsonString, GenresResponse::class.java)
+
     private val callMock = mock<Call<GenresResponse>>()
     private var serviceMock = mock<MoviesService> {
         on { getGenres(any(), any()) } doReturn callMock
     }
 
-
-    private val jsonString =
-        GenresRepositoryTest::class.java.getResource("/genres_response.json")?.readText()
-    val genresResponse = Gson().fromJson(jsonString, GenresResponse::class.java)
-
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
@@ -30,9 +38,12 @@ class GenresRepositoryTest {
     }
 
     @Test
-    fun `when repository getGenres, it should getGenres from service with correct parameters`() {
+    fun `genres request should getGenres from service with correct parameters`() {
         //GIVEN
-        whenever(callMock.execute()).thenReturn(Response.success(genresResponse))
+        doAnswer {
+            val callback: Callback<GenresResponse> = it.getArgument(0)
+            callback.onResponse(callMock, Response.success(genresResponse))
+        }.whenever(callMock).enqueue(any())
 
         //WHEN
         genresRepository.getGenres()
@@ -42,26 +53,38 @@ class GenresRepositoryTest {
     }
 
     @Test
-    fun `getGenres should return correct data`() {
+    fun `genres request should return the correct data`() {
         //GIVEN
-        whenever(callMock.execute()).thenReturn(Response.success(genresResponse))
+        doAnswer {
+            val callback: Callback<GenresResponse> = it.getArgument(0)
+            callback.onResponse(callMock, Response.success(genresResponse))
+        }.whenever(callMock).enqueue(any())
 
         //WHEN
-        val response = genresRepository.getGenres()
+        val liveData = genresRepository.getGenres()
 
         //THEN
-        assertEquals(genresResponse.genres, response)
+        val resource = liveData
+            .test()
+            .value()
+        assertEquals(genresResponse.genres, resource.data)
     }
 
-    @Test(expected = Exception::class)
-    fun `getGenres should throw an exception on failure`() {
+    @Test
+    fun `genres request  should throw an exception on failure`() {
         //GIVEN
-        whenever(callMock.execute()).doThrow(Throwable())
+        doAnswer {
+            val callback: Callback<GenresResponse> = it.getArgument(0)
+            callback.onFailure(callMock, Throwable())
+        }.whenever(callMock).enqueue(any())
 
         //WHEN
-        genresRepository.getGenres()
+        val liveData = genresRepository.getGenres()
 
         //THEN
-        //expects exception
+        val resource = liveData
+            .test()
+            .value()
+        assertEquals(Status.ERROR, resource.status)
     }
 }

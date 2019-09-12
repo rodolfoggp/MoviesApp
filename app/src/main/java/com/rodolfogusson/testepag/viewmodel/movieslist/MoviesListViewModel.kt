@@ -16,6 +16,7 @@ class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: 
     val genres: LiveData<Resource<List<Genre>>> = genresRepository.getGenres()
 
     val movies: LiveData<Resource<List<Movie>>> = Transformations.switchMap(genres) {
+        isLoading.value = false
         if (it.hasError) {
             MutableLiveData<Resource<List<Movie>>>().apply {
                 value = Resource.error(it.error)
@@ -26,4 +27,6 @@ class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: 
             }
         }
     }
+
+    val isLoading = MutableLiveData<Boolean>().apply { value = true }
 }
