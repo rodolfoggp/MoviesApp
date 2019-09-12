@@ -53,7 +53,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `movies request should call getMovies from service, with correct parameters`() {
+    fun `movies request should getMovies from service with correct parameters`() {
         //WHEN
         repository.getMovies(listOf())
 
