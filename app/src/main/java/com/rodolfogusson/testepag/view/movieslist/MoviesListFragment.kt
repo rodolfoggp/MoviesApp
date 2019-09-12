@@ -49,6 +49,11 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun registerObservers() {
+        observeMovies()
+        observeLoadingState()
+    }
+
+    private fun observeMovies() {
         viewModel.movies.observe(this, Observer {
             if (!it.hasError) {
                 it?.data?.let { data ->
@@ -68,6 +73,9 @@ class MoviesListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun observeLoadingState() {
         viewModel.isLoading.observe(this, Observer { isLoading ->
             progress.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
