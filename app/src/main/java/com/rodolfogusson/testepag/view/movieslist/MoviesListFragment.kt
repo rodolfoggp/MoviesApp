@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
-import com.rodolfogusson.testepag.databinding.FragmentMoviesListBinding
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies_list.*
@@ -21,6 +21,10 @@ import kotlinx.android.synthetic.main.fragment_movies_list.*
 class MoviesListFragment : Fragment() {
 
     private lateinit var viewModel: MoviesListViewModel
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
+    private val lastVisibleItemPosition: Int
+        get() = layoutManager.findLastVisibleItemPosition()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,13 +43,30 @@ class MoviesListFragment : Fragment() {
 
     private fun setupLayout() {
         progress.visibility = View.VISIBLE
-        recyclerView.layoutManager = LinearLayoutManager(this.activity)
+        layoutManager = LinearLayoutManager(this.activity)
+        recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 this.activity,
                 DividerItemDecoration.VERTICAL
             )
         )
+        setRecyclerViewScrollListener()
+    }
+
+    private fun setRecyclerViewScrollListener() {
+        scrollListener = object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val totalItemCount = recyclerView.layoutManager?.itemCount
+                if (totalItemCount == lastVisibleItemPosition + 1) {
+                    Toast.makeText(activity, "Final", Toast.LENGTH_SHORT).show()
+                    //viewModel.loadMoreMovies()
+                }
+            }
+        }
+        recyclerView.addOnScrollListener(scrollListener)
     }
 
     private fun registerObservers() {
@@ -63,16 +84,20 @@ class MoviesListFragment : Fragment() {
                     }
                 }
             } else {
-                context?.let { context ->
-                    AlertDialog.Builder(context)
-                        .setTitle(getString(R.string.dialog_error))
-                        .setMessage(getString(R.string.fetch_movies_error))
-                        .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ -> dialog.dismiss() }
-                        .create()
-                        .show()
-                }
+                showErrorDialog()
             }
         })
+    }
+
+    private fun showErrorDialog() {
+        context?.let { context ->
+            AlertDialog.Builder(context)
+                .setTitle(getString(R.string.dialog_error))
+                .setMessage(getString(R.string.fetch_movies_error))
+                .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+        }
     }
 
     private fun observeLoadingState() {
