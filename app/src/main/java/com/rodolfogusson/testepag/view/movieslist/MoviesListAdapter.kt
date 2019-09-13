@@ -2,14 +2,22 @@ package com.rodolfogusson.testepag.view.movieslist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rodolfogusson.testepag.databinding.MoviesListItemBinding
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.view.movieslist.MoviesListAdapter.MovieHolder
+import kotlin.properties.Delegates
 
 
-class MoviesListAdapter(private val data: List<Movie>) : Adapter<MovieHolder>() {
+class MoviesListAdapter: Adapter<MovieHolder>(), AutoUpdatableAdapter {
+
+    var data: List<Movie> by Delegates.observable(emptyList()) {
+            prop, old, new ->
+        autoNotify(old, new) { o, n -> o.id == n.id }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,5 +33,27 @@ class MoviesListAdapter(private val data: List<Movie>) : Adapter<MovieHolder>() 
         fun bind(movie: Movie) {
             binding.movie = movie
         }
+    }
+}
+
+interface AutoUpdatableAdapter {
+
+    fun <T> RecyclerView.Adapter<*>.autoNotify(old: List<T>, new: List<T>, compare: (T, T) -> Boolean) {
+        val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return compare(old[oldItemPosition], new[newItemPosition])
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return old[oldItemPosition] == new[newItemPosition]
+            }
+
+            override fun getOldListSize() = old.size
+
+            override fun getNewListSize() = new.size
+        })
+
+        diff.dispatchUpdatesTo(this)
     }
 }

@@ -26,6 +26,8 @@ class MoviesListFragment : Fragment() {
     private val lastVisibleItemPosition: Int
         get() = layoutManager.findLastVisibleItemPosition()
 
+    private val adapter = MoviesListAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +54,7 @@ class MoviesListFragment : Fragment() {
             )
         )
         setRecyclerViewScrollListener()
+        recyclerView.adapter = adapter
     }
 
     private fun setRecyclerViewScrollListener() {
@@ -79,9 +82,9 @@ class MoviesListFragment : Fragment() {
             if (!it.hasError) {
                 it?.data?.let { data ->
                     viewModel.isLoading.value = false
-                    MoviesListAdapter(data).apply {
-                        recyclerView.adapter = this
-                        notifyDataSetChanged()
+
+                    adapter.apply {
+                        this.data = data
                     }
                 }
             } else {
