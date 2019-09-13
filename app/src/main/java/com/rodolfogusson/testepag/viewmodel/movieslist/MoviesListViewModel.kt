@@ -9,7 +9,10 @@ import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
 
 
-class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: GenresRepository) :
+class MoviesListViewModel(
+    private val moviesRepository: MoviesRepository,
+    genresRepository: GenresRepository
+) :
     ViewModel() {
 
     val genres: LiveData<Resource<List<Genre>>> = genresRepository.getGenres()
@@ -37,6 +40,9 @@ class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: 
     val isLoading = MutableLiveData<Boolean>().apply { value = true }
 
     fun loadMoreMovies() {
-        pagesDisplayed.value = pagesDisplayed.value!! + 1
+        pagesDisplayed.value?.let { pages ->
+            if (pages < moviesRepository.getTotalPages)
+                pagesDisplayed.value = pages + 1
+        }
     }
 }
