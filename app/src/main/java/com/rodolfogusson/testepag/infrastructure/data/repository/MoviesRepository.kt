@@ -12,7 +12,6 @@ open class MoviesRepository(private val service: MoviesService) {
 
     private val movies = mutableListOf<Movie>()
 
-    @Throws(Exception::class)
     open fun getMovies(genres: List<Genre>, page: Int): LiveData<Resource<List<Movie>>> {
         val liveData = MutableLiveData<Resource<List<Movie>>>()
         service.getMovies(MoviesService.apiKey, "pt-BR", page).enqueue(
