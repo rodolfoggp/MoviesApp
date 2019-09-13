@@ -26,6 +26,7 @@ class MoviesListViewModel(moviesRepository: MoviesRepository, genresRepository: 
                 } else {
                     genresResource.data?.let { genres ->
                         pagesDisplayed.value?.let { page ->
+                            isLoading.value = true
                             moviesRepository.getMovies(genres, page)
                         }
                     }

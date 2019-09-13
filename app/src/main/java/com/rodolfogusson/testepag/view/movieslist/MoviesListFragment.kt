@@ -105,7 +105,13 @@ class MoviesListFragment : Fragment() {
 
     private fun observeLoadingState() {
         viewModel.isLoading.observe(this, Observer { isLoading ->
-            progress.visibility = if (isLoading) View.VISIBLE else View.GONE
+            progress.visibility =
+                if (isLoading && noMoviesHaveBeenLoaded()) View.VISIBLE else View.GONE
+            nextPageProgress.visibility =
+                if (progress.visibility == View.GONE && isLoading) View.VISIBLE else View.GONE
         })
     }
+
+    private fun noMoviesHaveBeenLoaded(): Boolean =
+        viewModel.movies.value?.data?.size?.let { it == 0 } ?: true
 }
