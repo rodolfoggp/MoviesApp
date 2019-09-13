@@ -61,8 +61,8 @@ class MoviesListFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 val totalItemCount = recyclerView.layoutManager?.itemCount
                 if (totalItemCount == lastVisibleItemPosition + 1) {
-                    Toast.makeText(activity, "Final", Toast.LENGTH_SHORT).show()
-                    //viewModel.loadMoreMovies()
+                    //Toast.makeText(activity, "Final", Toast.LENGTH_SHORT).show()
+                    viewModel.loadMoreMovies()
                 }
             }
         }
@@ -78,6 +78,7 @@ class MoviesListFragment : Fragment() {
         viewModel.movies.observe(this, Observer {
             if (!it.hasError) {
                 it?.data?.let { data ->
+                    viewModel.isLoading.value = false
                     MoviesListAdapter(data).apply {
                         recyclerView.adapter = this
                         notifyDataSetChanged()

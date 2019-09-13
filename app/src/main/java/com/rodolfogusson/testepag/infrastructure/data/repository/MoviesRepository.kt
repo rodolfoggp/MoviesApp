@@ -13,16 +13,17 @@ open class MoviesRepository(private val service: MoviesService) {
     private val movies = mutableListOf<Movie>()
 
     @Throws(Exception::class)
-    open fun getMovies(genres: List<Genre>): LiveData<Resource<List<Movie>>> {
+    open fun getMovies(genres: List<Genre>, page: Int): LiveData<Resource<List<Movie>>> {
         val liveData = MutableLiveData<Resource<List<Movie>>>()
-        service.getMovies(MoviesService.apiKey, "pt-BR").enqueue(
+        service.getMovies(MoviesService.apiKey, "pt-BR", page).enqueue(
             then {
                 liveData.value = if (it.hasError) {
                     Resource.error(it.error)
                 } else {
                     it.data?.results?.let{ elements ->
-                        val movies = elements.map { e -> e.toMovie(genres) }
-                        Resource.success(movies)
+                        val newMovies = elements.map { e -> e.toMovie(genres) }
+                        movies += newMovies
+                        Resource.success(movies.toList())
                     }
                 }
             }
