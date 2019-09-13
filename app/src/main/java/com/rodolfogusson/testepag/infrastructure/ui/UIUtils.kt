@@ -9,3 +9,4 @@ class UIUtils {
             genres.joinToString(separator = " | ") { genre -> genre.name }
     }
 }
+
