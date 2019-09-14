@@ -16,6 +16,7 @@ fun setImageUrl(imageView: ImageView, url: String?) {
         Picasso
             .get()
             .load("$baseUrl$url")
+            .fit()
             .into(imageView)
     } ?: run {
         imageView.setImageResource(android.R.color.transparent)

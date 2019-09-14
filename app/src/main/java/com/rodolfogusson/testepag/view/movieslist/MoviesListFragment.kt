@@ -47,12 +47,6 @@ class MoviesListFragment : Fragment() {
         progress.visibility = View.VISIBLE
         layoutManager = LinearLayoutManager(this.activity)
         recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                this.activity,
-                DividerItemDecoration.VERTICAL
-            )
-        )
         setRecyclerViewScrollListener()
         recyclerView.adapter = adapter
     }
@@ -97,7 +91,16 @@ class MoviesListFragment : Fragment() {
             progress.visibility = if (visible) View.VISIBLE else View.GONE
         })
         viewModel.isNextPageProgressVisible.observe(this, Observer { visible ->
-            nextPageProgress.visibility = if (visible) View.VISIBLE else View.GONE
+            if (visible) {
+                nextPageProgress.visibility = View.VISIBLE
+
+                // Used to give a better loading effect on the last item
+                viewModel.movies.value?.data?.size?.let { size ->
+                    recyclerView.scrollToPosition(size - 1)
+                }
+            } else {
+                nextPageProgress.visibility = View.GONE
+            }
         })
     }
 
