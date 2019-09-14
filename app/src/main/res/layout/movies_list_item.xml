@@ -8,7 +8,7 @@
             name="movie"
             type="com.rodolfogusson.testepag.model.Movie" />
         <import
-            type="com.rodolfogusson.testepag.infrastructure.ui.UIUtils"/>
+            type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil"/>
 
     </data>
 
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:maxEms="15"
                     android:textColor="@color/lightGrey"
-                    android:text="@{UIUtils.genresNames(movie.genres)}" />
+                    android:text="@{UIUtil.genresNames(movie.genres)}" />
 
 
             </LinearLayout>

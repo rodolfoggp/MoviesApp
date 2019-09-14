@@ -14,7 +14,7 @@ class MoviesListAdapter: Adapter<MovieHolder>(),
     AutoUpdatableAdapter {
 
     var data: List<Movie> by Delegates.observable(emptyList()) {
-            prop, old, new ->
+            _, old, new ->
         autoNotify(old, new) { o, n -> o.id == n.id }
     }
 

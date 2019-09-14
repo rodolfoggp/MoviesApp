@@ -6,7 +6,6 @@ import androidx.databinding.BindingAdapter
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.infrastructure.service.BaseURL
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.movies_list_item.view.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
