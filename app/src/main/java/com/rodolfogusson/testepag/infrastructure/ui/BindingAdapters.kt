@@ -19,7 +19,7 @@ fun setImageUrl(imageView: ImageView, url: String?) {
             .fit()
             .into(imageView)
     } ?: run {
-        imageView.setImageResource(android.R.color.transparent)
+        imageView.setImageResource(R.drawable.placeholder)
     }
 }
 
