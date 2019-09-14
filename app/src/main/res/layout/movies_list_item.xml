@@ -41,18 +41,22 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{movie.title}"
-                    android:textStyle="bold" />
-                
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="16sp"
+                    android:text="@{movie.title}"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/lightGrey"
                     app:dateText="@{movie.releaseDate}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxEms="15"
+                    android:textColor="@color/lightGrey"
                     android:text="@{UIUtils.genresNames(movie.genres)}" />
 
 
