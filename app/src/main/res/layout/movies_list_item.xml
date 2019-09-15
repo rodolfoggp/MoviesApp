@@ -8,7 +8,7 @@
             name="movie"
             type="com.rodolfogusson.testepag.model.Movie" />
         <import
-            type="com.rodolfogusson.testepag.infrastructure.ui.UIUtils"/>
+            type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil"/>
 
     </data>
 
@@ -27,7 +27,6 @@
                 android:id="@+id/image"
                 android:layout_width="103dp"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop"
                 app:imageUrl="@{movie.imageUrl}" />
 
             <LinearLayout
@@ -41,19 +40,23 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{movie.title}"
-                    android:textStyle="bold" />
-                
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="16sp"
+                    android:text="@{movie.title}"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/lightGrey"
                     app:dateText="@{movie.releaseDate}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxEms="15"
-                    android:text="@{UIUtils.genresNames(movie.genres)}" />
+                    android:textColor="@color/lightGrey"
+                    android:text="@{UIUtil.genresNames(movie.genres)}" />
 
 
             </LinearLayout>

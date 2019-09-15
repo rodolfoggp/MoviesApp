@@ -11,22 +11,26 @@ import com.rodolfogusson.testepag.model.Movie
 open class MoviesRepository(private val service: MoviesService) {
 
     private val movies = mutableListOf<Movie>()
+    private var pages = 1
 
-    @Throws(Exception::class)
-    open fun getMovies(genres: List<Genre>): LiveData<Resource<List<Movie>>> {
+    open fun getMovies(genres: List<Genre>, page: Int): LiveData<Resource<List<Movie>>> {
         val liveData = MutableLiveData<Resource<List<Movie>>>()
-        service.getMovies(MoviesService.apiKey, "pt-BR").enqueue(
+        service.getMovies(MoviesService.apiKey, "pt-BR", page).enqueue(
             then {
                 liveData.value = if (it.hasError) {
-                    Resource.error(it.error)
+                    Resource.error(it.error, movies)
                 } else {
-                    it.data?.results?.let{ elements ->
-                        val movies = elements.map { e -> e.toMovie(genres) }
-                        Resource.success(movies)
+                    it.data?.let { response ->
+                        pages = response.totalPages
+                        val newMovies = response.results.map { e -> e.toMovie(genres) }
+                        movies += newMovies
+                        Resource.success(movies.toList())
                     }
                 }
             }
         )
         return liveData
     }
+
+    val getTotalPages get() = pages
 }

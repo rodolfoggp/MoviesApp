@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.view
+package com.rodolfogusson.testepag.view.favorites
 
 
 import android.os.Bundle

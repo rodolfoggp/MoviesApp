@@ -70,7 +70,7 @@ class MoviesListViewModelTest {
         whenever(genresRepositoryMock.getGenres())
             .thenReturn(genresReturn)
 
-        whenever(moviesRepositoryMock.getMovies(genresList))
+        whenever(moviesRepositoryMock.getMovies(genresList, 1))
             .thenReturn(moviesReturn)
 
         //ViewModel instantiation
@@ -96,7 +96,7 @@ class MoviesListViewModelTest {
             .test()
             .awaitValue()
 
-        verify(moviesRepositoryMock).getMovies(any())
+        verify(moviesRepositoryMock).getMovies(any(), any())
     }
 
     @Test

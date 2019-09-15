@@ -11,11 +11,16 @@ import org.threeten.bp.format.DateTimeFormatter
 
 @BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
-    val baseUrl = BaseURL.MOVIES_IMAGES.url
-    Picasso
-        .get()
-        .load("$baseUrl$url")
-        .into(imageView)
+    url?.let {
+        val baseUrl = BaseURL.MOVIES_IMAGES.url
+        Picasso
+            .get()
+            .load("$baseUrl$url")
+            .fit()
+            .into(imageView)
+    } ?: run {
+        imageView.setImageResource(R.drawable.placeholder)
+    }
 }
 
 @BindingAdapter("dateText")

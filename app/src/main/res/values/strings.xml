@@ -5,6 +5,7 @@
     <string name="favorites">Favoritos</string>
 
     <string name="dialog_ok">OK</string>
+    <string name="dialog_retry">Tentar de novo</string>
     <string name="dialog_error">Erro</string>
 
     <string name="release_date">Data de lançamento: %1$s</string>

@@ -55,7 +55,7 @@ class MoviesRepositoryTest {
     @Test
     fun `movies request should getMovies from service with correct parameters`() {
         //WHEN
-        repository.getMovies(listOf())
+        repository.getMovies(listOf(), 1)
 
 
         //THEN
@@ -74,7 +74,7 @@ class MoviesRepositoryTest {
         val expectedResource = Resource.success(movies)
 
         //WHEN
-        val liveData = repository.getMovies(genresResponse.genres)
+        val liveData = repository.getMovies(genresResponse.genres, 1)
 
         //THEN
         val moviesResource = liveData
@@ -92,7 +92,7 @@ class MoviesRepositoryTest {
         }.whenever(callMock).enqueue(any())
 
         //WHEN
-        val liveData = repository.getMovies(listOf())
+        val liveData = repository.getMovies(listOf(), 1)
 
         //THEN
         val resource = liveData
