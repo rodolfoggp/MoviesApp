@@ -58,4 +58,9 @@ class MoviesListViewModel(
             }
         }
     }
+
+    fun retry() {
+        // Triggers movies liveData to fetch this same page again
+        pagesDisplayed.value = pagesDisplayed.value
+    }
 }

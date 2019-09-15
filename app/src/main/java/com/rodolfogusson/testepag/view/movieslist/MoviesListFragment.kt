@@ -72,10 +72,9 @@ class MoviesListFragment : Fragment() {
 
     private fun observeMovies() {
         viewModel.movies.observe(this, Observer {
+            viewModel.isLoading.value = false
             if (!it.hasError) {
                 it?.data?.let { data ->
-                    viewModel.isLoading.value = false
-
                     adapter.apply {
                         this.data = data
                     }
@@ -109,7 +108,10 @@ class MoviesListFragment : Fragment() {
             AlertDialog.Builder(context)
                 .setTitle(getString(R.string.dialog_error))
                 .setMessage(getString(R.string.fetch_movies_error))
-                .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->
+                    viewModel.retry()
+                    dialog.dismiss()
+                }
                 .create()
                 .show()
         }

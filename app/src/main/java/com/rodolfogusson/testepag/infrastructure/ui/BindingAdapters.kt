@@ -12,7 +12,7 @@ import org.threeten.bp.format.DateTimeFormatter
 @BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
     url?.let {
-    val baseUrl = BaseURL.MOVIES_IMAGES.url
+        val baseUrl = BaseURL.MOVIES_IMAGES.url
         Picasso
             .get()
             .load("$baseUrl$url")

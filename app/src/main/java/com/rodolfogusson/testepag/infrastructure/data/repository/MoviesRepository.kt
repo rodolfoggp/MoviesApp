@@ -18,14 +18,13 @@ open class MoviesRepository(private val service: MoviesService) {
         service.getMovies(MoviesService.apiKey, "pt-BR", page).enqueue(
             then {
                 liveData.value = if (it.hasError) {
-                    Resource.error(it.error)
+                    Resource.error(it.error, movies)
                 } else {
                     it.data?.let { response ->
                         pages = response.totalPages
                         val newMovies = response.results.map { e -> e.toMovie(genres) }
                         movies += newMovies
                         Resource.success(movies.toList())
-
                     }
                 }
             }
