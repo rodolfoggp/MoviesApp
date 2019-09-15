@@ -59,7 +59,7 @@ class MoviesListViewModel(
         }
     }
 
-    fun retry() {
+    fun retryGetMovies() {
         // Triggers movies liveData to fetch this same page again
         pagesDisplayed.value = pagesDisplayed.value
     }

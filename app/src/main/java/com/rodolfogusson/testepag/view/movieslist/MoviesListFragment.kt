@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
@@ -104,16 +103,15 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun showErrorDialog() {
-        context?.let { context ->
-            AlertDialog.Builder(context)
-                .setTitle(getString(R.string.dialog_error))
-                .setMessage(getString(R.string.fetch_movies_error))
-                .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->
-                    viewModel.retry()
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
-        }
+        AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_Dialog)
+            .setTitle(getString(R.string.dialog_error))
+            .setMessage(getString(R.string.fetch_movies_error))
+            .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
+                viewModel.retryGetMovies()
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }
+
