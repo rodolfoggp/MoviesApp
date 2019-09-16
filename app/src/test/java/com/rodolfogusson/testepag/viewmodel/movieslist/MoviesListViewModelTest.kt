@@ -3,10 +3,7 @@ package com.rodolfogusson.testepag.viewmodel.movieslist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.jraska.livedata.test
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import com.rodolfogusson.testepag.infrastructure.data.Resource
 import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepository
@@ -17,6 +14,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyList
 import org.threeten.bp.LocalDate
 
 class MoviesListViewModelTest {
@@ -83,6 +82,10 @@ class MoviesListViewModelTest {
         //viewModel inits
 
         //THEN
+        viewModel.genres
+            .test()
+            .awaitValue()
+
         verify(genresRepositoryMock).getGenres()
     }
 
@@ -151,5 +154,128 @@ class MoviesListViewModelTest {
             .test()
             .value()
         assertEquals(Status.ERROR, moviesResource.status)
+    }
+
+    @Test
+    fun `when getting genres and movies, progress should be visible`() {
+        //WHEN
+        //viewModel getGenres
+
+        //THEN
+        var value = viewModel.isProgressVisible
+            .test()
+            .value()
+        assertEquals(true, value)
+
+        //AND WHEN
+        viewModel.movies
+            .test()
+            .awaitValue()
+
+        //THEN
+        value = viewModel.isProgressVisible
+            .test()
+            .value()
+        assertEquals(true, value)
+    }
+
+    @Test
+    fun `onMoviesLoaded, loading should end`() {
+        //WHEN
+        viewModel.onMoviesLoaded(Status.SUCCESS)
+
+        //THEN
+        val progressVisible = viewModel.isProgressVisible
+            .test()
+            .value()
+
+        val nextPageProgressVisible = viewModel.isNextPageProgressVisible
+            .test()
+            .value()
+
+        assertEquals(false, progressVisible)
+        assertEquals(false, nextPageProgressVisible)
+    }
+
+    @Test
+    fun `viewModel loads pages incrementally`() {
+        //GIVEN
+        whenever(moviesRepositoryMock.getTotalPages).thenReturn(16)
+        viewModel.movies
+            .test()
+            .awaitValue()
+
+        verify(moviesRepositoryMock).getMovies(genresList, 1)
+        viewModel.onMoviesLoaded(Status.SUCCESS)
+
+        //WHEN
+        viewModel.loadMoreMovies()
+        viewModel.movies
+            .test()
+            .awaitValue()
+
+        //THEN
+        verify(moviesRepositoryMock).getMovies(genresList, 2)
+    }
+
+    @Test
+    fun `when already loading, it should not loadMoreMovies`() {
+        //GIVEN
+        whenever(moviesRepositoryMock.getTotalPages).thenReturn(16)
+        viewModel.movies
+            .test()
+            .awaitValue()
+
+        //WHEN
+        viewModel.loadMoreMovies()
+        viewModel.movies
+            .test()
+            .awaitValue()
+            .assertHistorySize(1)
+
+        //THEN
+        verify(moviesRepositoryMock, times(1)).getMovies(anyList(), any())
+    }
+
+    @Test
+    fun `when getGenres fails, retryGetMovies should getGenres too`() {
+        //GIVEN
+        genresReturn.value = Resource.error(Throwable())
+
+        val hasError = viewModel.genres
+            .test()
+            .awaitValue()
+            .value()
+            .hasError
+        assertEquals(true, hasError)
+
+        //WHEN
+        viewModel.retryGetMovies()
+
+        //THEN
+        verify(genresRepositoryMock, times(2)).getGenres()
+    }
+
+    @Test
+    fun `when getMovies fails, retryGetMovies should getMovies only once, until loading ends`() {
+        //GIVEN
+        moviesReturn.value = Resource.error(Throwable())
+
+        val hasError = viewModel.movies
+            .test()
+            .awaitValue()
+            .value()
+            .hasError
+        assertEquals(true, hasError)
+
+        //WHEN
+        viewModel.onMoviesLoaded(Status.ERROR)
+        viewModel.retryGetMovies()
+        //Retry again before the first retry ends
+        viewModel.retryGetMovies()
+
+        //THEN
+        //Verify the first retry calls getMovies but the second retry is useless
+        verify(moviesRepositoryMock, times(2)).getMovies(anyList(), anyInt())
     }
 }
