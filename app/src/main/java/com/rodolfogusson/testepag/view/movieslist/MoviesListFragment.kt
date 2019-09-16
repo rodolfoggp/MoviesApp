@@ -19,6 +19,7 @@ import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
+import com.rodolfogusson.testepag.viewmodel.movieslist.textFor
 import kotlinx.android.synthetic.main.fragment_movies_list.*
 
 class MoviesListFragment : Fragment() {
@@ -55,14 +56,10 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun setupSortingSelector() {
-        val values = mutableListOf(
-            getString(R.string.ascending_order),
-            getString(R.string.descending_order),
-            getString(R.string.unsorted)
-        )
         val context: Context = this.context ?: return
+        val values = viewModel.orderArray.map { order -> textFor(order, context) }
         val arrayAdapter =
-            ArrayAdapter<String>(context, R.layout.sorting_selector_item, values)
+            ArrayAdapter(context, R.layout.sorting_selector_item, values)
         sortingSelector.adapter = arrayAdapter
         sortingSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -71,6 +68,7 @@ class MoviesListFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Log.d("POSITION: ", "$position")
+                viewModel.onSortingSelected(position)
             }
         }
     }

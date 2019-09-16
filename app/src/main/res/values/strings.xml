@@ -11,8 +11,8 @@
     <string name="release_date">Data de lançamento: %1$s</string>
     <string name="fetch_movies_error">Não foi possível buscar novos filmes.</string>
 
-    <string name="ascending_order">Mais recentes</string>
-    <string name="descending_order">Mais antigos</string>
+    <string name="ascending_order">Mais antigos</string>
+    <string name="descending_order">Mais recentes</string>
     <string name="unsorted">Não ordenar</string>
     <string name="sort_by">Ordenar por:</string>
 </resources>
