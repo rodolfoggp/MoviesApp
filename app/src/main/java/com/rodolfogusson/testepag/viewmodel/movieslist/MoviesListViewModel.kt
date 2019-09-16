@@ -17,6 +17,8 @@ class MoviesListViewModel(
 
     private var pagesDisplayed = 0
 
+    val orderArray = arrayOf(UNSORTED, ASCENDING, DESCENDING)
+
     private val getGenresEvent = MutableLiveData<Unit>()
 
     val genres: LiveData<Resource<List<Genre>>> = Transformations.switchMap(getGenresEvent) {
@@ -42,7 +44,7 @@ class MoviesListViewModel(
         }
 
     private val sortingOrder =
-        MutableLiveData<SortingOrder>().apply { value = ASCENDING }
+        MutableLiveData<SortingOrder>().apply { value = UNSORTED }
 
     val movies: LiveData<Resource<List<Movie>>> =
         Transformations.map(unsortedMovies.combineLatest(sortingOrder)) {
@@ -52,7 +54,8 @@ class MoviesListViewModel(
             val moviesList = moviesResource.data?.let { list ->
                 when (order) {
                     ASCENDING -> list.sortedBy { movie -> movie.releaseDate }
-                    else -> list.sortedByDescending { movie -> movie.releaseDate }
+                    DESCENDING -> list.sortedByDescending { movie -> movie.releaseDate }
+                    else -> list
                 }
             }
 
@@ -101,5 +104,10 @@ class MoviesListViewModel(
         } else {
             getGenresEvent.value = Unit
         }
+    }
+
+    fun onSortingSelected(position: Int) {
+        val order = orderArray[position]
+        sortingOrder.value = order
     }
 }

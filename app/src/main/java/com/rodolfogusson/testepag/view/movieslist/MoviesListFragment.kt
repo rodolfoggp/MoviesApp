@@ -1,10 +1,14 @@
 package com.rodolfogusson.testepag.view.movieslist
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,8 +19,8 @@ import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
+import com.rodolfogusson.testepag.viewmodel.movieslist.textFor
 import kotlinx.android.synthetic.main.fragment_movies_list.*
-
 
 class MoviesListFragment : Fragment() {
 
@@ -46,11 +50,34 @@ class MoviesListFragment : Fragment() {
 
     private fun setupLayout() {
         progress.visibility = View.VISIBLE
+        setupSortingSelector()
+        setupRecyclerView()
+        setupErrorDialog()
+    }
+
+    private fun setupSortingSelector() {
+        val context: Context = this.context ?: return
+        val values = viewModel.orderArray.map { order -> textFor(order, context) }
+        val arrayAdapter =
+            ArrayAdapter(context, R.layout.sorting_selector_item, values)
+        sortingSelector.adapter = arrayAdapter
+        sortingSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //print("NOTHING")
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Log.d("POSITION: ", "$position")
+                viewModel.onSortingSelected(position)
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
         layoutManager = LinearLayoutManager(this.activity)
         recyclerView.layoutManager = layoutManager
         setRecyclerViewScrollListener()
         recyclerView.adapter = adapter
-        setupErrorDialog()
     }
 
     private fun setupErrorDialog() {

@@ -39,13 +39,23 @@ class MoviesListViewModelTest {
             listOf()
         ),
         Movie(
-            1,
+            2,
             "Filme 2",
             "Descrição 2",
             LocalDate.parse("2019-08-26"),
             "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
             7.9,
             17,
+            listOf()
+        ),
+        Movie(
+            3,
+            "Filme 3",
+            "Descrição 2",
+            LocalDate.parse("2019-07-22"),
+            "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
+            8.0,
+            19,
             listOf()
         )
     )
@@ -277,5 +287,52 @@ class MoviesListViewModelTest {
         //THEN
         //Verify the first retry calls getMovies but the second retry is useless
         verify(moviesRepositoryMock, times(2)).getMovies(anyList(), anyInt())
+    }
+
+    @Test
+    fun `at the start, movies will be unsorted`() {
+        //GIVEN
+        //viewModel inits
+
+        //WHEN
+        val movies = viewModel.movies
+            .test()
+            .awaitValue()
+            .value()
+            .data
+
+        assertEquals(moviesList, movies)
+    }
+
+    @Test
+    fun `when sorting order changes, movies are sorted accordingly`() {
+        //GIVEN
+        //viewModel inits
+
+        //WHEN
+        val ascendingIndex = viewModel.orderArray.indexOf(SortingOrder.ASCENDING)
+        viewModel.onSortingSelected(ascendingIndex)
+
+        //THEN
+        var movies = viewModel.movies
+            .test()
+            .awaitValue()
+            .value()
+            .data
+        val ascendingMoviesList = moviesList.sortedBy { movie -> movie.releaseDate }
+        assertEquals(ascendingMoviesList, movies)
+
+        //AND WHEN
+        val descendingIndex = viewModel.orderArray.indexOf(SortingOrder.DESCENDING)
+        viewModel.onSortingSelected(descendingIndex)
+
+        //THEN
+        movies = viewModel.movies
+            .test()
+            .awaitValue()
+            .value()
+            .data
+        val descendingMoviesList = moviesList.sortedByDescending { movie -> movie.releaseDate }
+        assertEquals(descendingMoviesList, movies)
     }
 }
