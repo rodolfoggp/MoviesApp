@@ -8,6 +8,7 @@ import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepositor
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
+import com.rodolfogusson.testepag.viewmodel.movieslist.SortingOrder.*
 
 class MoviesListViewModel(
     private val moviesRepository: MoviesRepository,
@@ -25,7 +26,7 @@ class MoviesListViewModel(
 
     private val getMoviesEvent = MutableLiveData<Unit>()
 
-    val movies: LiveData<Resource<List<Movie>>> =
+    private val unsortedMovies: LiveData<Resource<List<Movie>>> =
         Transformations.switchMap(getMoviesEvent.combineLatest(genres)) {
             val genresResource = it.second
             if (genresResource.hasError) {
@@ -38,6 +39,24 @@ class MoviesListViewModel(
                     moviesRepository.getMovies(genres, pagesDisplayed + 1)
                 }
             }
+        }
+
+    private val sortingOrder =
+        MutableLiveData<SortingOrder>().apply { value = ASCENDING }
+
+    val movies: LiveData<Resource<List<Movie>>> =
+        Transformations.map(unsortedMovies.combineLatest(sortingOrder)) {
+            val moviesResource: Resource<List<Movie>> = it.first
+            val order = it.second
+
+            val moviesList = moviesResource.data?.let { list ->
+                when (order) {
+                    ASCENDING -> list.sortedBy { movie -> movie.releaseDate }
+                    else -> list.sortedByDescending { movie -> movie.releaseDate }
+                }
+            }
+
+            Resource(moviesResource.status, moviesList, moviesResource.error)
         }
 
     private val isLoading = MutableLiveData<Boolean>().apply { value = true }
