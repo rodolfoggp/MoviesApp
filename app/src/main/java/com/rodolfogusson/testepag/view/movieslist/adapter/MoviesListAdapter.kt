@@ -18,6 +18,8 @@ class MoviesListAdapter: Adapter<MovieHolder>(),
         autoNotify(old, new) { o, n -> o.id == n.id }
     }
 
+    lateinit var clickListener: (Movie) -> Unit
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MoviesListItemBinding.inflate(inflater)
@@ -26,11 +28,13 @@ class MoviesListAdapter: Adapter<MovieHolder>(),
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: MovieHolder, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: MovieHolder, position: Int) = holder.bind(data[position], clickListener)
 
     class MovieHolder(private val binding: MoviesListItemBinding) : ViewHolder(binding.root) {
-        fun bind(movie: Movie) {
+        fun bind(movie: Movie, clickListener: (Movie) -> Unit) {
             binding.movie = movie
+            binding.root.setOnClickListener { clickListener(movie) }
+            binding.executePendingBindings()
         }
     }
 }

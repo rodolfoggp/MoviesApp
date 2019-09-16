@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.infrastructure.data.Status
+import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
@@ -77,6 +78,7 @@ class MoviesListFragment : Fragment() {
         layoutManager = LinearLayoutManager(this.activity)
         recyclerView.layoutManager = layoutManager
         setRecyclerViewScrollListener()
+        adapter.clickListener = ::onMovieClicked
         recyclerView.adapter = adapter
     }
 
@@ -146,6 +148,10 @@ class MoviesListFragment : Fragment() {
                 nextPageProgress.visibility = View.GONE
             }
         })
+    }
+
+    private fun onMovieClicked(movie: Movie) {
+        print("NAME: ${movie.title}")
     }
 }
 
