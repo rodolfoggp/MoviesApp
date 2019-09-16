@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
+import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
@@ -20,12 +21,13 @@ import kotlinx.android.synthetic.main.fragment_movies_list.*
 class MoviesListFragment : Fragment() {
 
     private lateinit var viewModel: MoviesListViewModel
+
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var scrollListener: RecyclerView.OnScrollListener
     private val lastVisibleItemPosition: Int
         get() = layoutManager.findLastVisibleItemPosition()
-
     private val adapter = MoviesListAdapter()
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
+    private lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +50,18 @@ class MoviesListFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         setRecyclerViewScrollListener()
         recyclerView.adapter = adapter
+        setupErrorDialog()
+    }
+
+    private fun setupErrorDialog() {
+        dialog = AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog)
+            .setTitle(getString(R.string.dialog_error))
+            .setMessage(getString(R.string.fetch_movies_error))
+            .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
+                viewModel.retryGetMovies()
+                dialog.dismiss()
+            }
+            .create()
     }
 
     private fun setRecyclerViewScrollListener() {
@@ -70,17 +84,22 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun observeMovies() {
-        viewModel.movies.observe(this, Observer {
-            viewModel.isLoading.value = false
-            if (!it.hasError) {
-                it?.data?.let { data ->
-                    adapter.apply {
-                        this.data = data
+        viewModel.movies.observe(this, Observer { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    resource.data?.let { movies ->
+                        adapter.apply {
+                            this.data = movies
+                        }
                     }
                 }
-            } else {
-                showErrorDialog()
+                Status.ERROR -> {
+                    if (!dialog.isShowing) {
+                        dialog.show()
+                    }
+                }
             }
+            viewModel.onMoviesLoaded(resource.status)
         })
     }
 
@@ -100,18 +119,6 @@ class MoviesListFragment : Fragment() {
                 nextPageProgress.visibility = View.GONE
             }
         })
-    }
-
-    private fun showErrorDialog() {
-        AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_Dialog)
-            .setTitle(getString(R.string.dialog_error))
-            .setMessage(getString(R.string.fetch_movies_error))
-            .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
-                viewModel.retryGetMovies()
-                dialog.dismiss()
-            }
-            .create()
-            .show()
     }
 }
 
