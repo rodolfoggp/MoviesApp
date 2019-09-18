@@ -10,7 +10,6 @@ class MovieDetailsViewModelFactory(val id: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val service = MoviesService.create()
         val moviesRepository = MoviesRepository.getInstance(service)
-        val genresRepository = GenresRepository.getInstance(service)
-        return MovieDetailsViewModel(id, moviesRepository, genresRepository) as T
+        return MovieDetailsViewModel(id, moviesRepository) as T
     }
 }

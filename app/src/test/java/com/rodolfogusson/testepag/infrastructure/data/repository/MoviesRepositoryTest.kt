@@ -12,6 +12,7 @@ import com.rodolfogusson.testepag.infrastructure.service.deserializer.LocalDateD
 import com.rodolfogusson.testepag.infrastructure.service.dto.GenresResponse
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponseTest
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -21,7 +22,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-/*
 class MoviesRepositoryTest {
 
     private lateinit var repository: MoviesRepository
@@ -32,12 +32,12 @@ class MoviesRepositoryTest {
             LocalDateDeserializer()
         )
     }
-    private val moviesJson = MoviesResponseTest::class.java
+    private val moviesJson = MoviesRepositoryTest::class.java
         .getResource("/movies_response.json")?.readText()
     private val moviesResponse = builder.create().fromJson(moviesJson, MoviesResponse::class.java)
 
     private val genresJson =
-        GenresRepositoryTest::class.java.getResource("/genres_response.json")?.readText()
+        MoviesRepositoryTest::class.java.getResource("/genres_response.json")?.readText()
     private val genresResponse = Gson().fromJson(genresJson, GenresResponse::class.java)
 
     private val callMock = mock<Call<MoviesResponse>>()
@@ -50,7 +50,14 @@ class MoviesRepositoryTest {
 
     @Before
     fun setup() {
-        repository = MoviesRepository(mockService)
+        repository = MoviesRepository.getInstance(mockService)
+    }
+
+    @After
+    fun tearDown() {
+        val field = MoviesRepository::class.java.getDeclaredField("instance")
+        field.isAccessible = true
+        field.set(null, null)
     }
 
     @Test
@@ -101,4 +108,4 @@ class MoviesRepositoryTest {
             .value()
         assertEquals(Status.ERROR, resource.status)
     }
-}*/
+}
