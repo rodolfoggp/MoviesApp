@@ -3,6 +3,7 @@ package com.rodolfogusson.testepag.view.moviesdetails
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.databinding.ActivityMoviesDetailsBinding
@@ -23,6 +24,13 @@ class MovieDetailsActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, MovieDetailsViewModelFactory(id))
             .get(MovieDetailsViewModel::class.java)
         binding.viewModel = viewModel
+        observeMovie()
+    }
+
+    private fun observeMovie() {
+        viewModel.movie.observe(this, Observer {
+            title = it.title
+        })
     }
 
     companion object {

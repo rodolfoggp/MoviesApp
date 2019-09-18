@@ -15,4 +15,6 @@
     <string name="descending_order">Mais recentes</string>
     <string name="unsorted">Não ordenar</string>
     <string name="sort_by">Ordenar por:</string>
+
+    <string name="release_date_details">Lançamento: %1$s</string>
 </resources>

@@ -8,22 +8,49 @@
             name="viewModel"
             type="com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModel" />
 
+        <import type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil" />
+
     </data>
 
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/singleSpace"
+        android:layout_marginRight="@dimen/singleSpace"
+        android:orientation="vertical"
         tools:context=".view.moviesdetails.MovieDetailsActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{UIUtil.genresNames(viewModel.movie.genres)}"
+            android:textColor="@color/lightGrey" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(@string/release_date_details, viewModel.movie.releaseDate.toString())}"
+            android:textColor="@color/lightGrey" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/singleSpace"
+            android:layout_marginBottom="@dimen/singleSpace"
+            android:text="@{viewModel.movie.overview}" />
 
         <ImageView
             android:id="@+id/detailsImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/imageWidth"
+            android:layout_height="@dimen/imageHeight"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:imageUrl="@{viewModel.movie.imageUrl}"
-            />
+            app:imageUrl="@{viewModel.movie.imageUrl}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.movie.title}" />
 
     </LinearLayout>
 
