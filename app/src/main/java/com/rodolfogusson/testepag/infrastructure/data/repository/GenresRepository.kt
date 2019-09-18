@@ -7,7 +7,7 @@ import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 import com.rodolfogusson.testepag.infrastructure.service.then
 import com.rodolfogusson.testepag.model.Genre
 
-open class GenresRepository(val service: MoviesService) {
+open class GenresRepository private constructor(val service: MoviesService) {
 
     open fun getGenres(): LiveData<Resource<List<Genre>>> {
         val liveData = MutableLiveData<Resource<List<Genre>>>()
@@ -17,5 +17,16 @@ open class GenresRepository(val service: MoviesService) {
             }
         )
         return liveData
+    }
+
+    companion object {
+        // For Singleton instantiation
+        @Volatile
+        private var instance: GenresRepository? = null
+
+        fun getInstance(service: MoviesService) =
+            instance ?: synchronized(this) {
+                instance ?: GenresRepository(service).also { instance = it }
+            }
     }
 }

@@ -2,6 +2,7 @@ package com.rodolfogusson.testepag.view.movieslist
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.model.Movie
+import com.rodolfogusson.testepag.view.moviesdetails.MovieDetailsActivity
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
@@ -152,6 +154,9 @@ class MoviesListFragment : Fragment() {
 
     private fun onMovieClicked(movie: Movie) {
         print("NAME: ${movie.title}")
+        val intent = Intent(activity, MovieDetailsActivity::class.java)
+        intent.putExtra(MovieDetailsActivity.movieIdKey, movie.id)
+        startActivity(intent)
     }
 }
 
