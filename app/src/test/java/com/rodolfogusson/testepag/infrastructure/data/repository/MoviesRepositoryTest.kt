@@ -11,7 +11,6 @@ import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 import com.rodolfogusson.testepag.infrastructure.service.deserializer.LocalDateDeserializer
 import com.rodolfogusson.testepag.infrastructure.service.dto.GenresResponse
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
-import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponseTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -107,5 +106,30 @@ class MoviesRepositoryTest {
             .test()
             .value()
         assertEquals(Status.ERROR, resource.status)
+    }
+
+    @Test
+    fun `getMovieById should get the correct movie`() {
+        //GIVEN
+        doAnswer {
+            val callback: Callback<MoviesResponse> = it.getArgument(0)
+            callback.onResponse(callMock, Response.success(moviesResponse))
+        }.whenever(callMock).enqueue(any())
+
+        repository.getMovies(genresResponse.genres, 1)
+
+        //We are looking for this random movie
+        val movieWanted = moviesResponse.results[13].toMovie(genresResponse.genres)
+
+        //WHEN
+        val liveData = repository.getMovieById(movieWanted.id)
+
+        //THEN
+        val movie = liveData
+            .test()
+            .awaitValue()
+            .value()
+
+        assertEquals(movieWanted, movie)
     }
 }

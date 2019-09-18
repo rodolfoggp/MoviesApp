@@ -33,7 +33,8 @@ open class MoviesRepository private constructor(private val service: MoviesServi
         return liveData
     }
 
-    open fun getMovieBy(id: Int): LiveData<Movie> = MutableLiveData()
+    open fun getMovieById(id: Int): LiveData<Movie> =
+        MutableLiveData<Movie>().apply { value = movies.first { movie -> movie.id == id } }
 
     companion object {
         // For Singleton instantiation

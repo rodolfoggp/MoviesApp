@@ -10,6 +10,6 @@ class MovieDetailsViewModel(
     moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    val movie: LiveData<Movie> = moviesRepository.getMovieBy(id)
+    val movie: LiveData<Movie> = moviesRepository.getMovieById(id)
 
 }

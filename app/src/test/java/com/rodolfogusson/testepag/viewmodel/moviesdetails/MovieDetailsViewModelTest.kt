@@ -20,11 +20,11 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
-    fun `when viewModel inits, it should getMovieBy id`() {
+    fun `when viewModel inits, it should getMovieById`() {
         //WHEN
         //viewModel inits
 
         //THEN
-        verify(moviesRepositoryMock).getMovieBy(id)
+        verify(moviesRepositoryMock).getMovieById(id)
     }
 }
