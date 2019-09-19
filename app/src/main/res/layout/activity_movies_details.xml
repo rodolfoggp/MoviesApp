@@ -87,7 +87,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="@dimen/doubleSpace"
                         android:layout_marginRight="@dimen/doubleSpace"
-                        android:background="@drawable/round_button"
+                        android:background="@drawable/round_yellow_button"
                         android:drawableLeft="@drawable/favorites"
                         android:gravity="center"
                         android:paddingLeft="@dimen/singleSpace"
