@@ -8,4 +8,6 @@
     <dimen name="imageWidth">103dp</dimen>
     <dimen name="imageHeight">150dp</dimen>
     <dimen name="actionBarHeight">60dp</dimen>
+
+    <dimen name="titleSize">30sp</dimen>
 </resources>
