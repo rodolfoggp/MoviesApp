@@ -57,14 +57,40 @@
             android:layout_marginTop="@dimen/singleSpace"
             android:text="@{viewModel.movie.overview}" />
 
-        <ImageView
-            android:id="@+id/detailsImage"
-            android:layout_width="@dimen/imageWidth"
-            android:layout_height="@dimen/imageHeight"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/singleSpace"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            app:imageUrl="@{viewModel.movie.imageUrl}" />
+            >
+
+            <ImageView
+                android:id="@+id/detailsImage"
+                android:layout_width="@dimen/imageWidth"
+                android:layout_height="@dimen/imageHeight"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{viewModel.movie.imageUrl}" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/favoriteButton"
+                android:layout_toRightOf="@id/detailsImage"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingRight="@dimen/singleSpace"
+                android:paddingLeft="@dimen/singleSpace"
+                android:layout_marginLeft="@dimen/doubleSpace"
+                android:layout_marginRight="@dimen/doubleSpace"
+                android:drawableLeft="@drawable/favorites"
+                android:background="@drawable/round_button"
+                android:textColor="@android:color/white"
+                style="@style/Widget.AppCompat.Button"
+                android:gravity="center"
+                android:text="@string/add_to_favorite"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
