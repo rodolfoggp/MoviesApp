@@ -16,5 +16,8 @@ class UIUtil {
 
         @JvmStatic
         fun voteAverageString(average: Double) = "$average / 10"
+
+        @JvmStatic
+        fun voteCountString(count: Int) = "$count"
     }
 }
