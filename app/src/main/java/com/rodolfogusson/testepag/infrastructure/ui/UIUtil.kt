@@ -13,5 +13,8 @@ class UIUtil {
         @JvmStatic
         fun fullDateText(date: LocalDate) =
             DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy").format(date)
+
+        @JvmStatic
+        fun voteAverageString(average: Double) = "$average / 10"
     }
 }

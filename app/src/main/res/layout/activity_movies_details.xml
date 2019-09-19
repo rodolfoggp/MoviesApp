@@ -60,8 +60,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/singleSpace"
-            >
+            android:layout_marginTop="@dimen/singleSpace">
 
             <ImageView
                 android:id="@+id/detailsImage"
@@ -71,24 +70,39 @@
                 android:scaleType="fitCenter"
                 app:imageUrl="@{viewModel.movie.imageUrl}" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/favoriteButton"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/detailsImage"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:paddingRight="@dimen/singleSpace"
-                android:paddingLeft="@dimen/singleSpace"
-                android:layout_marginLeft="@dimen/doubleSpace"
-                android:layout_marginRight="@dimen/doubleSpace"
-                android:drawableLeft="@drawable/favorites"
-                android:background="@drawable/round_button"
-                android:textColor="@android:color/white"
-                style="@style/Widget.AppCompat.Button"
-                android:gravity="center"
-                android:text="@string/add_to_favorite"
-                />
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/favoriteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingRight="@dimen/singleSpace"
+                    android:paddingLeft="@dimen/singleSpace"
+                    android:layout_marginLeft="@dimen/doubleSpace"
+                    android:layout_marginRight="@dimen/doubleSpace"
+                    android:drawableLeft="@drawable/favorites"
+                    android:background="@drawable/round_button"
+                    android:textColor="@android:color/white"
+                    style="@style/Widget.AppCompat.Button"
+                    android:gravity="center"
+                    android:text="@string/add_to_favorite"
+                    />
+
+                    <TextView
+                        android:id="@+id/grade_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/thumbs_up"
+                        android:layout_marginTop="@dimen/singleSpace"
+                        android:drawablePadding="@dimen/singleSpace"
+                        android:text="@{UIUtil.voteAverageString(viewModel.movie.voteAverage)}"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
