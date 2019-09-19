@@ -4,12 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -35,6 +32,7 @@ class MoviesListFragment : Fragment() {
     private val adapter = MoviesListAdapter()
     private lateinit var scrollListener: RecyclerView.OnScrollListener
     private lateinit var dialog: AlertDialog
+    private lateinit var sortingDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,20 +58,16 @@ class MoviesListFragment : Fragment() {
 
     private fun setupSortingSelector() {
         val context: Context = this.context ?: return
-        val values = viewModel.orderArray.map { order -> textFor(order, context) }
-        val arrayAdapter =
-            ArrayAdapter(context, R.layout.sorting_selector_item, values)
-        sortingSelector.adapter = arrayAdapter
-        sortingSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                //print("NOTHING")
-            }
+        val values = viewModel.orderArray.map { order -> textFor(order, context) }.toTypedArray()
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.d("POSITION: ", "$position")
-                viewModel.onSortingSelected(position)
-            }
-        }
+        val initialCheckedItem = 0
+        sortingDialog = AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog)
+            .setSingleChoiceItems(values, initialCheckedItem) { dialog, index ->
+                viewModel.onSortingSelected(index)
+                recyclerView.scrollToPosition(0)
+                dialog.dismiss()
+            }.create()
+        sortButton.setOnClickListener { sortingDialog.show() }
     }
 
     private fun setupRecyclerView() {
@@ -153,7 +147,6 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun onMovieClicked(movie: Movie) {
-        print("NAME: ${movie.title}")
         val intent = Intent(activity, MovieDetailsActivity::class.java)
         intent.putExtra(MovieDetailsActivity.movieIdKey, movie.id)
         startActivity(intent)
