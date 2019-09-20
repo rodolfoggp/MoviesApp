@@ -1,11 +1,16 @@
 package com.rodolfogusson.testepag.view.moviesdetails
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ScaleDrawable
 import android.graphics.drawable.ShapeDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,6 +21,12 @@ import com.rodolfogusson.testepag.infrastructure.ui.UIUtil
 import com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModel
 import com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModelFactory
 import kotlinx.android.synthetic.main.activity_movies_details.*
+import kotlinx.android.synthetic.main.movies_list_item.view.*
+import androidx.core.graphics.drawable.DrawableCompat
+import android.graphics.drawable.Drawable
+import androidx.appcompat.content.res.AppCompatResources
+
+
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -37,10 +48,18 @@ class MovieDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         favoriteButton.setOnClickListener {
-            favoriteButton.background = resources.getDrawable(R.drawable.round_green_button)
-            favoriteButton.setCompoundDrawablesWithIntrinsicBounds(resources.getDrawable(R.drawable.check), null, null, null)
-            favoriteButton.text = "FAVORITO"
+            val unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.favorites)
+            val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+            DrawableCompat.setTint(wrappedDrawable, getColor(R.color.colorAccent))
+            favoriteMark.setImageDrawable(wrappedDrawable)
+            favoriteText.text = "FAVORITO"
         }
+
+        /*favoriteButton.setOnClickListener {
+            *//*favoriteButton.background = resources.getDrawable(R.drawable.round_green_button)
+            favoriteButton.setCompoundDrawablesWithIntrinsicBounds(resources.getDrawable(R.drawable.favorites), null, null, null)
+            favoriteButton.text = "FAVORITO"*//*
+        }*/
     }
 
     private fun observeMovie() {
