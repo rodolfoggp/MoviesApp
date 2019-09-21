@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -62,95 +62,92 @@
                 android:layout_marginTop="@dimen/singleSpace"
                 android:text="@{viewModel.movie.overview}" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/singleSpace">
+                android:layout_marginTop="@dimen/singleSpace"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/detailsImage"
                     android:layout_width="@dimen/imageWidth"
                     android:layout_height="@dimen/imageHeight"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    app:imageUrl="@{viewModel.movie.imageUrl}" />
+                    app:imageUrl="@{viewModel.movie.imageUrl}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/imageHeight"
-                    android:layout_toRightOf="@id/detailsImage"
-                    android:gravity="center_horizontal">
+                <LinearLayout
+                    android:id="@+id/favoriteButton"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/rating"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:id="@+id/favoriteButton"
+                    <ImageView
+                        android:id="@+id/favoriteMark"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/not_favorite" />
+
+                    <TextView
+                        android:id="@+id/favoriteText"
+                        style="@style/TextAppearance.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:text="FAVORITAR"
+                        android:textColor="@android:color/white" />
 
-                        <ImageView
-                            android:id="@+id/favoriteMark"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/not_favorite" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/favoriteText"
-                            style="@style/TextAppearance.AppCompat.Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="FAVORITAR"
-                            android:textColor="@android:color/white" />
+                <LinearLayout
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/detailsImage"
+                    app:layout_constraintTop_toTopOf="@+id/favoriteButton">
 
-                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/thumbs_up" />
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/vote_average"
+                        style="@style/TextAppearance.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="@dimen/singleSpace"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:textColor="@android:color/white"
+                        android:text="@{UIUtil.voteAverageString(viewModel.movie.voteAverage)}" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/thumbs_up" />
+                    <TextView
+                        android:id="@+id/vote_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{UIUtil.voteCountString(viewModel.movie.voteCount)}"
+                        android:textColor="@color/lightGrey"
+                        android:textSize="12sp" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/singleSpace"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/vote_average"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{UIUtil.voteAverageString(viewModel.movie.voteAverage)}" />
-
-                            <TextView
-                                android:id="@+id/vote_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{UIUtil.voteCountString(viewModel.movie.voteCount)}"
-                                android:textColor="@color/lightGrey"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <!--                        android:text="@{UIUtil.voteAverageString(viewModel.movie.voteAverage)}" />-->
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
 </layout>

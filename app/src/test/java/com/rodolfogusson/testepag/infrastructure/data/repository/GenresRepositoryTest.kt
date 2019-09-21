@@ -1,21 +1,5 @@
 package com.rodolfogusson.testepag.infrastructure.data.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.google.gson.Gson
-import com.jraska.livedata.test
-import com.nhaarman.mockitokotlin2.*
-import com.rodolfogusson.testepag.infrastructure.data.Status
-import com.rodolfogusson.testepag.infrastructure.service.MoviesService
-import com.rodolfogusson.testepag.infrastructure.service.dto.GenresResponse
-import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 /*
 class GenresRepositoryTest {
 

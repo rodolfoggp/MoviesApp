@@ -2,7 +2,6 @@ package com.rodolfogusson.testepag.viewmodel.moviesdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 
