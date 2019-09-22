@@ -1,22 +1,37 @@
 package com.rodolfogusson.testepag.viewmodel.moviesdetails
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import com.jraska.livedata.test
+import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.testepag.infrastructure.data.repository.FavoritesRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
+import org.junit.Assert.assertEquals
 import org.junit.Before
-
+import org.junit.Rule
 import org.junit.Test
 
 class MovieDetailsViewModelTest {
 
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
     private lateinit var viewModel: MovieDetailsViewModel
 
-    private val moviesRepositoryMock: MoviesRepository = mock()
     private val id = 3
+
+    private val isFavoriteLiveData = MutableLiveData<Boolean>()
+
+    private val moviesRepositoryMock: MoviesRepository = mock()
+    private val favoritesRepositoryMock: FavoritesRepository = mock {
+        on { isFavorite(id) } doReturn isFavoriteLiveData
+    }
+
 
     @Before
     fun setup() {
-        viewModel = MovieDetailsViewModel(id, moviesRepositoryMock)
+        isFavoriteLiveData.value = false
+        viewModel = MovieDetailsViewModel(id, moviesRepositoryMock, favoritesRepositoryMock)
     }
 
     @Test
@@ -26,5 +41,59 @@ class MovieDetailsViewModelTest {
 
         //THEN
         verify(moviesRepositoryMock).getMovieById(id)
+    }
+
+    @Test
+    fun `when viewModel inits, it should get isFavorite`() {
+        //WHEN
+        //viewModel inits
+
+        //THEN
+        verify(favoritesRepositoryMock).isFavorite(id)
+    }
+
+    @Test
+    fun `onFavoriteButtonClicked, if movie is not favorite, it should be added to favorites list`() {
+        //GIVEN
+        //viewModel inits
+        var isFavorite = viewModel.isFavorite
+            .test()
+            .value()
+        assertEquals(false, isFavorite)
+
+        //WHEN
+        viewModel.onFavoriteButtonClicked()
+
+        //THEN
+        verify(favoritesRepositoryMock).add(id)
+        isFavoriteLiveData.value = true
+        isFavorite = viewModel.isFavorite
+            .test()
+            .awaitValue()
+            .value()
+        assertEquals(true, isFavorite)
+    }
+
+    @Test
+    fun `onFavoriteButtonClicked, if movie isFavorite, it should be removed from favorites list`() {
+        //GIVEN
+        //viewModel inits
+        isFavoriteLiveData.value = true
+        var isFavorite = viewModel.isFavorite
+            .test()
+            .value()
+        assertEquals(true, isFavorite)
+
+        //WHEN
+        viewModel.onFavoriteButtonClicked()
+
+        //THEN
+        verify(favoritesRepositoryMock).remove(id)
+        isFavoriteLiveData.value = false
+        isFavorite = viewModel.isFavorite
+            .test()
+            .awaitValue()
+            .value()
+        assertEquals(false, isFavorite)
     }
 }

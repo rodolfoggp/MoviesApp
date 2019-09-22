@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -37,19 +34,16 @@ class MovieDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         favoriteButton.setOnClickListener {
-            val unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.favorites)
-            val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
-            DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(this, R.color.colorAccent))
-            favoriteMark.setImageDrawable(wrappedDrawable)
+            favoriteMark.setImageDrawable(UIUtil.coloredDrawable(this, R.drawable.favorites, R.color.colorAccent))
             favoriteText.text = "FAVORITO"
         }
-
     }
 
     private fun observeMovie() {
         viewModel.movie.observe(this, Observer { movie ->
             if (movie.overview.isBlank()) overview.visibility = View.GONE
         })
+        /*viewModel.isFavorite.observe*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

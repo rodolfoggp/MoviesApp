@@ -1,7 +1,11 @@
 package com.rodolfogusson.testepag.infrastructure.ui
 
 import android.content.Context
-import androidx.core.content.ContextCompat.getColor
+import android.graphics.drawable.Drawable
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.model.Genre
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -21,5 +25,17 @@ class UIUtil {
 
         @JvmStatic
         fun voteCountString(count: Int) = "$count"
+
+        fun coloredDrawable(context: Context, drawableId: Int, colorId: Int): Drawable? {
+            AppCompatResources.getDrawable(context, drawableId)?.let {
+                val wrappedDrawable = DrawableCompat.wrap(it)
+                DrawableCompat.setTint(
+                    wrappedDrawable,
+                    ContextCompat.getColor(context, colorId)
+                )
+                return wrappedDrawable
+            }
+            return null
+        }
     }
 }
