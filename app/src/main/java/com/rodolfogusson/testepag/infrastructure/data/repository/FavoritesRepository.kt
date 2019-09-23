@@ -3,6 +3,7 @@ package com.rodolfogusson.testepag.infrastructure.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
+import com.rodolfogusson.testepag.model.Movie
 
 class FavoritesRepository(private val favoriteDao: FavoriteDao) {
 
@@ -13,7 +14,7 @@ class FavoritesRepository(private val favoriteDao: FavoriteDao) {
             it != null
         }
 
-    fun add(id: Int) = favoriteDao.add(id)
+    fun add(movie: Movie) = favoriteDao.insert(movie)
 
-    fun remove(id: Int) = favoriteDao.remove(id)
+    fun remove(movie: Movie) = favoriteDao.delete(movie)
 }

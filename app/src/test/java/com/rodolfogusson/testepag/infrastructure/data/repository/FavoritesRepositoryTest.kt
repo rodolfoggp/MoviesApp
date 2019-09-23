@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
+import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -30,6 +31,10 @@ class FavoritesRepositoryTest {
         on { getAllFavorites() } doReturn favoriteListLiveData
     }
 
+    private fun configureMoviesList() {
+        for (movie in moviesList) movie.genres = listOf()
+    }
+
     private val moviesList = listOf(
         Movie(
             1,
@@ -38,8 +43,7 @@ class FavoritesRepositoryTest {
             LocalDate.parse("2019-05-12"),
             "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
             6.4,
-            10,
-            listOf()
+            10
         ),
         Movie(
             2,
@@ -48,8 +52,7 @@ class FavoritesRepositoryTest {
             LocalDate.parse("2019-08-26"),
             "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
             7.9,
-            17,
-            listOf()
+            17
         ),
         Movie(
             3,
@@ -58,13 +61,13 @@ class FavoritesRepositoryTest {
             LocalDate.parse("2019-07-22"),
             "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
             8.0,
-            19,
-            listOf()
+            19
         )
     )
 
     @Before
     fun setup() {
+        configureMoviesList()
         repository = FavoritesRepository(favoriteDaoMock)
     }
 
@@ -120,18 +123,18 @@ class FavoritesRepositoryTest {
     @Test
     fun `add should save a movie to the database`() {
         //GIVEN
-        repository.add(mockId)
+        repository.add(moviesList[0])
 
         //THEN
-        verify(favoriteDaoMock).add(mockId)
+        verify(favoriteDaoMock).insert(moviesList[0])
     }
 
     @Test
     fun `remove should remove a movie from the database`() {
         //GIVEN
-        repository.remove(mockId)
+        repository.remove(moviesList[1])
 
         //THEN
-        verify(favoriteDaoMock).remove(mockId)
+        verify(favoriteDaoMock).delete(moviesList[1])
     }
 }

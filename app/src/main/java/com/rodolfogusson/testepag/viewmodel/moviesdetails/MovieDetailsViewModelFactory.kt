@@ -1,17 +1,21 @@
 package com.rodolfogusson.testepag.viewmodel.moviesdetails
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
+import com.rodolfogusson.testepag.infrastructure.data.persistence.database.ApplicationDatabase
 import com.rodolfogusson.testepag.infrastructure.data.repository.FavoritesRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 
-class MovieDetailsViewModelFactory(val id: Int) : ViewModelProvider.Factory {
+class MovieDetailsViewModelFactory(val context: Context, val id: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val service = MoviesService.create()
         val moviesRepository = MoviesRepository.getInstance(service)
-        val favoriteDao = FavoriteDao()
+
+        val database = ApplicationDatabase.getInstance(context)
+        val favoriteDao = database.favoriteDao()
+
         val favoritesRepository = FavoritesRepository(favoriteDao)
         return MovieDetailsViewModel(id, moviesRepository, favoritesRepository) as T
     }

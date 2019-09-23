@@ -1,10 +1,29 @@
 package com.rodolfogusson.testepag.infrastructure.data.persistence.database
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import android.content.Context
+import androidx.room.*
+import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
 import com.rodolfogusson.testepag.model.Movie
 
 @Database(entities = [Movie::class], version = 1, exportSchema = false)
-abstract class ApplicationDatabase: RoomDatabase() {
-    
+@TypeConverters(Converters::class)
+abstract class ApplicationDatabase : RoomDatabase() {
+    abstract fun favoriteDao(): FavoriteDao
+
+    companion object {
+        // For Singleton instantiation
+        @Volatile
+        private var instance: ApplicationDatabase? = null
+
+        private const val databaseName = "database.db"
+
+        fun getInstance(context: Context) =
+            instance ?: synchronized(this) {
+                instance ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    ApplicationDatabase::class.java,
+                    databaseName
+                ).build().also { instance = it }
+            }
+    }
 }

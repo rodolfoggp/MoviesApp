@@ -17,10 +17,12 @@ class MovieDetailsViewModel(
 
     fun onFavoriteButtonClicked() {
         isFavorite.value?.let { isFavorite ->
-            if (isFavorite) {
-                favoritesRepository.remove(id)
-            } else {
-                favoritesRepository.add(id)
+            movie.value?.let { movie ->
+                if (isFavorite) {
+                    favoritesRepository.remove(movie)
+                } else {
+                    favoritesRepository.add(movie)
+                }
             }
         }
     }
