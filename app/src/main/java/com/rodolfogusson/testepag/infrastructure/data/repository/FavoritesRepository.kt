@@ -5,7 +5,7 @@ import androidx.lifecycle.Transformations
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
 import com.rodolfogusson.testepag.model.Movie
 
-class FavoritesRepository(private val favoriteDao: FavoriteDao) {
+open class FavoritesRepository private constructor(val favoriteDao: FavoriteDao) {
 
     fun getFavorites() = favoriteDao.getAllFavorites()
 
@@ -17,4 +17,15 @@ class FavoritesRepository(private val favoriteDao: FavoriteDao) {
     fun add(movie: Movie) = favoriteDao.insert(movie)
 
     fun remove(movie: Movie) = favoriteDao.delete(movie)
+
+    companion object {
+        // For Singleton instantiation
+        @Volatile
+        private var instance: FavoritesRepository? = null
+
+        fun getInstance(favoriteDao: FavoriteDao) =
+            instance ?: synchronized(this) {
+                instance ?: FavoritesRepository(favoriteDao).also { instance = it }
+            }
+    }
 }

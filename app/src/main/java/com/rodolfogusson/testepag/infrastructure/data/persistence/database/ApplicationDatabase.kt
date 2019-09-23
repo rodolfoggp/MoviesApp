@@ -4,14 +4,21 @@ import android.content.Context
 import androidx.room.*
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.GenreDao
+import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
+import com.rodolfogusson.testepag.model.MovieGenreJoin
 
-@Database(entities = [Movie::class, Genre::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Movie::class, Genre::class, MovieGenreJoin::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
     abstract fun genreDao(): GenreDao
+    abstract fun movieGenreJoinDao(): MovieGenreJoinDao
 
     companion object {
         // For Singleton instantiation

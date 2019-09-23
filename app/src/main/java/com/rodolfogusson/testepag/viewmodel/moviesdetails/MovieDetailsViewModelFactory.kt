@@ -16,7 +16,7 @@ class MovieDetailsViewModelFactory(val context: Context, val id: Int) : ViewMode
         val database = ApplicationDatabase.getInstance(context)
         val favoriteDao = database.favoriteDao()
 
-        val favoritesRepository = FavoritesRepository(favoriteDao)
+        val favoritesRepository = FavoritesRepository.getInstance(favoriteDao)
         return MovieDetailsViewModel(id, moviesRepository, favoritesRepository) as T
     }
 }

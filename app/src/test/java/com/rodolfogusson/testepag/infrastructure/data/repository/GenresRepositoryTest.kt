@@ -1,6 +1,21 @@
 package com.rodolfogusson.testepag.infrastructure.data.repository
 
-/*
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.gson.Gson
+import com.jraska.livedata.test
+import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.testepag.infrastructure.data.Status
+import com.rodolfogusson.testepag.infrastructure.service.MoviesService
+import com.rodolfogusson.testepag.infrastructure.service.dto.GenresResponse
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 class GenresRepositoryTest {
 
     private lateinit var genresRepository: GenresRepository
@@ -19,7 +34,22 @@ class GenresRepositoryTest {
 
     @Before
     fun setup() {
-        genresRepository = GenresRepository(serviceMock)
+        genresRepository = GenresRepository.getInstance(serviceMock)
+    }
+
+    @After
+    fun tearDown() {
+        // Used to reset singleton instance
+        val field = GenresRepository::class.java.getDeclaredField("instance")
+        field.isAccessible = true
+        field.set(null, null)
+    }
+
+    @Test
+    fun `GenresRepository should be a singleton`() {
+        val repo1 = GenresRepository.getInstance(serviceMock)
+        val repo2 = GenresRepository.getInstance(serviceMock)
+        assert(repo1 === repo2)
     }
 
     @Test
@@ -72,4 +102,4 @@ class GenresRepositoryTest {
             .value()
         assertEquals(Status.ERROR, resource.status)
     }
-}*/
+}

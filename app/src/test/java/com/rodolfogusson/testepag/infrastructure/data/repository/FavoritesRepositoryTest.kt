@@ -7,8 +7,8 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
-import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -68,7 +68,22 @@ class FavoritesRepositoryTest {
     @Before
     fun setup() {
         configureMoviesList()
-        repository = FavoritesRepository(favoriteDaoMock)
+        repository = FavoritesRepository.getInstance(favoriteDaoMock)
+    }
+
+    @After
+    fun tearDown() {
+        // Used to reset singleton instance
+        val field = FavoritesRepository::class.java.getDeclaredField("instance")
+        field.isAccessible = true
+        field.set(null, null)
+    }
+
+    @Test
+    fun `FavoritesRepository should be a singleton`() {
+        val repo1 = FavoritesRepository.getInstance(favoriteDaoMock)
+        val repo2 = FavoritesRepository.getInstance(favoriteDaoMock)
+        assert(repo1 === repo2)
     }
 
     @Test

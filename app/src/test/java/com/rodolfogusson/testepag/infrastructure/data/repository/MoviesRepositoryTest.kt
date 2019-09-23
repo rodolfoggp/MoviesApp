@@ -40,7 +40,7 @@ class MoviesRepositoryTest {
     private val genresResponse = Gson().fromJson(genresJson, GenresResponse::class.java)
 
     private val callMock = mock<Call<MoviesResponse>>()
-    private val mockService = mock<MoviesService> {
+    private val serviceMock = mock<MoviesService> {
         on { getMovies(any(), any(), any()) } doReturn callMock
     }
 
@@ -49,7 +49,7 @@ class MoviesRepositoryTest {
 
     @Before
     fun setup() {
-        repository = MoviesRepository.getInstance(mockService)
+        repository = MoviesRepository.getInstance(serviceMock)
     }
 
     @After
@@ -61,14 +61,20 @@ class MoviesRepositoryTest {
     }
 
     @Test
+    fun `MoviesRepository should be a singleton`() {
+        val repo1 = MoviesRepository.getInstance(serviceMock)
+        val repo2 = MoviesRepository.getInstance(serviceMock)
+        assert(repo1 === repo2)
+    }
+
+    @Test
     fun `movies request should getMovies from service with correct parameters`() {
         print(repository.toString())
         //WHEN
         repository.getMovies(listOf(), 1)
 
-
         //THEN
-        verify(mockService).getMovies(MoviesService.apiKey, "pt-BR", 1)
+        verify(serviceMock).getMovies(MoviesService.apiKey, "pt-BR", 1)
     }
 
     @Test
