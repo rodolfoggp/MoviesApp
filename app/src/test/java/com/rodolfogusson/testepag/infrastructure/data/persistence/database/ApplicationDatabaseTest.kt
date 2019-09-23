@@ -1,4 +1,3 @@
-package com.rodolfogusson.testepag.infrastructure.data.persistence.database
 
 import android.content.Context
 import org.junit.Before
