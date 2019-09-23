@@ -17,15 +17,16 @@ data class MoviesResponseElement(
 ) {
     fun toMovie(allGenres: List<Genre>): Movie {
         val genres = allGenres.filter { genre -> genreIds.contains(genre.id) }
-        return Movie(
+        val movie = Movie(
             id,
             title,
             overview,
             releaseDate,
             imageUrl,
             voteAverage,
-            voteCount,
-            genres
+            voteCount
         )
+        movie.genres = genres
+        return movie
     }
 }

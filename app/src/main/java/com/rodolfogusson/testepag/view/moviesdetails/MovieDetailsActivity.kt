@@ -25,7 +25,7 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         val id = intent.getIntExtra(movieIdKey, 0)
 
-        viewModel = ViewModelProviders.of(this, MovieDetailsViewModelFactory(id))
+        viewModel = ViewModelProviders.of(this, MovieDetailsViewModelFactory(this, id))
             .get(MovieDetailsViewModel::class.java)
         binding.viewModel = viewModel
 
