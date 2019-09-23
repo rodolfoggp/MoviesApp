@@ -70,7 +70,6 @@ class FavoriteDaoTest {
         favoritesLiveData.observeForever {  }
         assertEquals(favoritesLiveData.value?.size, 0)
 
-
         //WHEN
         favoriteDao.insert(moviesList[1])
         assertEquals(favoritesLiveData.value?.get(0), moviesList[1])
