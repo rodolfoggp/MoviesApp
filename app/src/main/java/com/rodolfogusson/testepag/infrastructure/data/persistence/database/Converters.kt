@@ -8,11 +8,11 @@ import org.threeten.bp.format.DateTimeFormatter
 class Converters {
     @TypeConverter
     fun fromString(string: String?): LocalDate? {
-        return string?.let {  LocalDate.parse(string, DateTimeFormatter.ISO_DATE) }
+        return string?.let {  LocalDate.parse(string) }
     }
 
     @TypeConverter
     fun dateToString(date: LocalDate?): String? {
-        return date?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toString()
+        return date?./*atStartOfDay(ZoneId.systemDefault())?.toInstant()?.*/toString()
     }
 }

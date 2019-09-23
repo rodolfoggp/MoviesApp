@@ -77,6 +77,7 @@ dependencies {
     testImplementation 'com.jraska.livedata:testing-ktx:1.1.0'
     testImplementation "androidx.room:room-testing:$room_version"
 
+    androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
