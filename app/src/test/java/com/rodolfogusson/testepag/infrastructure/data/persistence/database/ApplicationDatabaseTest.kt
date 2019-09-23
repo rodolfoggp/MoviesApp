@@ -5,8 +5,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import com.nhaarman.mockitokotlin2.whenever
-
-
+import com.rodolfogusson.testepag.infrastructure.data.persistence.database.ApplicationDatabase
 
 class ApplicationDatabaseTest {
 
