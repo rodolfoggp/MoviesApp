@@ -69,7 +69,6 @@ class MoviesRepositoryTest {
 
     @Test
     fun `movies request should getMovies from service with correct parameters`() {
-        print(repository.toString())
         //WHEN
         repository.getMovies(listOf(), 1)
 
@@ -79,7 +78,6 @@ class MoviesRepositoryTest {
 
     @Test
     fun `movies request should return the correct data`() {
-        print(repository.toString())
         //GIVEN
         doAnswer {
             val callback: Callback<MoviesResponse> = it.getArgument(0)

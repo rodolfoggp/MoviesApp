@@ -3,9 +3,16 @@ package com.rodolfogusson.testepag.infrastructure.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
+import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
 import com.rodolfogusson.testepag.model.Movie
+import com.rodolfogusson.testepag.model.MovieGenreJoin
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-open class FavoritesRepository private constructor(val favoriteDao: FavoriteDao) {
+open class FavoritesRepository private constructor(
+    private val favoriteDao: FavoriteDao,
+    private val movieGenreJoinDao: MovieGenreJoinDao
+    ) {
 
     fun getFavorites() = favoriteDao.getAllFavorites()
 
@@ -14,18 +21,24 @@ open class FavoritesRepository private constructor(val favoriteDao: FavoriteDao)
             it != null
         }
 
-    fun add(movie: Movie) = favoriteDao.insert(movie)
+    fun add(movie: Movie) = GlobalScope.launch {
+        favoriteDao.insert(movie)
+        movie.genres?.forEach { movieGenreJoinDao.insert(MovieGenreJoin(movie.id, it.id)) }
+    }
 
-    fun remove(movie: Movie) = favoriteDao.delete(movie)
+    fun remove(movie: Movie) = GlobalScope.launch {
+        favoriteDao.delete(movie)
+        movieGenreJoinDao.deleteAllGenresForMovie(movie.id)
+    }
 
     companion object {
         // For Singleton instantiation
         @Volatile
         private var instance: FavoritesRepository? = null
 
-        fun getInstance(favoriteDao: FavoriteDao) =
+        fun getInstance(favoriteDao: FavoriteDao, movieGenreJoinDao: MovieGenreJoinDao) =
             instance ?: synchronized(this) {
-                instance ?: FavoritesRepository(favoriteDao).also { instance = it }
+                instance ?: FavoritesRepository(favoriteDao, movieGenreJoinDao).also { instance = it }
             }
     }
 }

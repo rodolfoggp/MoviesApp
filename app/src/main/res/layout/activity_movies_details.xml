@@ -93,7 +93,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:id="@+id/favoriteMark"
+                        android:id="@+id/favoriteIcon"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/not_favorite" />

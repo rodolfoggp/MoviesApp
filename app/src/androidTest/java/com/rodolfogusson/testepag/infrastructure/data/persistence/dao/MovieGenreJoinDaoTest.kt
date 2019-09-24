@@ -31,14 +31,34 @@ class MovieGenreJoinDaoTest {
     private lateinit var favoriteDao: FavoriteDao
     private lateinit var movieGenreJoinDao: MovieGenreJoinDao
 
-    private val movie = Movie(
-        1,
-        "Filme 1",
-        "Descrição 1",
-        LocalDate.parse("2019-05-12"),
-        "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
-        6.4,
-        10
+    private val moviesList = listOf(
+        Movie(
+            1,
+            "Filme 1",
+            "Descrição 1",
+            LocalDate.parse("2019-05-12"),
+            "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
+            6.4,
+            10
+        ),
+        Movie(
+            2,
+            "Filme 2",
+            "Descrição 2",
+            LocalDate.parse("2019-08-26"),
+            "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
+            7.9,
+            17
+        ),
+        Movie(
+            3,
+            "Filme 3",
+            "Descrição 2",
+            LocalDate.parse("2019-07-22"),
+            "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
+            8.0,
+            19
+        )
     )
 
     private val genres: List<Genre> = listOf(
@@ -66,10 +86,10 @@ class MovieGenreJoinDaoTest {
     @Test
     fun daoShouldInsertAndGetGenresForMovieCorrectly() {
         //GIVEN
+        val genresForThisMovie = listOf(genres[2], genres[3])
+        val movie = moviesList[0].apply { genres = genresForThisMovie }
         favoriteDao.insert(movie)
         genreDao.insertAll(genres)
-        val genresForThisMovie = listOf(genres[2], genres[3])
-        val movie = movie.apply { genres = genresForThisMovie }
 
         //WHEN
         for (genre in movie.genres!!) {
@@ -84,5 +104,39 @@ class MovieGenreJoinDaoTest {
 
         //THEN
         assertEquals(genresForThisMovie, genres)
+    }
+
+    @Test
+    fun daoShouldDeleteAllForMovieCorrectly() {
+        //GIVEN
+        genreDao.insertAll(genres)
+
+        val genresForMovie1 = listOf(genres[2], genres[3])
+        val movie1 = moviesList[0].apply { genres = genresForMovie1 }
+        favoriteDao.insert(movie1)
+        for (genre in movie1.genres!!) {
+            movieGenreJoinDao.insert(MovieGenreJoin(movie1.id, genre.id))
+        }
+
+        val genresForMovie2 = listOf(genres[0], genres[1], genres[2])
+        val movie2 = moviesList[1].apply { genres = genresForMovie2 }
+        favoriteDao.insert(movie2)
+        for (genre in movie2.genres!!) {
+            movieGenreJoinDao.insert(MovieGenreJoin(movie2.id, genre.id))
+        }
+
+        //WHEN
+        movieGenreJoinDao.deleteAllGenresForMovie(movie1.id)
+
+        //THEN
+        val genres1LiveData = movieGenreJoinDao.getGenresForMovie(movie1.id)
+        genres1LiveData.observeForever {  }
+        val genres1 = genres1LiveData.value
+        assertEquals(emptyList<Genre>(), genres1)
+
+        val genres2LiveData = movieGenreJoinDao.getGenresForMovie(movie2.id)
+        genres2LiveData.observeForever {  }
+        val genres2 = genres2LiveData.value
+        assertEquals(genresForMovie2, genres2)
     }
 }

@@ -3,11 +3,16 @@ package com.rodolfogusson.testepag.infrastructure.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.jraska.livedata.test
+import com.nhaarman.mockitokotlin2.argThat
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
+import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
+import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
+import com.rodolfogusson.testepag.model.MovieGenreJoin
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -30,6 +35,8 @@ class FavoritesRepositoryTest {
         on { getFavoriteById(mockId) } doReturn favoriteLiveData
         on { getAllFavorites() } doReturn favoriteListLiveData
     }
+
+    private val movieGenreJoinDaoMock: MovieGenreJoinDao = mock()
 
     private fun configureMoviesList() {
         for (movie in moviesList) movie.genres = listOf()
@@ -68,7 +75,7 @@ class FavoritesRepositoryTest {
     @Before
     fun setup() {
         configureMoviesList()
-        repository = FavoritesRepository.getInstance(favoriteDaoMock)
+        repository = FavoritesRepository.getInstance(favoriteDaoMock, movieGenreJoinDaoMock)
     }
 
     @After
@@ -81,8 +88,8 @@ class FavoritesRepositoryTest {
 
     @Test
     fun `FavoritesRepository should be a singleton`() {
-        val repo1 = FavoritesRepository.getInstance(favoriteDaoMock)
-        val repo2 = FavoritesRepository.getInstance(favoriteDaoMock)
+        val repo1 = FavoritesRepository.getInstance(favoriteDaoMock, movieGenreJoinDaoMock)
+        val repo2 = FavoritesRepository.getInstance(favoriteDaoMock, movieGenreJoinDaoMock)
         assert(repo1 === repo2)
     }
 
@@ -136,20 +143,35 @@ class FavoritesRepositoryTest {
     }
 
     @Test
-    fun `add should save a movie to the database`() {
+    fun `add should save a movie to the database and save all related moviegenrejoins`() {
         //GIVEN
-        repository.add(moviesList[0])
+        val genres = listOf(Genre(10, "A"), Genre(20, "B"), Genre(30, "C"))
+        val movie = moviesList[0]
+        movie.genres = genres
+
+        //WHEN
+        runBlocking { repository.add(movie) }
 
         //THEN
-        verify(favoriteDaoMock).insert(moviesList[0])
+        verify(favoriteDaoMock).insert(movie)
+        verify(movieGenreJoinDaoMock).insert(argThat { equals(MovieGenreJoin(1, 10)) })
+        verify(movieGenreJoinDaoMock).insert(argThat { equals(MovieGenreJoin(1, 20)) })
+        verify(movieGenreJoinDaoMock).insert(argThat { equals(MovieGenreJoin(1, 30)) })
     }
 
     @Test
-    fun `remove should remove a movie from the database`() {
-        //GIVEN
-        repository.remove(moviesList[1])
+    fun `remove should remove a movie from the database and all related moviegenrejoins`() {
+            //GIVEN
+            val genres = listOf(Genre(10, "A"), Genre(20, "B"), Genre(30, "C"))
+            val movie = moviesList[0]
+            movie.genres = genres
+            runBlocking { repository.add(movie) }
 
-        //THEN
-        verify(favoriteDaoMock).delete(moviesList[1])
-    }
+            //WHEN
+            runBlocking { repository.remove(movie) }
+
+            //THEN
+            verify(favoriteDaoMock).delete(movie)
+            verify(movieGenreJoinDaoMock).deleteAllGenresForMovie(movie.id)
+        }
 }

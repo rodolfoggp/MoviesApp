@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,21 +34,41 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        favoriteButton.setOnClickListener {
+        favoriteButton.setOnClickListener { viewModel.onFavoriteButtonClicked() }
+        /*favoriteButton.setOnClickListener {
             favoriteMark.setImageDrawable(UIUtil.coloredDrawable(this, R.drawable.favorites, R.color.colorAccent))
             favoriteText.text = "FAVORITO"
-        }
+        }*/
     }
 
     private fun observeMovie() {
         viewModel.movie.observe(this, Observer { movie ->
             if (movie.overview.isBlank()) overview.visibility = View.GONE
         })
-        /*viewModel.isFavorite.observe*/
+        viewModel.isFavorite.observe(this, Observer { isFavorite ->
+            if (isFavorite) {
+                favoriteIcon.setImageDrawable(
+                    UIUtil.coloredDrawable(
+                        this,
+                        R.drawable.favorites,
+                        R.color.colorAccent
+                    )
+                )
+                favoriteText.text = getString(R.string.is_favorite)
+            } else {
+                favoriteIcon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.not_favorite
+                    )
+                )
+                favoriteText.text = getString(R.string.add_to_favorite)
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> finish()
         }
         return true
