@@ -1,32 +1,12 @@
 package com.rodolfogusson.testepag.model
 
 import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
 
 /**
  * Class that represents a many-to-many relation
  * between Movie and Genre in the database.
  */
-/*@Entity(
-    tableName = "MovieGenreJoin",
-    primaryKeys = { "movieId", "genreId" },
-    foreignKeys = [
-        ForeignKey(
-            entity = Movie::class,
-            parentColumns = ["id"],
-            childColumns = ["movieId"]
-        ),
-        ForeignKey(
-            entity = Genre::class,
-            parentColumns = ["id"],
-            childColumns = ["genreId"]
-        )
-    ]
-)
-data class MovieGenreJoin(
-    val movieId: Int,
-    val genreId: Int
-)*/
-
 @Entity(
     tableName = "MovieGenreJoin",
     primaryKeys = ["movieId", "genreId"],
@@ -34,7 +14,8 @@ data class MovieGenreJoin(
         ForeignKey(
             entity = Movie::class,
             parentColumns = arrayOf("id"),
-            childColumns = arrayOf("movieId")
+            childColumns = arrayOf("movieId"),
+            onDelete = CASCADE
         ), ForeignKey(
             entity = Genre::class,
             parentColumns = arrayOf("id"),

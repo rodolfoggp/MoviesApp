@@ -162,20 +162,4 @@ class FavoritesRepositoryTest {
         verify(movieGenreJoinDaoMock).insert(argThat { equals(MovieGenreJoin(1, 20)) })
         verify(movieGenreJoinDaoMock).insert(argThat { equals(MovieGenreJoin(1, 30)) })
     }
-
-    @Test
-    fun `remove should remove a movie from the database and all related moviegenrejoins`() {
-        //GIVEN
-        val genres = listOf(Genre(10, "A"), Genre(20, "B"), Genre(30, "C"))
-        val movie = moviesList[0]
-        movie.genres = genres
-        repository.add(movie)
-
-        //WHEN
-        repository.remove(movie)
-
-        //THEN
-        verify(favoriteDaoMock).delete(movie)
-        verify(movieGenreJoinDaoMock).deleteAllGenresForMovie(movie.id)
-    }
 }

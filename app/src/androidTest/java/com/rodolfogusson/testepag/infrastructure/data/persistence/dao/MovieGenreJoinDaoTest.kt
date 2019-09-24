@@ -107,10 +107,9 @@ class MovieGenreJoinDaoTest {
     }
 
     @Test
-    fun daoShouldDeleteAllForMovieCorrectly() {
+    fun whenMovieIsDeleted_AssociatedMovieGenreJoinsAreDeletedOnCascade() {
         //GIVEN
         genreDao.insertAll(genres)
-
         val genresForMovie1 = listOf(genres[2], genres[3])
         val movie1 = moviesList[0].apply { genres = genresForMovie1 }
         favoriteDao.insert(movie1)
@@ -118,25 +117,17 @@ class MovieGenreJoinDaoTest {
             movieGenreJoinDao.insert(MovieGenreJoin(movie1.id, genre.id))
         }
 
-        val genresForMovie2 = listOf(genres[0], genres[1], genres[2])
-        val movie2 = moviesList[1].apply { genres = genresForMovie2 }
-        favoriteDao.insert(movie2)
-        for (genre in movie2.genres!!) {
-            movieGenreJoinDao.insert(MovieGenreJoin(movie2.id, genre.id))
-        }
+        val genresLiveData = movieGenreJoinDao.getGenresForMovie(movie1.id)
+        genresLiveData.observeForever {  }
+
+        val genresBeforeDeletion = genresLiveData.value
+        assertEquals(genresForMovie1, genresBeforeDeletion)
 
         //WHEN
-        movieGenreJoinDao.deleteAllGenresForMovie(movie1.id)
+        favoriteDao.delete(movie1)
 
         //THEN
-        val genres1LiveData = movieGenreJoinDao.getGenresForMovie(movie1.id)
-        genres1LiveData.observeForever {  }
-        val genres1 = genres1LiveData.value
-        assertEquals(emptyList<Genre>(), genres1)
-
-        val genres2LiveData = movieGenreJoinDao.getGenresForMovie(movie2.id)
-        genres2LiveData.observeForever {  }
-        val genres2 = genres2LiveData.value
-        assertEquals(genresForMovie2, genres2)
+        val genresAfterDeletion = genresLiveData.value
+        assertEquals(emptyList<Genre>(), genresAfterDeletion)
     }
 }

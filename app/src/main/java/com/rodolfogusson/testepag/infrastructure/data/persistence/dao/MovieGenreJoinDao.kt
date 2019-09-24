@@ -18,7 +18,4 @@ interface MovieGenreJoinDao {
         WHERE MovieGenreJoin.movieId=:movieId
     """)
     fun getGenresForMovie(movieId: Int): LiveData<List<Genre>>
-
-    @Query("DELETE FROM MovieGenreJoin WHERE MovieGenreJoin.movieId=:movieId")
-    fun deleteAllGenresForMovie(movieId: Int)
 }

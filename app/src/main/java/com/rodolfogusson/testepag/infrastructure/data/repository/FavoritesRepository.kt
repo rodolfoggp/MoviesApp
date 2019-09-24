@@ -6,10 +6,7 @@ import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDa
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.model.MovieGenreJoin
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 open class FavoritesRepository private constructor(
     private val favoriteDao: FavoriteDao,
@@ -31,7 +28,6 @@ open class FavoritesRepository private constructor(
 
     fun remove(movie: Movie) = GlobalScope.launch(dispatcher) {
         favoriteDao.delete(movie)
-        movieGenreJoinDao.deleteAllGenresForMovie(movie.id)
     }
 
     companion object {
