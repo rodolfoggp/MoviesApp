@@ -35,8 +35,7 @@ class MoviesListViewModelTest {
             LocalDate.parse("2019-05-12"),
             "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
             6.4,
-            10,
-            listOf()
+            10
         ),
         Movie(
             2,
@@ -45,8 +44,7 @@ class MoviesListViewModelTest {
             LocalDate.parse("2019-08-26"),
             "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
             7.9,
-            17,
-            listOf()
+            17
         ),
         Movie(
             3,
@@ -55,10 +53,13 @@ class MoviesListViewModelTest {
             LocalDate.parse("2019-07-22"),
             "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
             8.0,
-            19,
-            listOf()
+            19
         )
     )
+
+    private fun configureMoviesList() {
+        for (movie in moviesList) movie.genres = listOf()
+    }
 
     private val genresList = listOf(
         Genre(1, "AÇÃO"),
@@ -71,6 +72,8 @@ class MoviesListViewModelTest {
 
     @Before
     fun setup() {
+        configureMoviesList()
+
         //Default repositories' return values:
         genresReturn.value = Resource.success(genresList)
         moviesReturn.value = Resource.success(moviesList)

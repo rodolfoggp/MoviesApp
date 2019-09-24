@@ -8,10 +8,11 @@ import com.rodolfogusson.testepag.infrastructure.service.then
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
 
-open class MoviesRepository(private val service: MoviesService) {
+open class MoviesRepository private constructor(private val service: MoviesService) {
 
     private val movies = mutableListOf<Movie>()
-    private var pages = 1
+    private var totalPages = 1
+    val getTotalPages get() = totalPages
 
     open fun getMovies(genres: List<Genre>, page: Int): LiveData<Resource<List<Movie>>> {
         val liveData = MutableLiveData<Resource<List<Movie>>>()
@@ -21,7 +22,7 @@ open class MoviesRepository(private val service: MoviesService) {
                     Resource.error(it.error, movies)
                 } else {
                     it.data?.let { response ->
-                        pages = response.totalPages
+                        totalPages = response.totalPages
                         val newMovies = response.results.map { e -> e.toMovie(genres) }
                         movies += newMovies
                         Resource.success(movies.toList())
@@ -32,5 +33,17 @@ open class MoviesRepository(private val service: MoviesService) {
         return liveData
     }
 
-    val getTotalPages get() = pages
+    open fun getMovieById(id: Int): LiveData<Movie> =
+        MutableLiveData<Movie>().apply { value = movies.first { movie -> movie.id == id } }
+
+    companion object {
+        // For Singleton instantiation
+        @Volatile
+        private var instance: MoviesRepository? = null
+
+        fun getInstance(service: MoviesService) =
+            instance ?: synchronized(this) {
+                instance ?: MoviesRepository(service).also { instance = it }
+            }
+    }
 }

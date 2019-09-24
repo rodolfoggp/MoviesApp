@@ -2,11 +2,11 @@ package com.rodolfogusson.testepag.view.tabbed
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.rodolfogusson.testepag.R
-import com.rodolfogusson.testepag.view.tabbed.adapter.TabbedPagerAdapter
+import com.rodolfogusson.testepag.view.favorites.FavoritesFragment
+import com.rodolfogusson.testepag.view.movieslist.MoviesListFragment
+import com.rodolfogusson.testepag.view.tabbed.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class TabbedActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class TabbedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupActionBar()
-        setupTabs()
+        setupNavigation()
     }
 
     private fun setupActionBar() {
@@ -22,20 +22,19 @@ class TabbedActivity : AppCompatActivity() {
         actionBar?.elevation = 0.0f
     }
 
-    private fun setupTabs() {
-        viewpager.adapter =
-            TabbedPagerAdapter(
-                supportFragmentManager,
-                this
-            )
-        tabs.setupWithViewPager(viewpager)
-        tabs.getTabAt(0)?.icon = ContextCompat.getDrawable(
-            this,
-            R.drawable.movies
-        )
-        tabs.getTabAt(1)?.icon = ContextCompat.getDrawable(
-            this,
-            R.drawable.favorites
-        )
+    private fun setupNavigation() {
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(MoviesListFragment())
+        adapter.addFragment(FavoritesFragment())
+
+        viewpager.adapter = adapter
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.moviesListFragment -> viewpager.currentItem = 0
+                R.id.favoritesFragment -> viewpager.currentItem = 1
+            }
+            false
+        }
     }
 }

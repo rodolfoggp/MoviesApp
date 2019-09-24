@@ -2,13 +2,11 @@ package com.rodolfogusson.testepag.view.movieslist
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.infrastructure.data.Status
+import com.rodolfogusson.testepag.model.Movie
+import com.rodolfogusson.testepag.view.moviesdetails.MovieDetailsActivity
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
@@ -32,12 +32,14 @@ class MoviesListFragment : Fragment() {
     private val adapter = MoviesListAdapter()
     private lateinit var scrollListener: RecyclerView.OnScrollListener
     private lateinit var dialog: AlertDialog
+    private lateinit var sortingDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory())
+        val context: Context = context ?: return null
+        viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory(context))
             .get(MoviesListViewModel::class.java)
         return inflater.inflate(R.layout.fragment_movies_list, container, false)
     }
@@ -57,26 +59,23 @@ class MoviesListFragment : Fragment() {
 
     private fun setupSortingSelector() {
         val context: Context = this.context ?: return
-        val values = viewModel.orderArray.map { order -> textFor(order, context) }
-        val arrayAdapter =
-            ArrayAdapter(context, R.layout.sorting_selector_item, values)
-        sortingSelector.adapter = arrayAdapter
-        sortingSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                //print("NOTHING")
-            }
+        val values = viewModel.orderArray.map { order -> textFor(order, context) }.toTypedArray()
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.d("POSITION: ", "$position")
-                viewModel.onSortingSelected(position)
-            }
-        }
+        val initialCheckedItem = 0
+        sortingDialog = AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog)
+            .setSingleChoiceItems(values, initialCheckedItem) { dialog, index ->
+                viewModel.onSortingSelected(index)
+                recyclerView.scrollToPosition(0)
+                dialog.dismiss()
+            }.create()
+        sortButton.setOnClickListener { sortingDialog.show() }
     }
 
     private fun setupRecyclerView() {
         layoutManager = LinearLayoutManager(this.activity)
         recyclerView.layoutManager = layoutManager
         setRecyclerViewScrollListener()
+        adapter.clickListener = ::onMovieClicked
         recyclerView.adapter = adapter
     }
 
@@ -146,6 +145,12 @@ class MoviesListFragment : Fragment() {
                 nextPageProgress.visibility = View.GONE
             }
         })
+    }
+
+    private fun onMovieClicked(movie: Movie) {
+        val intent = Intent(activity, MovieDetailsActivity::class.java)
+        intent.putExtra(MovieDetailsActivity.movieIdKey, movie.id)
+        startActivity(intent)
     }
 }
 

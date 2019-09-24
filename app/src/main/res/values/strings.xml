@@ -11,8 +11,12 @@
     <string name="release_date">Data de lançamento: %1$s</string>
     <string name="fetch_movies_error">Não foi possível buscar novos filmes.</string>
 
+    <string name="sort">ORDENAR</string>
     <string name="ascending_order">Mais antigos</string>
     <string name="descending_order">Mais recentes</string>
     <string name="unsorted">Não ordenar</string>
-    <string name="sort_by">Ordenar por:</string>
+
+    <string name="release_date_details">Lançamento: %1$s</string>
+    <string name="add_to_favorite">FAVORITAR</string>
+    <string name="is_favorite">FAVORITO</string>
 </resources>
