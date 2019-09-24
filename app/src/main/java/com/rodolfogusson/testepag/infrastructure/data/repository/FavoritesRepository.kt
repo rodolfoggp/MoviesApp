@@ -6,13 +6,16 @@ import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDa
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.model.MovieGenreJoin
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 open class FavoritesRepository private constructor(
     private val favoriteDao: FavoriteDao,
-    private val movieGenreJoinDao: MovieGenreJoinDao
-    ) {
+    private val movieGenreJoinDao: MovieGenreJoinDao,
+    private val dispatcher: CoroutineDispatcher
+) {
 
     fun getFavorites() = favoriteDao.getAllFavorites()
 
@@ -21,12 +24,12 @@ open class FavoritesRepository private constructor(
             it != null
         }
 
-    fun add(movie: Movie) = GlobalScope.launch {
+    fun add(movie: Movie) = GlobalScope.launch(dispatcher) {
         favoriteDao.insert(movie)
         movie.genres?.forEach { movieGenreJoinDao.insert(MovieGenreJoin(movie.id, it.id)) }
     }
 
-    fun remove(movie: Movie) = GlobalScope.launch {
+    fun remove(movie: Movie) = GlobalScope.launch(dispatcher) {
         favoriteDao.delete(movie)
         movieGenreJoinDao.deleteAllGenresForMovie(movie.id)
     }
@@ -36,9 +39,15 @@ open class FavoritesRepository private constructor(
         @Volatile
         private var instance: FavoritesRepository? = null
 
-        fun getInstance(favoriteDao: FavoriteDao, movieGenreJoinDao: MovieGenreJoinDao) =
+        fun getInstance(
+            favoriteDao: FavoriteDao,
+            movieGenreJoinDao: MovieGenreJoinDao,
+            dispatcher: CoroutineDispatcher = Dispatchers.IO
+        ) =
             instance ?: synchronized(this) {
-                instance ?: FavoritesRepository(favoriteDao, movieGenreJoinDao).also { instance = it }
+                instance ?: FavoritesRepository(favoriteDao, movieGenreJoinDao, dispatcher).also {
+                    instance = it
+                }
             }
     }
 }

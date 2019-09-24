@@ -12,7 +12,7 @@ import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenre
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.model.MovieGenreJoin
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -75,7 +75,11 @@ class FavoritesRepositoryTest {
     @Before
     fun setup() {
         configureMoviesList()
-        repository = FavoritesRepository.getInstance(favoriteDaoMock, movieGenreJoinDaoMock)
+        repository = FavoritesRepository.getInstance(
+            favoriteDaoMock,
+            movieGenreJoinDaoMock,
+            Dispatchers.Unconfined
+        )
     }
 
     @After
@@ -150,7 +154,7 @@ class FavoritesRepositoryTest {
         movie.genres = genres
 
         //WHEN
-        runBlocking { repository.add(movie) }
+        repository.add(movie)
 
         //THEN
         verify(favoriteDaoMock).insert(movie)
@@ -161,17 +165,17 @@ class FavoritesRepositoryTest {
 
     @Test
     fun `remove should remove a movie from the database and all related moviegenrejoins`() {
-            //GIVEN
-            val genres = listOf(Genre(10, "A"), Genre(20, "B"), Genre(30, "C"))
-            val movie = moviesList[0]
-            movie.genres = genres
-            runBlocking { repository.add(movie) }
+        //GIVEN
+        val genres = listOf(Genre(10, "A"), Genre(20, "B"), Genre(30, "C"))
+        val movie = moviesList[0]
+        movie.genres = genres
+        repository.add(movie)
 
-            //WHEN
-            runBlocking { repository.remove(movie) }
+        //WHEN
+        repository.remove(movie)
 
-            //THEN
-            verify(favoriteDaoMock).delete(movie)
-            verify(movieGenreJoinDaoMock).deleteAllGenresForMovie(movie.id)
-        }
+        //THEN
+        verify(favoriteDaoMock).delete(movie)
+        verify(movieGenreJoinDaoMock).deleteAllGenresForMovie(movie.id)
+    }
 }
