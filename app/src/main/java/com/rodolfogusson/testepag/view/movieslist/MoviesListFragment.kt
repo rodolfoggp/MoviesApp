@@ -38,7 +38,8 @@ class MoviesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory())
+        val context: Context = context ?: return null
+        viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory(context))
             .get(MoviesListViewModel::class.java)
         return inflater.inflate(R.layout.fragment_movies_list, container, false)
     }

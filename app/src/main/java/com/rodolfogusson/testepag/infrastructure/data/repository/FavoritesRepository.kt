@@ -45,9 +45,8 @@ open class FavoritesRepository private constructor(
             dispatcher: CoroutineDispatcher = Dispatchers.IO
         ) =
             instance ?: synchronized(this) {
-                instance ?: FavoritesRepository(favoriteDao, movieGenreJoinDao, dispatcher).also {
-                    instance = it
-                }
+                instance ?: FavoritesRepository(favoriteDao, movieGenreJoinDao, dispatcher)
+                    .also { instance = it }
             }
     }
 }
