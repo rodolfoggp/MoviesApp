@@ -51,7 +51,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `when viewModel inits, it should getMovieById`() {
         //WHEN
-        //viewModel inits
+        //favoritesViewModel inits
 
         //THEN
         verify(moviesRepositoryMock).getMovieById(id)
@@ -60,7 +60,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `when viewModel inits, it should get isFavorite`() {
         //WHEN
-        //viewModel inits
+        //favoritesViewModel inits
 
         //THEN
         verify(favoritesRepositoryMock).isFavorite(id)
@@ -69,7 +69,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `onFavoriteButtonClicked, if movie is not favorite, it should be added to favorites list`() {
         //GIVEN
-        //viewModel inits
+        //favoritesViewModel inits
         var isFavorite = viewModel.isFavorite
             .test()
             .value()
@@ -91,7 +91,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `onFavoriteButtonClicked, if movie isFavorite, it should be removed from favorites list`() {
         //GIVEN
-        //viewModel inits
+        //favoritesViewModel inits
         isFavoriteLiveData.value = true
         var isFavorite = viewModel.isFavorite
             .test()
