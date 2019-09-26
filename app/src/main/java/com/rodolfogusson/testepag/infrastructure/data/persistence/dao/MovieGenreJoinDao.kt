@@ -17,5 +17,5 @@ interface MovieGenreJoinDao {
         INNER JOIN MovieGenreJoin ON Genre.id=MovieGenreJoin.genreId 
         WHERE MovieGenreJoin.movieId=:movieId
     """)
-    fun getGenresForMovie(movieId: Int): LiveData<List<Genre>>
+    fun getGenresForMovie(movieId: Int): List<Genre>
 }

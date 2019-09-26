@@ -3,10 +3,7 @@ package com.rodolfogusson.testepag.infrastructure.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.jraska.livedata.test
-import com.nhaarman.mockitokotlin2.argThat
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
 import com.rodolfogusson.testepag.model.Genre
@@ -38,8 +35,19 @@ class FavoritesRepositoryTest {
 
     private val movieGenreJoinDaoMock: MovieGenreJoinDao = mock()
 
+    private val genresList = listOf(
+        Genre(1, "A"),
+        Genre(2, "B"),
+        Genre(3, "C"),
+        Genre(4, "D"),
+        Genre(5, "E"),
+        Genre(6, "F")
+    )
+
     private fun configureMoviesList() {
-        for (movie in moviesList) movie.genres = listOf()
+        moviesList[0].genres = listOf(genresList[0], genresList[1])
+        moviesList[1].genres = listOf(genresList[2], genresList[3])
+        moviesList[2].genres = listOf(genresList[4], genresList[5])
     }
 
     private val moviesList = listOf(
@@ -98,9 +106,12 @@ class FavoritesRepositoryTest {
     }
 
     @Test
-    fun `getFavorites should return all the favorites`() {
+    fun `getFavorites should return all the favorites with their genres`() {
         //GIVEN
         favoriteListLiveData.value = moviesList
+        for (movie in moviesList) {
+            whenever(movieGenreJoinDaoMock.getGenresForMovie(movie.id)).thenReturn(movie.genres)
+        }
 
         //WHEN
         val result = repository.getFavorites()

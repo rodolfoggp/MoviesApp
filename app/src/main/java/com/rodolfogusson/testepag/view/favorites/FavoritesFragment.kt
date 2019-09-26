@@ -1,5 +1,6 @@
 package com.rodolfogusson.testepag.view.favorites
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,18 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodolfogusson.testepag.databinding.FragmentFavoritesBinding
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.view.moviesdetails.MovieDetailsActivity
 import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModel
-import com.rodolfogusson.testepag.viewmodel.favorites.adapter.FavoritesAdapter
+import com.rodolfogusson.testepag.view.favorites.adapter.FavoritesAdapter
+import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : Fragment() {
 
-    val vm: FavoritesViewModel by viewModel()
+    private lateinit var viewModel: FavoritesViewModel
     lateinit var binding: FragmentFavoritesBinding
     val adapter = FavoritesAdapter()
 
@@ -27,7 +29,10 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFavoritesBinding.inflate(layoutInflater)
-        binding.viewModel = vm
+        val context: Context = context ?: return null
+        viewModel = ViewModelProviders.of(this, FavoritesViewModelFactory(context))
+            .get(FavoritesViewModel::class.java)
+        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -44,7 +49,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun registerObservers() {
-        vm.favorites.observe(this, Observer {
+        viewModel.favorites.observe(this, Observer {
             adapter.data = it
             adapter.notifyDataSetChanged()
         })

@@ -21,6 +21,7 @@ class FavoriteDaoTest {
     private lateinit var db: ApplicationDatabase
     private lateinit var favoriteDao: FavoriteDao
     private val context = ApplicationProvider.getApplicationContext<Context>()
+
     private val moviesList = listOf(
         Movie(
             1,
@@ -51,8 +52,24 @@ class FavoriteDaoTest {
         )
     )
 
+    /*private val genresList = listOf(
+        Genre(1, "A"),
+        Genre(2, "B"),
+        Genre(3, "C"),
+        Genre(4, "D"),
+        Genre(5, "E"),
+        Genre(6, "F")
+    )
+
+    private fun configureGenresForMovies() {
+        moviesList[0].genres = listOf(genresList[0], genresList[1])
+        moviesList[1].genres = listOf(genresList[2], genresList[3])
+        moviesList[2].genres = listOf(genresList[4], genresList[5])
+    }*/
+
     @Before
     fun setup() {
+        //configureGenresForMovies()
         db = Room.inMemoryDatabaseBuilder(context, ApplicationDatabase::class.java).build()
         favoriteDao = db.favoriteDao()
     }
@@ -64,6 +81,27 @@ class FavoriteDaoTest {
     }
 
     @Test
+    fun daoShouldInsertAndGetFavoriteCorrectly() {
+        //WHEN
+        val movie = moviesList[0]
+        favoriteDao.insert(movie)
+        val favoriteLiveData = favoriteDao.getFavoriteById(movie.id)
+        favoriteLiveData.observeForever {  }
+
+        //THEN
+        val movieFromDb = favoriteLiveData.value
+        assertEquals(movie, movieFromDb)
+
+        /*val favoritesLiveData = favoriteDao.getAllFavorites()
+        favoritesLiveData.observeForever {  }
+        assertEquals(favoritesLiveData.value?.size, 0)
+
+        //WHEN
+        assertEquals(favoritesLiveData.value?.get(0), moviesList[1])*/
+    }
+
+
+/*    @Test
     fun daoShouldInsertAndGetAllCorrectly() {
         //GIVEN
         val favoritesLiveData = favoriteDao.getAllFavorites()
@@ -73,9 +111,9 @@ class FavoriteDaoTest {
         //WHEN
         favoriteDao.insert(moviesList[1])
         assertEquals(favoritesLiveData.value?.get(0), moviesList[1])
-    }
+    }*/
 
-    @Test
+/*    @Test
     fun daoShouldGetFavoriteByIdCorrectly() {
         //GIVEN
         favoriteDao.insert(moviesList[0])
@@ -89,7 +127,7 @@ class FavoriteDaoTest {
         //THEN
         val favorite = favoriteLiveData.value
         assertEquals(moviesList[1], favorite)
-    }
+    }*/
 
     @Test
     fun daoShouldDeleteCorrectly() {

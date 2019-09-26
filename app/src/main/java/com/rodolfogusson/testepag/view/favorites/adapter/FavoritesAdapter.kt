@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.viewmodel.favorites.adapter
+package com.rodolfogusson.testepag.view.favorites.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.rodolfogusson.testepag.databinding.MoviesListItemBinding
 import com.rodolfogusson.testepag.model.Movie
-import com.rodolfogusson.testepag.viewmodel.favorites.adapter.FavoritesAdapter.FavoriteHolder
+import com.rodolfogusson.testepag.view.favorites.adapter.FavoritesAdapter.FavoriteHolder
 
 class FavoritesAdapter(var data: List<Movie> = emptyList()) : Adapter<FavoriteHolder>() {
 

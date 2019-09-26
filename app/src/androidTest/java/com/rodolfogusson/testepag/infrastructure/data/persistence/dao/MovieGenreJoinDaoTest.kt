@@ -97,10 +97,12 @@ class MovieGenreJoinDaoTest {
         }
 
         //AND
-        val genresLiveData = movieGenreJoinDao.getGenresForMovie(movie.id)
+        /*val genresLiveData = movieGenreJoinDao.getGenresForMovie(movie.id)
         genresLiveData.observeForever {  }
 
-        val genres = genresLiveData.value
+        val genres = genresLiveData.value*/
+
+        val genres = movieGenreJoinDao.getGenresForMovie(movie.id)
 
         //THEN
         assertEquals(genresForThisMovie, genres)
@@ -117,17 +119,19 @@ class MovieGenreJoinDaoTest {
             movieGenreJoinDao.insert(MovieGenreJoin(movie1.id, genre.id))
         }
 
-        val genresLiveData = movieGenreJoinDao.getGenresForMovie(movie1.id)
+        /*val genresLiveData = movieGenreJoinDao.getGenresForMovie(movie1.id)
         genresLiveData.observeForever {  }
 
-        val genresBeforeDeletion = genresLiveData.value
+        val genresBeforeDeletion = genresLiveData.value*/
+        val genresBeforeDeletion = movieGenreJoinDao.getGenresForMovie(movie1.id)
         assertEquals(genresForMovie1, genresBeforeDeletion)
 
         //WHEN
         favoriteDao.delete(movie1)
 
         //THEN
-        val genresAfterDeletion = genresLiveData.value
+        //val genresAfterDeletion = genresLiveData.value
+        val genresAfterDeletion = movieGenreJoinDao.getGenresForMovie(movie1.id)
         assertEquals(emptyList<Genre>(), genresAfterDeletion)
     }
 }

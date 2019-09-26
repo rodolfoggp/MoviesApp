@@ -1,6 +1,7 @@
 package com.rodolfogusson.testepag.infrastructure.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDao
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
@@ -14,7 +15,16 @@ open class FavoritesRepository private constructor(
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    fun getFavorites() = favoriteDao.getAllFavorites()
+    fun getFavorites() = Transformations.switchMap(favoriteDao.getAllFavorites()) { moviesList ->
+        val favorites = MutableLiveData<List<Movie>>()
+        GlobalScope.launch(dispatcher) {
+            for (movie in moviesList) {
+                movie.genres = movieGenreJoinDao.getGenresForMovie(movie.id)
+            }
+            favorites.postValue(moviesList)
+        }
+        favorites
+    }
 
     fun isFavorite(id: Int): LiveData<Boolean> =
         Transformations.map(favoriteDao.getFavoriteById(id)) {
