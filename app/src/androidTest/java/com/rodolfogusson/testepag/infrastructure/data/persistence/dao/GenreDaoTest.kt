@@ -5,8 +5,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.rodolfogusson.testepag.TestHelper
 import com.rodolfogusson.testepag.infrastructure.data.persistence.database.ApplicationDatabase
-import com.rodolfogusson.testepag.model.Genre
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -25,13 +25,10 @@ class GenreDaoTest {
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
     private lateinit var genreDao: GenreDao
-    private val genres: List<Genre> = listOf(
-        Genre(1, "Aventura"),
-        Genre(2, "Comédia"),
-        Genre(3, "Ação"),
-        Genre(4, "Drama"),
-        Genre(5, "Suspense")
-    )
+
+    private val testHelper = TestHelper()
+    private val genres = testHelper.genresList
+
     @Before
     fun setup() {
         db = Room.inMemoryDatabaseBuilder(context, ApplicationDatabase::class.java).build()

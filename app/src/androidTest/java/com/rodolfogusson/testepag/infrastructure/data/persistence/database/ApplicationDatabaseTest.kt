@@ -40,6 +40,4 @@ class ApplicationDatabaseTest {
         val db2 = ApplicationDatabase.getInstance(context)
         assertEquals(true, db1 === db2)
     }
-
-
 }
