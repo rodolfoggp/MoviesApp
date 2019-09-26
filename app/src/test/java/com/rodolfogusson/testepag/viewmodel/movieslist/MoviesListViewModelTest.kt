@@ -92,7 +92,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when viewModel inits, it should getGenres`() {
         //WHEN
-        //viewModel inits
+        //vm inits
 
         //THEN
         viewModel.genres
@@ -105,7 +105,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when viewModel inits, it should getMovies`() {
         //WHEN
-        //viewModel inits
+        //vm inits
 
         //THEN
         viewModel.movies
@@ -118,7 +118,7 @@ class MoviesListViewModelTest {
     @Test
     fun `after init, genres and movies should contain correct data`() {
         //WHEN
-        //viewModel inits
+        //vm inits
 
         //THEN
         val genresResource = viewModel.genres
@@ -139,7 +139,7 @@ class MoviesListViewModelTest {
         moviesReturn.value = Resource.error(Throwable())
 
         //WHEN
-        //viewModel getMovies
+        //vm getMovies
 
         //THEN
         val moviesResource = viewModel.movies
@@ -155,7 +155,7 @@ class MoviesListViewModelTest {
         genresReturn.value = Resource.error(Throwable())
 
         //WHEN
-        //viewModel getGenres
+        //vm getGenres
 
         //THEN
         val genresResource = viewModel.genres
@@ -172,7 +172,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when getting genres and movies, progress should be visible`() {
         //WHEN
-        //viewModel getGenres
+        //vm getGenres
 
         //THEN
         var value = viewModel.isProgressVisible
@@ -295,7 +295,7 @@ class MoviesListViewModelTest {
     @Test
     fun `at the start, movies will be unsorted`() {
         //GIVEN
-        //viewModel inits
+        //vm inits
 
         //WHEN
         val movies = viewModel.movies
@@ -310,7 +310,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when sorting order changes, movies are sorted accordingly`() {
         //GIVEN
-        //viewModel inits
+        //vm inits
 
         //WHEN
         val ascendingIndex = viewModel.orderArray.indexOf(SortingOrder.ASCENDING)

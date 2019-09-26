@@ -52,7 +52,7 @@ class MovieDetailsActivityTest {
     }
 
 /*    @Test
-    fun `id passed to viewModel should be correct`() {
+    fun `id passed to vm should be correct`() {
         verify(viewModelMock).id = id
     }*/
 
