@@ -22,7 +22,7 @@ import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 import org.threeten.bp.LocalDate
 
-@RunWith(RobolectricTestRunner::class)
+//@RunWith(RobolectricTestRunner::class)
 class FavoritesFragmentTest: AutoCloseKoinTest() {
 
     private lateinit var scenario: FragmentScenario<FavoritesFragment>

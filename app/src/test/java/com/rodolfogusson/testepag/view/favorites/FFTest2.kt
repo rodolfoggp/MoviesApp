@@ -66,8 +66,7 @@ class FFTest2 : AutoCloseKoinTest() {
                 viewModel
             }
         })
-        /*
-        val testModule = module {
+        /*val testModule = module {
             viewModel {
                 viewModel
             }
