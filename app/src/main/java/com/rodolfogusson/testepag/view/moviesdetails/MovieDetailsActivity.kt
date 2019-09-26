@@ -35,10 +35,6 @@ class MovieDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         favoriteButton.setOnClickListener { viewModel.onFavoriteButtonClicked() }
-        /*favoriteButton.setOnClickListener {
-            favoriteMark.setImageDrawable(UIUtil.coloredDrawable(this, R.drawable.favorites, R.color.colorAccent))
-            favoriteText.text = "FAVORITO"
-        }*/
     }
 
     private fun observeMovie() {

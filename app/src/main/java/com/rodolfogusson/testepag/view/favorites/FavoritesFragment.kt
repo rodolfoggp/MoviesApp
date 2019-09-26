@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.fragment_favorites.*
 class FavoritesFragment : Fragment() {
 
     private lateinit var viewModel: FavoritesViewModel
-    lateinit var binding: FragmentFavoritesBinding
-    val adapter = FavoritesAdapter()
+    private lateinit var binding: FragmentFavoritesBinding
+    private val adapter = FavoritesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

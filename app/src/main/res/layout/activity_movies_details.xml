@@ -32,7 +32,7 @@
                 android:fontFamily="sans-serif-light"
                 android:maxLines="3"
                 android:text="@{viewModel.movie.title}"
-                android:textColor="@android:color/white"
+                android:textColor="@color/textColor"
                 android:textSize="@dimen/titleSize" />
 
             <TextView
@@ -103,8 +103,7 @@
                         style="@style/TextAppearance.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="FAVORITAR"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@color/textColor" />
 
                 </LinearLayout>
 
@@ -131,7 +130,7 @@
                         style="@style/TextAppearance.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/textColor"
                         android:text="@{UIUtil.voteAverageString(viewModel.movie.voteAverage)}" />
 
                     <TextView

@@ -31,7 +31,7 @@ interface MoviesService {
 
     companion object {
         val apiKey = "1f54bd990f1cdfb230adb312546d765d"
-        var baseUrl = BaseURL.MOVIES.url
+        private var baseUrl = BaseURL.MOVIES.url
 
         fun create(): MoviesService {
             val gson = GsonBuilder().apply {
