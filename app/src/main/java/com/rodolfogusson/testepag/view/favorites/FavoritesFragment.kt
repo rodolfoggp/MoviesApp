@@ -16,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : Fragment() {
 
-    val favoritesViewModel: FavoritesViewModel by viewModel()
+    val vm: FavoritesViewModel by viewModel()
     lateinit var binding: FragmentFavoritesBinding
     val adapter = FavoritesAdapter()
 
@@ -24,9 +24,8 @@ class FavoritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*favoritesViewModel = ViewModelProviders.of(this).get(FavoritesViewModel::class.java)*/
         binding = FragmentFavoritesBinding.inflate(layoutInflater)
-        binding.viewModel = favoritesViewModel
+        binding.viewModel = vm
         return binding.root
     }
 
@@ -43,7 +42,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun registerObservers() {
-        favoritesViewModel.favorites.observe(this, Observer {
+        vm.favorites.observe(this, Observer {
 
         })
     }

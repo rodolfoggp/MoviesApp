@@ -6,24 +6,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nhaarman.mockitokotlin2.*
-import com.rodolfogusson.testepag.infrastructure.application.favoritesModule
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModel
 import junit.framework.TestCase.assertEquals
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
-import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
-import org.koin.test.KoinTest
 import org.koin.test.inject
-import org.koin.test.mock.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.threeten.bp.LocalDate
 
@@ -92,7 +87,7 @@ class FavoritesFragmentTest: AutoCloseKoinTest() {
 
         //THEN
         scenario.onFragment {
-            assertNotNull(it.favoritesViewModel)
+            assertNotNull(it.vm)
         }
     }
 
