@@ -27,10 +27,13 @@ class FavoritesRepositoryTest {
     private val favoriteLiveData = MutableLiveData<Movie>()
     private val favoriteListLiveData = MutableLiveData<List<Movie>>()
     private val testHelper = TestHelper()
+
     private val moviesList = testHelper.moviesList
+    private val movie = moviesList[0]
+    private val id = movie.id
 
     private val favoriteDaoMock: FavoriteDao = mock {
-        on { getFavoriteById(anyInt()) } doReturn favoriteLiveData
+        on { getFavoriteById(id) } doReturn favoriteLiveData
         on { getAllFavorites() } doReturn favoriteListLiveData
     }
 
@@ -82,9 +85,26 @@ class FavoritesRepositoryTest {
     }
 
     @Test
+    fun `getFavoriteById should get the correct favorite`() {
+        //GIVEN
+        favoriteLiveData.value = movie
+
+        //WHEN
+        val liveData = repository.getFavoriteById(id)
+
+        //THEN
+        verify(favoriteDaoMock).getFavoriteById(id)
+        val favorite = liveData
+            .test()
+            .awaitValue()
+            .value()
+        assertEquals(movie, favorite)
+    }
+
+
+    @Test
     fun `isFavorite should getFavoriteById and return true if it exists`() {
         //GIVEN
-        val movie = moviesList[0]
         favoriteLiveData.value = movie
 
         //WHEN
@@ -101,7 +121,6 @@ class FavoritesRepositoryTest {
     @Test
     fun `isFavorite should getFavoriteById and return false if it doesn't exist`() {
         //GIVEN
-        val id = moviesList[0].id
         favoriteLiveData.value = null
 
         //WHEN
@@ -118,7 +137,6 @@ class FavoritesRepositoryTest {
     @Test
     fun `add should save a movie to the database and save all related moviegenrejoins`() {
         //GIVEN
-        val movie = moviesList[0]
         val genres = movie.genres ?: emptyList()
         assert(genres.isNotEmpty())
 

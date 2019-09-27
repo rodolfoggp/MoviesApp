@@ -1,9 +1,12 @@
-package com.rodolfogusson.testepag.viewmodel.moviesdetails
+package com.rodolfogusson.testepag.viewmodel.details.moviedetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.jraska.livedata.test
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.rodolfogusson.testepag.TestHelper
 import com.rodolfogusson.testepag.infrastructure.data.repository.FavoritesRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Movie
@@ -20,16 +23,9 @@ class MovieDetailsViewModelTest {
 
     private lateinit var viewModel: MovieDetailsViewModel
 
-    private val id = 3
-    private val movie = Movie(
-        1,
-        "Filme 1",
-        "Descrição 1",
-        LocalDate.parse("2019-05-12"),
-        "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
-        6.4,
-        10
-    )
+    private val testHelper = TestHelper()
+    private val movie = testHelper.moviesList[0]
+    private val id = movie.id
 
     private val movieLiveData = MutableLiveData<Movie>()
     private val isFavoriteLiveData = MutableLiveData<Boolean>()
@@ -45,22 +41,33 @@ class MovieDetailsViewModelTest {
     fun setup() {
         isFavoriteLiveData.value = false
         movieLiveData.value = movie
-        viewModel = MovieDetailsViewModel(id, moviesRepositoryMock, favoritesRepositoryMock)
+        viewModel = MovieDetailsViewModel(
+            id,
+            moviesRepositoryMock,
+            favoritesRepositoryMock
+        )
     }
 
     @Test
-    fun `when viewModel inits, it should getMovieById`() {
+    fun `when viewModel inits, it should getMovieById and expose it`() {
         //WHEN
         //vm inits
 
         //THEN
         verify(moviesRepositoryMock).getMovieById(id)
+
+        //AND
+        val fetchedMovie = viewModel.movie
+            .test()
+            .awaitValue()
+            .value()
+        assertEquals(movie, fetchedMovie)
     }
 
     @Test
     fun `when viewModel inits, it should get isFavorite`() {
         //WHEN
-        //vm inits
+        //viewModel inits
 
         //THEN
         verify(favoritesRepositoryMock).isFavorite(id)
@@ -69,7 +76,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `onFavoriteButtonClicked, if movie is not favorite, it should be added to favorites list`() {
         //GIVEN
-        //vm inits
+        //viewModel inits
         var isFavorite = viewModel.isFavorite
             .test()
             .value()
@@ -91,7 +98,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `onFavoriteButtonClicked, if movie isFavorite, it should be removed from favorites list`() {
         //GIVEN
-        //vm inits
+        //viewModel inits
         isFavoriteLiveData.value = true
         var isFavorite = viewModel.isFavorite
             .test()

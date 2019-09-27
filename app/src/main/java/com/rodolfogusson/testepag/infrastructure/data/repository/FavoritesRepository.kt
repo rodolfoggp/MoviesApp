@@ -7,7 +7,10 @@ import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.FavoriteDa
 import com.rodolfogusson.testepag.infrastructure.data.persistence.dao.MovieGenreJoinDao
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.model.MovieGenreJoin
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 open class FavoritesRepository private constructor(
     private val favoriteDao: FavoriteDao,
@@ -26,8 +29,10 @@ open class FavoritesRepository private constructor(
         favorites
     }
 
+    fun getFavoriteById(id: Int): LiveData<Movie> = favoriteDao.getFavoriteById(id)
+
     fun isFavorite(id: Int): LiveData<Boolean> =
-        Transformations.map(favoriteDao.getFavoriteById(id)) {
+        Transformations.map(getFavoriteById(id)) {
             it != null
         }
 

@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.viewmodel.moviesdetails
+package com.rodolfogusson.testepag.viewmodel.details
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -7,8 +7,10 @@ import com.rodolfogusson.testepag.infrastructure.data.persistence.database.Appli
 import com.rodolfogusson.testepag.infrastructure.data.repository.FavoritesRepository
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.infrastructure.service.MoviesService
+import com.rodolfogusson.testepag.viewmodel.details.favoritedetails.FavoriteDetailsViewModel
+import com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel
 
-class MovieDetailsViewModelFactory(val context: Context, val id: Int) : ViewModelProvider.Factory {
+class DetailsViewModelFactory(val context: Context, val id: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val service = MoviesService.create()
         val moviesRepository = MoviesRepository.getInstance(service)
@@ -18,6 +20,18 @@ class MovieDetailsViewModelFactory(val context: Context, val id: Int) : ViewMode
         val movieGenreJoinDao = database.movieGenreJoinDao()
 
         val favoritesRepository = FavoritesRepository.getInstance(favoriteDao, movieGenreJoinDao)
-        return MovieDetailsViewModel(id, moviesRepository, favoritesRepository) as T
+
+        return when (modelClass) {
+            MovieDetailsViewModel::class.java -> MovieDetailsViewModel(
+                id,
+                moviesRepository,
+                favoritesRepository
+            ) as T
+            FavoriteDetailsViewModel::class.java -> FavoriteDetailsViewModel(
+                id,
+                favoritesRepository
+            ) as T
+            else -> throw Exception()
+        }
     }
 }

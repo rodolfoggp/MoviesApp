@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.databinding.ActivityMoviesDetailsBinding
 import com.rodolfogusson.testepag.infrastructure.ui.UIUtil
-import com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModel
-import com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModelFactory
+import com.rodolfogusson.testepag.viewmodel.details.DetailsViewModelFactory
+import com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel
 import kotlinx.android.synthetic.main.activity_movies_details.*
 
 class MovieDetailsActivity : AppCompatActivity() {
@@ -26,7 +26,9 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         val id = intent.getIntExtra(movieIdKey, 0)
 
-        viewModel = ViewModelProviders.of(this, MovieDetailsViewModelFactory(this, id))
+        viewModel = ViewModelProviders.of(this,
+            DetailsViewModelFactory(this, id)
+        )
             .get(MovieDetailsViewModel::class.java)
         binding.viewModel = viewModel
 

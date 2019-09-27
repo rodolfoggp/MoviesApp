@@ -31,10 +31,11 @@ interface MoviesService {
     ): Call<GenresResponse>
 
     companion object {
-        val apiKey = String(Base64.decode(Store().getApiKey(), Base64.DEFAULT))
+        var apiKey: String = ""
         private var baseUrl = BaseURL.MOVIES.url
 
         fun create(): MoviesService {
+            apiKey = String(Base64.decode(Store().getApiKey(), Base64.DEFAULT))
             val gson = GsonBuilder().apply {
                 registerTypeAdapter(
                     LocalDate::class.java,

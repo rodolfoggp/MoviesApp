@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModel" />
+            type="com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel" />
 
         <import type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil" />
 

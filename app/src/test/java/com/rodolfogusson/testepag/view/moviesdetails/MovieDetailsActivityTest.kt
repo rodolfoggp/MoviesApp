@@ -1,7 +1,7 @@
 package com.rodolfogusson.testepag.view.moviesdetails
 
 import com.nhaarman.mockitokotlin2.mock
-import com.rodolfogusson.testepag.viewmodel.moviesdetails.MovieDetailsViewModel
+import com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
