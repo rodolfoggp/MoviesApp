@@ -1,6 +1,5 @@
 package com.rodolfogusson.testepag.infrastructure.data.persistence.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE

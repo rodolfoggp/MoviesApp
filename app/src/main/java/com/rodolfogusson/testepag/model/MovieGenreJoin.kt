@@ -1,10 +1,11 @@
 package com.rodolfogusson.testepag.model
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 
 /**
- * Class that represents a many-to-many relation
+ * Class that represents a many-to-many relationship
  * between Movie and Genre in the database.
  */
 @Entity(

@@ -5,6 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.rodolfogusson.testepag.infrastructure.data.repository.FavoritesRepository
 import com.rodolfogusson.testepag.model.Movie
 
-class FavoritesViewModel(private val favoritesRepository: FavoritesRepository) : ViewModel() {
+class FavoritesViewModel(favoritesRepository: FavoritesRepository) : ViewModel() {
     val favorites: LiveData<List<Movie>> = favoritesRepository.getFavorites()
 }

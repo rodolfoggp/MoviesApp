@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import org.threeten.bp.LocalDate
-import java.util.*
 
 @Entity
 data class Movie(

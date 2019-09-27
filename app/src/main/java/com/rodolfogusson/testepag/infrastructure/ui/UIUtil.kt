@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.model.Genre
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter

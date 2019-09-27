@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.testepag.TestHelper
 import com.rodolfogusson.testepag.infrastructure.data.Resource
 import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepository
@@ -16,7 +17,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyList
-import org.threeten.bp.LocalDate
 
 class MoviesListViewModelTest {
     private lateinit var viewModel: MoviesListViewModel
@@ -27,52 +27,15 @@ class MoviesListViewModelTest {
     private val moviesReturn = MutableLiveData<Resource<List<Movie>>>()
     private val genresReturn = MutableLiveData<Resource<List<Genre>>>()
 
-    private val moviesList = listOf(
-        Movie(
-            1,
-            "Filme 1",
-            "Descrição 1",
-            LocalDate.parse("2019-05-12"),
-            "/wF6SNPcUrTKFA4fOFfukm7zQ3ob.jpg",
-            6.4,
-            10
-        ),
-        Movie(
-            2,
-            "Filme 2",
-            "Descrição 2",
-            LocalDate.parse("2019-08-26"),
-            "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
-            7.9,
-            17
-        ),
-        Movie(
-            3,
-            "Filme 3",
-            "Descrição 2",
-            LocalDate.parse("2019-07-22"),
-            "/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
-            8.0,
-            19
-        )
-    )
-
-    private fun configureMoviesList() {
-        for (movie in moviesList) movie.genres = listOf()
-    }
-
-    private val genresList = listOf(
-        Genre(1, "AÇÃO"),
-        Genre(2, "AVENTURA"),
-        Genre(3, "DRAMA")
-    )
+    private val testHelper = TestHelper()
+    private val moviesList = testHelper.moviesList
+    private val genresList = testHelper.genresList
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
-        configureMoviesList()
 
         //Default repositories' return values:
         genresReturn.value = Resource.success(genresList)
@@ -92,7 +55,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when viewModel inits, it should getGenres`() {
         //WHEN
-        //vm inits
+        //viewModel inits
 
         //THEN
         viewModel.genres
@@ -105,7 +68,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when viewModel inits, it should getMovies`() {
         //WHEN
-        //vm inits
+        //viewModel inits
 
         //THEN
         viewModel.movies
@@ -118,7 +81,7 @@ class MoviesListViewModelTest {
     @Test
     fun `after init, genres and movies should contain correct data`() {
         //WHEN
-        //vm inits
+        //viewModel inits
 
         //THEN
         val genresResource = viewModel.genres
@@ -139,7 +102,7 @@ class MoviesListViewModelTest {
         moviesReturn.value = Resource.error(Throwable())
 
         //WHEN
-        //vm getMovies
+        //viewModel getMovies
 
         //THEN
         val moviesResource = viewModel.movies
@@ -155,7 +118,7 @@ class MoviesListViewModelTest {
         genresReturn.value = Resource.error(Throwable())
 
         //WHEN
-        //vm getGenres
+        //viewModel getGenres
 
         //THEN
         val genresResource = viewModel.genres
@@ -172,7 +135,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when getting genres and movies, progress should be visible`() {
         //WHEN
-        //vm getGenres
+        //viewModel getGenres
 
         //THEN
         var value = viewModel.isProgressVisible
@@ -295,7 +258,7 @@ class MoviesListViewModelTest {
     @Test
     fun `at the start, movies will be unsorted`() {
         //GIVEN
-        //vm inits
+        //viewModel inits
 
         //WHEN
         val movies = viewModel.movies
@@ -310,7 +273,7 @@ class MoviesListViewModelTest {
     @Test
     fun `when sorting order changes, movies are sorted accordingly`() {
         //GIVEN
-        //vm inits
+        //viewModel inits
 
         //WHEN
         val ascendingIndex = viewModel.orderArray.indexOf(SortingOrder.ASCENDING)
