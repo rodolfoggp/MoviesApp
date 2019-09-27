@@ -51,6 +51,11 @@ android {
             java.srcDirs += "src/sharedTest/java"
         }
     }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
 }
 
 dependencies {

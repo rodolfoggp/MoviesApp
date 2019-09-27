@@ -1,17 +1,18 @@
 package com.rodolfogusson.testepag.infrastructure.service
 
+import android.util.Base64
 import com.google.gson.GsonBuilder
 import com.rodolfogusson.testepag.infrastructure.service.deserializer.LocalDateDeserializer
 import com.rodolfogusson.testepag.infrastructure.service.dto.GenresResponse
 import com.rodolfogusson.testepag.infrastructure.service.dto.MoviesResponse
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.threeten.bp.LocalDate
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 
 
 interface MoviesService {
@@ -30,7 +31,7 @@ interface MoviesService {
     ): Call<GenresResponse>
 
     companion object {
-        val apiKey = "1f54bd990f1cdfb230adb312546d765d"
+        val apiKey = String(Base64.decode(Store().getApiKey(), Base64.DEFAULT))
         private var baseUrl = BaseURL.MOVIES.url
 
         fun create(): MoviesService {
