@@ -10,5 +10,7 @@
 
     <dimen name="subActionBarHeight">50dp</dimen>
 
+    <dimen name="empty_favorites_image_size">60dp</dimen>
+
     <dimen name="titleSize">30sp</dimen>
 </resources>

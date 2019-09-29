@@ -10,6 +10,7 @@
             type="com.rodolfogusson.testepag.viewmodel.details.DetailsViewModel" />
 
         <import type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil" />
+        <import type="android.view.View" />
 
     </data>
 

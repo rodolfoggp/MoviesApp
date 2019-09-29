@@ -51,6 +51,9 @@ class FavoritesFragment : Fragment() {
 
     private fun registerObservers() {
         viewModel.favorites.observe(this, Observer {
+            emptyView.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            recyclerView.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
+
             adapter.data = it
             adapter.notifyDataSetChanged()
         })
