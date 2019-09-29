@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel" />
+            type="com.rodolfogusson.testepag.viewmodel.details.DetailsViewModel" />
 
         <import type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil" />
 
@@ -23,7 +23,7 @@
             android:layout_marginLeft="@dimen/singleSpace"
             android:layout_marginRight="@dimen/singleSpace"
             android:orientation="vertical"
-            tools:context=".view.moviesdetails.MovieDetailsActivity">
+            tools:context=".view.details.MovieDetailsActivity">
 
             <TextView
                 android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="3"
-                android:text="@{viewModel.movie.title}"
+                android:text='@{viewModel.movie.title ?? ""}'
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/titleSize" />
 
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/halfSpace"
-                android:text="@{UIUtil.genresNames(viewModel.movie.genres)}"
+                android:text='@{viewModel.movie.genres != null ? UIUtil.genresNames(viewModel.movie.genres) : ""}'
                 android:textColor="@color/lightGrey" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/halfSpace"
                 android:layout_marginBottom="@dimen/singleSpace"
-                android:text="@{String.format(@string/release_date_details, UIUtil.fullDateText(viewModel.movie.releaseDate))}"
+                android:text='@{viewModel.movie.releaseDate != null ? String.format(@string/release_date_details, UIUtil.fullDateText(viewModel.movie.releaseDate)) : ""}'
                 android:textColor="@color/lightGrey" />
 
             <View
@@ -60,7 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/singleSpace"
-                android:text="@{viewModel.movie.overview}" />
+                android:text='@{viewModel.movie.overview ?? ""}'
+                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -73,7 +74,7 @@
                     android:layout_width="@dimen/imageWidth"
                     android:layout_height="@dimen/imageHeight"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{viewModel.movie.imageUrl}"
+                    app:imageUrl='@{viewModel.movie.imageUrl}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -130,14 +131,14 @@
                         style="@style/TextAppearance.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textColor"
-                        android:text="@{UIUtil.voteAverageString(viewModel.movie.voteAverage)}" />
+                        android:text='@{viewModel.movie != null ? UIUtil.voteAverageString(viewModel.movie.voteAverage) : ""}'
+                        android:textColor="@color/textColor" />
 
                     <TextView
                         android:id="@+id/vote_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{UIUtil.voteCountString(viewModel.movie.voteCount)}"
+                        android:text='@{viewModel.movie != null ? UIUtil.voteCountString(viewModel.movie.voteCount) : ""}'
                         android:textColor="@color/lightGrey"
                         android:textSize="12sp" />
 

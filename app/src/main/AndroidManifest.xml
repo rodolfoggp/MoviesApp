@@ -18,7 +18,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".view.moviesdetails.MovieDetailsActivity" />
+        <activity android:name=".view.details.MovieDetailsActivity" />
+        <activity android:name=".view.details.FavoriteDetailsActivity" />
+        <activity android:name=".view.details.DetailsActivity" />
 
         <activity android:name=".view.tabbed.TabbedActivity">
 

@@ -12,9 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodolfogusson.testepag.databinding.FragmentFavoritesBinding
 import com.rodolfogusson.testepag.model.Movie
-import com.rodolfogusson.testepag.view.moviesdetails.MovieDetailsActivity
 import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModel
 import com.rodolfogusson.testepag.view.favorites.adapter.FavoritesAdapter
+import com.rodolfogusson.testepag.view.details.DetailsActivity
+import com.rodolfogusson.testepag.view.details.FavoriteDetailsActivity
 import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorites.*
 
@@ -56,8 +57,8 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun onMovieClicked(movie: Movie) {
-        val intent = Intent(activity, MovieDetailsActivity::class.java)
-        intent.putExtra(MovieDetailsActivity.movieIdKey, movie.id)
+        val intent = Intent(activity, FavoriteDetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.movieIdKey, movie.id)
         startActivity(intent)
     }
 }

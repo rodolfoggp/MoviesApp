@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rodolfogusson.testepag.R
 import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.model.Movie
-import com.rodolfogusson.testepag.view.moviesdetails.MovieDetailsActivity
+import com.rodolfogusson.testepag.view.details.DetailsActivity
+import com.rodolfogusson.testepag.view.details.MovieDetailsActivity
 import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
 import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
@@ -149,7 +150,7 @@ class MoviesListFragment : Fragment() {
 
     private fun onMovieClicked(movie: Movie) {
         val intent = Intent(activity, MovieDetailsActivity::class.java)
-        intent.putExtra(MovieDetailsActivity.movieIdKey, movie.id)
+        intent.putExtra(DetailsActivity.movieIdKey, movie.id)
         startActivity(intent)
     }
 }

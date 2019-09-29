@@ -1,35 +1,31 @@
-package com.rodolfogusson.testepag.view.moviesdetails
+package com.rodolfogusson.testepag.view.details
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.rodolfogusson.testepag.R
-import com.rodolfogusson.testepag.databinding.ActivityMoviesDetailsBinding
+import com.rodolfogusson.testepag.databinding.ActivityDetailsBinding
 import com.rodolfogusson.testepag.infrastructure.ui.UIUtil
-import com.rodolfogusson.testepag.viewmodel.details.DetailsViewModelFactory
-import com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel
-import kotlinx.android.synthetic.main.activity_movies_details.*
+import com.rodolfogusson.testepag.viewmodel.details.DetailsViewModel
+import kotlinx.android.synthetic.main.activity_details.*
 
-class MovieDetailsActivity : AppCompatActivity() {
+abstract class DetailsActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMoviesDetailsBinding
-    lateinit var viewModel: MovieDetailsViewModel
+    lateinit var binding: ActivityDetailsBinding
+    lateinit var viewModel: DetailsViewModel
+
+    abstract fun getViewModel(id: Int): DetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_movies_details)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_details)
+        binding.lifecycleOwner = this
 
         val id = intent.getIntExtra(movieIdKey, 0)
-
-        viewModel = ViewModelProviders.of(this,
-            DetailsViewModelFactory(this, id)
-        )
-            .get(MovieDetailsViewModel::class.java)
+        viewModel = getViewModel(id)
         binding.viewModel = viewModel
 
         observeMovie()
@@ -40,9 +36,6 @@ class MovieDetailsActivity : AppCompatActivity() {
     }
 
     private fun observeMovie() {
-        viewModel.movie.observe(this, Observer { movie ->
-            if (movie.overview.isBlank()) overview.visibility = View.GONE
-        })
         viewModel.isFavorite.observe(this, Observer { isFavorite ->
             if (isFavorite) {
                 favoriteIcon.setImageDrawable(

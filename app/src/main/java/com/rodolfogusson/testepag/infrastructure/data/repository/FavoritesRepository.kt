@@ -29,7 +29,7 @@ open class FavoritesRepository private constructor(
         favorites
     }
 
-    fun getFavoriteById(id: Int): LiveData<Movie> = favoriteDao.getFavoriteById(id)
+    open fun getFavoriteById(id: Int): LiveData<Movie> = favoriteDao.getFavoriteById(id)
 
     fun isFavorite(id: Int): LiveData<Boolean> =
         Transformations.map(getFavoriteById(id)) {

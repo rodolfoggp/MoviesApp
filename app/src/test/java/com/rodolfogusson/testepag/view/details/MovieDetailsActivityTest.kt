@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.view.moviesdetails
+package com.rodolfogusson.testepag.view.details
 
 import com.nhaarman.mockitokotlin2.mock
 import com.rodolfogusson.testepag.viewmodel.details.moviedetails.MovieDetailsViewModel
