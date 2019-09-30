@@ -33,7 +33,7 @@ open class FavoritesRepository private constructor(
         Transformations.switchMap(favoriteDao.getFavoriteById(id)) {
             val favorite = MutableLiveData<Movie>()
             GlobalScope.launch(dispatcher) {
-                it.genres = movieGenreJoinDao.getGenresForMovie(it.id)
+                it?.genres = movieGenreJoinDao.getGenresForMovie(it.id)
                 favorite.postValue(it)
             }
             favorite
