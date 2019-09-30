@@ -22,6 +22,7 @@ A simple native Android app that can fetch movies from themoviedb.org and save t
 - Network requests to fetch Movies and Genres (with Retrofit)
 - Paginated Movies requests.
 - Sorting of Movies list by release date.
+- Securing of themoviedb.org Api Key, using NDK and C code.
 - Database querying to save and retrieve favorite Movies (with Room)
 - Unit and Instrumented testing with (Mockito and Mockito-Kotlin)
 - Used ThreeTenABP library for LocalDates
