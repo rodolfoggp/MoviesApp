@@ -5,12 +5,15 @@
     <dimen name="doubleSpace">16dp</dimen>
     <dimen name="tripleSpace">24dp</dimen>
     <dimen name="quadSpace">32dp</dimen>
-    <dimen name="imageWidth">103dp</dimen>
-    <dimen name="imageHeight">150dp</dimen>
 
     <dimen name="subActionBarHeight">50dp</dimen>
 
-    <dimen name="empty_favorites_image_size">60dp</dimen>
+    <dimen name="imageWidth">103dp</dimen>
+    <dimen name="imageHeight">150dp</dimen>
+    <dimen name="emptyFavoritesImageSize">60dp</dimen>
+    <dimen name="detailsButtonIconSize">30dp</dimen>
 
-    <dimen name="titleSize">30sp</dimen>
+    <dimen name="titleTextSize">30sp</dimen>
+    <dimen name="mediumTextSize">16sp</dimen>
+    <dimen name="smallTextSize">12sp</dimen>
 </resources>

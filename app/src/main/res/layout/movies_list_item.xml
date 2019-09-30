@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:fontFamily="sans-serif-thin"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/mediumTextSize"
                     android:text="@{movie.title}"/>
 
                 <TextView
