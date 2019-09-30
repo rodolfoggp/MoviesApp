@@ -158,7 +158,7 @@ class MoviesViewModelTest {
     @Test
     fun `onMoviesLoaded, loading should end`() {
         //WHEN
-        viewModel.onMoviesLoaded(Status.SUCCESS)
+        viewModel.onMoviesUpdated(Status.SUCCESS)
 
         //THEN
         val progressVisible = viewModel.isProgressVisible
@@ -182,7 +182,7 @@ class MoviesViewModelTest {
             .awaitValue()
 
         verify(moviesRepositoryMock).getMovies(genresList, 1)
-        viewModel.onMoviesLoaded(Status.SUCCESS)
+        viewModel.onMoviesUpdated(Status.SUCCESS)
 
         //WHEN
         viewModel.loadMoreMovies()
@@ -245,7 +245,7 @@ class MoviesViewModelTest {
         assertEquals(true, hasError)
 
         //WHEN
-        viewModel.onMoviesLoaded(Status.ERROR)
+        viewModel.onMoviesUpdated(Status.ERROR)
         viewModel.retryGetMovies()
         //Retry again before the first retry ends
         viewModel.retryGetMovies()

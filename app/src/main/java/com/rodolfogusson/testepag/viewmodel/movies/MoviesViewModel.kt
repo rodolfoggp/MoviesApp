@@ -1,6 +1,9 @@
 package com.rodolfogusson.testepag.viewmodel.movies
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.rodolfogusson.testepag.infrastructure.data.Resource
 import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.infrastructure.data.combineLatest
@@ -83,9 +86,12 @@ class MoviesViewModel(
         getMoviesEvent.value = Unit
     }
 
-    fun onMoviesLoaded(status: Status) {
-        isLoading.value = false
-        if (status == Status.SUCCESS) pagesDisplayed++
+    fun onMoviesUpdated(status: Status) {
+        if (isLoading.value == true) {
+            // New movies were loaded.
+            isLoading.value = false
+            if (status == Status.SUCCESS) pagesDisplayed++
+        }
     }
 
     fun loadMoreMovies() {

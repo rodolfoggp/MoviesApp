@@ -126,7 +126,7 @@ class MoviesFragment : Fragment() {
                     }
                 }
             }
-            viewModel.onMoviesLoaded(resource.status)
+            viewModel.onMoviesUpdated(resource.status)
         })
     }
 
