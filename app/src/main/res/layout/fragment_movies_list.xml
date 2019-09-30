@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/movies_list_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.main.movies.MoviesFragment">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/subActionBarHeight"
+                android:background="@color/colorPrimaryMedium"
+                android:gravity="end|center_vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sortButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/sort"
+                    android:text="@string/sort"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:drawablePadding="@dimen/singleSpace"
+                    android:textColor="@color/textColor"
+                    />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewFavorites"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <ProgressBar
+                android:id="@+id/nextPageProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginTop="@dimen/tripleSpace"
+                android:layout_marginBottom="@dimen/tripleSpace"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</layout>

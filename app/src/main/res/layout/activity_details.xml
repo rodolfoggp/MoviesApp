@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.rodolfogusson.testepag.viewmodel.details.DetailsViewModel" />
+
+        <import type="com.rodolfogusson.testepag.infrastructure.ui.UIUtil" />
+        <import type="android.view.View" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/singleSpace"
+            android:layout_marginRight="@dimen/singleSpace"
+            android:orientation="vertical"
+            tools:context=".view.details.MovieDetailsActivity">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="3"
+                android:text='@{viewModel.movie.title ?? ""}'
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/titleTextSize" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/halfSpace"
+                android:text='@{viewModel.movie.genres != null ? UIUtil.genresNames(viewModel.movie.genres) : ""}'
+                android:textColor="@color/lightGrey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/halfSpace"
+                android:layout_marginBottom="@dimen/singleSpace"
+                android:text='@{viewModel.movie.releaseDate != null ? String.format(@string/release_date_details, UIUtil.fullDateText(viewModel.movie.releaseDate)) : ""}'
+                android:textColor="@color/lightGrey" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/lightGrey" />
+
+            <TextView
+                android:id="@+id/overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/singleSpace"
+                android:text='@{viewModel.movie.overview ?? ""}'
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/singleSpace"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/detailsImage"
+                    android:layout_width="@dimen/imageWidth"
+                    android:layout_height="@dimen/imageHeight"
+                    android:adjustViewBounds="true"
+                    app:imageUrl='@{viewModel.movie.imageUrl}'
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/favoriteButton"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/doubleSpace"
+                    android:layout_marginRight="@dimen/doubleSpace"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/rating"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/favoriteIcon"
+                        android:layout_width="@dimen/detailsButtonIconSize"
+                        android:layout_height="@dimen/detailsButtonIconSize"
+                        android:src="@drawable/not_favorite" />
+
+                    <TextView
+                        android:id="@+id/favoriteText"
+                        style="@style/TextAppearance.AppCompat.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/doubleSpace"
+                    android:layout_marginLeft="@dimen/doubleSpace"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/detailsImage"
+                    app:layout_constraintTop_toTopOf="@+id/favoriteButton">
+
+                    <ImageView
+                        android:layout_width="@dimen/detailsButtonIconSize"
+                        android:layout_height="@dimen/detailsButtonIconSize"
+                        android:src="@drawable/thumbs_up" />
+
+                    <TextView
+                        android:id="@+id/vote_average"
+                        style="@style/TextAppearance.AppCompat.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{viewModel.movie != null ? UIUtil.voteAverageString(viewModel.movie.voteAverage) : ""}'
+                        android:textColor="@color/textColor" />
+
+                    <TextView
+                        android:id="@+id/vote_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{viewModel.movie != null ? UIUtil.voteCountString(viewModel.movie.voteCount) : ""}'
+                        android:textColor="@color/lightGrey"
+                        android:textSize="@dimen/smallTextSize" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

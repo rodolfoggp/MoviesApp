@@ -1,0 +1,414 @@
+{
+  "results": [
+    {
+      "popularity": 85.835,
+      "id": 521777,
+      "video": false,
+      "vote_count": 168,
+      "vote_average": 6.6,
+      "title": "Good Boys",
+      "release_date": "2019-08-14",
+      "original_language": "en",
+      "original_title": "Good Boys",
+      "genre_ids": [
+        35
+      ],
+      "backdrop_path": "\/6Xsz9KHQmCcIcj3CoWQq5eLtVoT.jpg",
+      "adult": false,
+      "overview": "",
+      "poster_path": "\/jIthqo2tQmW8TFN1fYpF8FmVL0o.jpg"
+    },
+    {
+      "popularity": 73.354,
+      "vote_count": 839,
+      "video": false,
+      "poster_path": "\/foEOVg4HQl2VzKzTh27CAHmXyg.jpg",
+      "id": 466272,
+      "adult": false,
+      "backdrop_path": "\/kKTPv9LKKs5L3oO1y5FNObxAPWI.jpg",
+      "original_language": "en",
+      "original_title": "Once Upon a Time in Hollywood",
+      "genre_ids": [
+        28,
+        35,
+        80,
+        18,
+        37
+      ],
+      "title": "Era Uma Vez em... Hollywood",
+      "vote_average": 7.6,
+      "overview": "Um ator de televisão e seu dublê embarcam em uma odisséia para fazerem seus nomes na indústria cinematográfica durante os assassinatos de Charles Manson em 1969, Los Angeles.",
+      "release_date": "2019-08-15"
+    },
+    {
+      "popularity": 54.511,
+      "vote_count": 123,
+      "video": false,
+      "poster_path": "\/vOl6shtL0wknjaIs6JdKCpcHvg8.jpg",
+      "id": 567609,
+      "adult": false,
+      "backdrop_path": "\/aNrNi5QExO6b8MnEGsfpgp21NIY.jpg",
+      "original_language": "en",
+      "original_title": "Ready or Not",
+      "genre_ids": [
+        35,
+        27,
+        9648,
+        53
+      ],
+      "title": "Ready or Not - O Ritual",
+      "vote_average": 7.2,
+      "overview": "Grace (Samara Weaving) acaba de se casar com o herdeiro milionário de uma família especializada em jogos de tabuleiro. Antes de realmente integrar a família, no entanto, ela é obrigada a participar de uma tradição familiar: um jogo de esconde-esconde pela mansão dos Le Domas. Aos poucos, Grace percebe que a brincadeira inocente é na verdade uma caçada sangrenta contra a recém-casada, em que todas as armas e golpes são permitidos para assassiná-la. A jovem terá a difícil missão de sobreviver aos ataques até o amanhecer.",
+      "release_date": "2019-08-21"
+    },
+    {
+      "popularity": 51.189,
+      "vote_count": 1078,
+      "video": false,
+      "poster_path": "\/cDZuziwzavShfWMkBIPgNVMfDK7.jpg",
+      "id": 456740,
+      "adult": false,
+      "backdrop_path": "\/5BkSkNtfrnTuKOtTaZhl8avn4wU.jpg",
+      "original_language": "en",
+      "original_title": "Hellboy",
+      "genre_ids": [
+        28,
+        12,
+        14,
+        878
+      ],
+      "title": "Hellboy",
+      "vote_average": 5.1,
+      "overview": "Ao chegar à Terra ainda criança, após ser invocado por um feiticeiro contratado pelo governo nazista, Hellboy (David Harbour) foi criado como um filho por Trevor Bruttenholm (Ian McShane), um professor que estava no local no momento em que emergiu do inferno. Já adulto, Hellboy se torna um aliado dos humanos na batalha contra monstros de todo tipo. Quando a poderosa feiticeira Nimue (Milla Jovovich), também conhecida com a Rainha Sangrenta, insinua seu retorno, ele logo é convocado para enfrentá-la.",
+      "release_date": "2019-05-16"
+    },
+    {
+      "popularity": 41.559,
+      "vote_count": 116,
+      "video": false,
+      "poster_path": "\/gHR6tyMsmlguestxaU5PtRd1APD.jpg",
+      "id": 499701,
+      "adult": false,
+      "backdrop_path": "\/61sbyO47yIpsMFyLhY1MWcqjg1Q.jpg",
+      "original_language": "en",
+      "original_title": "Dora and the Lost City of Gold",
+      "genre_ids": [
+        12,
+        35,
+        10751
+      ],
+      "title": "Dora e a Cidade Perdida",
+      "vote_average": 6,
+      "overview": "A aventureira Dora rapidamente se vê liderando o macaco Botas, o primo Diego, um misterioso habitante da selva, seus pais e um grupo de adolescentes em uma aventura para resolver um mistério impossível por trás de uma cidade perdida de ouro",
+      "release_date": "2019-08-08"
+    },
+    {
+      "popularity": 23.133,
+      "id": 517909,
+      "video": false,
+      "vote_count": 10,
+      "vote_average": 5.6,
+      "title": "A Lavanderia",
+      "release_date": "2019-09-05",
+      "original_language": "en",
+      "original_title": "The Laundromat",
+      "genre_ids": [
+        18,
+        80,
+        35
+      ],
+      "backdrop_path": "\/3AfMujd6VmlzKGeGtHekt29LNJR.jpg",
+      "adult": false,
+      "overview": "",
+      "poster_path": "\/38pvoB5JeRPrsK9JRznLgwtSh2X.jpg"
+    },
+    {
+      "popularity": 36.485,
+      "id": 454640,
+      "video": false,
+      "vote_count": 99,
+      "vote_average": 6,
+      "title": "Angry Birds 2: O Filme",
+      "release_date": "2019-10-03",
+      "original_language": "en",
+      "original_title": "The Angry Birds Movie 2",
+      "genre_ids": [
+        16,
+        35,
+        28,
+        12,
+        10751
+      ],
+      "backdrop_path": "\/k7sE3loFwuU2mqf7FbZBeE3rjBa.jpg",
+      "adult": false,
+      "overview": "As novas aventuras dos pássaros mais mal humorados do planeta. Depois de descobrirem os mistérios por trás da chegada dos porcos na ilha em que viviam, Red, Chuck e Bomb se juntam em novas confusões, cada vez mais irritados.",
+      "poster_path": "\/ebe8hJRCwdflNQbUjRrfmqtUiNi.jpg"
+    },
+    {
+      "popularity": 41.67,
+      "vote_count": 15023,
+      "video": false,
+      "poster_path": "\/aWFDGCINBSG0BQHsxQDJtSEDxx7.jpg",
+      "id": 603,
+      "adult": false,
+      "backdrop_path": "\/icmmSD4vTTDKOq2vvdulafOGw93.jpg",
+      "original_language": "en",
+      "original_title": "The Matrix",
+      "genre_ids": [
+        28,
+        878
+      ],
+      "title": "Matrix",
+      "vote_average": 8.1,
+      "overview": "Em um futuro próximo, Thomas Anderson (Keanu Reeves), um jovem programador de computador que mora em um cubículo escuro, é atormentado por estranhos pesadelos nos quais encontra-se conectado por cabos e contra sua vontade, em um imenso sistema de computadores do futuro. Em todas essas ocasiões, acorda gritando no exato momento em que os eletrodos estão para penetrar em seu cérebro. À medida que o sonho se repete, Anderson começa a ter dúvidas sobre a realidade. Por meio do encontro com os misteriosos Morpheus (Laurence Fishburne) e Trinity (Carrie-Anne Moss), Thomas descobre que é, assim como outras pessoas, vítima do Matrix, um sistema inteligente e artificial que manipula a mente das pessoas, criando a ilusão de um mundo real enquanto usa os cérebros e corpos dos indivíduos para produzir energia. Morpheus, entretanto, está convencido de que Thomas é Neo, o aguardado messias capaz de enfrentar o Matrix e conduzir as pessoas de volta à realidade e à liberdade.",
+      "release_date": "1999-05-21"
+    },
+    {
+      "popularity": 30.768,
+      "vote_count": 48,
+      "video": false,
+      "poster_path": "\/vVYU0x9FRpiJNX7c54ciFnRBVYG.jpg",
+      "id": 441282,
+      "adult": false,
+      "backdrop_path": "\/6rJAeP8xlq0bHUdCNg5epBvrFVa.jpg",
+      "original_language": "en",
+      "original_title": "Night Hunter",
+      "genre_ids": [
+        80,
+        9648,
+        53
+      ],
+      "title": "Night Hunter",
+      "vote_average": 6.1,
+      "overview": "Uma força-tarefa da polícia prende um predador online, apenas para descobrir que a profundidade de seus crimes vai muito além do que eles haviam previsto.",
+      "release_date": "2019-08-29"
+    },
+    {
+      "popularity": 40.035,
+      "vote_count": 612,
+      "video": false,
+      "poster_path": "\/tcmj4YQ6p79OD8ECpRAbV8Yjk0c.jpg",
+      "id": 496243,
+      "adult": false,
+      "backdrop_path": "\/fjPhDdmJJNK68cx19X0QQuNuHNY.jpg",
+      "original_language": "ko",
+      "original_title": "기생충",
+      "genre_ids": [
+        35,
+        18,
+        53
+      ],
+      "title": "기생충",
+      "vote_average": 8.5,
+      "overview": "",
+      "release_date": "2019-05-30"
+    },
+    {
+      "popularity": 28.757,
+      "vote_count": 0,
+      "video": false,
+      "poster_path": "\/85p2odMuP2SFLukYqEdZJ6iKM4B.jpg",
+      "id": 522938,
+      "adult": false,
+      "backdrop_path": "\/tA0p1nYtLcNUyxYgZzAywv1UI1e.jpg",
+      "original_language": "en",
+      "original_title": "Rambo: Last Blood",
+      "genre_ids": [
+        28,
+        12,
+        53
+      ],
+      "title": "Rambo 5",
+      "vote_average": 0,
+      "overview": "O tempo passou para Rambo (Sylvester Stallone), agora ele vive recluso e trabalha em um rancho que fica na fronteira entre os Estados Unidos e o México. Sua vida antiga marcada por lutas violentas, mas quase sempre vitoriosas, ficou no passado. No entanto, quando a filha de um amigo é sequestrada, Rambo não consegue controlar seu ímpeto por justiça e resolve enfrentar um dos mais perigosos cartéis do México",
+      "release_date": "2019-09-19"
+    },
+    {
+      "popularity": 32.217,
+      "id": 417384,
+      "video": false,
+      "vote_count": 235,
+      "vote_average": 6.5,
+      "title": "Histórias Assustadoras para Contar no Escuro",
+      "release_date": "2019-08-08",
+      "original_language": "en",
+      "original_title": "Scary Stories to Tell in the Dark",
+      "genre_ids": [
+        27,
+        14
+      ],
+      "backdrop_path": "\/spCU6e6opWCmA3Q0SdKhsMqo5OI.jpg",
+      "adult": false,
+      "overview": "Baseado na trilogia de livros de mesmo nome, um grupo de crianças se veem presas em seus pesadelos, repletos de contos de folclore e lendas urbanas de terror, que se tornam realidade.",
+      "poster_path": "\/wNDV3fBE3GKbpuwmTQ6oq6kn6ec.jpg"
+    },
+    {
+      "popularity": 19.15,
+      "vote_count": 3,
+      "video": false,
+      "poster_path": "\/dR1Ju50iudrOh3YgfwkAU1g2HZe.jpg",
+      "id": 359724,
+      "adult": false,
+      "backdrop_path": "\/pyTNkCQaDcZJhTb9g7Q7HGopxrQ.jpg",
+      "original_language": "en",
+      "original_title": "Ford v. Ferrari",
+      "genre_ids": [
+        28,
+        18
+      ],
+      "title": "Ford v. Ferrari",
+      "vote_average": 3.5,
+      "overview": "",
+      "release_date": "2019-09-05"
+    },
+    {
+      "popularity": 32.884,
+      "vote_count": 16,
+      "video": false,
+      "poster_path": "\/rp3PS9hl0sTZ6eOrXQF95Ben2N8.jpg",
+      "id": 419704,
+      "adult": false,
+      "backdrop_path": "\/uDQKnOYo1uhKJQ0xE0Euwr3VZoN.jpg",
+      "original_language": "en",
+      "original_title": "Ad Astra",
+      "genre_ids": [
+        12,
+        18,
+        9648,
+        878,
+        53
+      ],
+      "title": "Ad Astra",
+      "vote_average": 0,
+      "overview": "Roy McBride (Brad Pitt) é um engenheiro espacial, portador de um leve grau de autismo, que decide empreender a maior jornada de sua vida: viajar para o espaço, cruzar a galáxia e tentar descobrir o que aconteceu com seu pai, um astronauta que se perdeu há vinte anos atrás no caminho para Netuno.",
+      "release_date": "2019-09-17"
+    },
+    {
+      "popularity": 23.233,
+      "vote_count": 425,
+      "video": false,
+      "poster_path": "\/lojBdZXcKyzQBdOHPIWQXTrFJXN.jpg",
+      "id": 300681,
+      "adult": false,
+      "backdrop_path": "\/sHPfBVFq7dlnXCz1zFdbEdwcBDJ.jpg",
+      "original_language": "en",
+      "original_title": "Replicas",
+      "genre_ids": [
+        878,
+        53
+      ],
+      "title": "Cópias: De Volta à Vida",
+      "vote_average": 5.8,
+      "overview": "Um neurocientista e sua família sofrem um acidente de carro e só ele sobrevive. Inconformado, o homem começa uma luta incessante para trazê-los de volta por meio de um experimento que desafia as leis físicas da ciência.",
+      "release_date": "2019-04-18"
+    },
+    {
+      "popularity": 28.486,
+      "vote_count": 493,
+      "video": false,
+      "poster_path": "\/jBL2tMvb7LxObsZYc8hoQc0tzdb.jpg",
+      "id": 505600,
+      "adult": false,
+      "backdrop_path": "\/wcAqndL2MkIjPrCrYeuE794weNE.jpg",
+      "original_language": "en",
+      "original_title": "Booksmart",
+      "genre_ids": [
+        35,
+        18
+      ],
+      "title": "Fora de Série",
+      "vote_average": 7.2,
+      "overview": "Duas grandes amigas conhecidas por serem os maiores prodígios da escola estão prestes a terminar o ensino médio. Faltando poucos dias para o grande momento, elas percebem que estão arrependidas por terem estudado tanto e se divertido tão pouco. Determinadas a não passarem por todo esse tempo sem nenhuma diversão, elas decidem correr atrás dos 4 anos perdidos em apenas uma noite.",
+      "release_date": "2019-05-24"
+    },
+    {
+      "popularity": 26.498,
+      "id": 1368,
+      "video": false,
+      "vote_count": 2950,
+      "vote_average": 7.4,
+      "title": "Rambo: Programado Para Matar",
+      "release_date": "1982-11-06",
+      "original_language": "en",
+      "original_title": "First Blood",
+      "genre_ids": [
+        28,
+        12,
+        53,
+        10752
+      ],
+      "backdrop_path": "\/xiBsA8Qj5KhO4cUKz6RHDtKpBGs.jpg",
+      "adult": false,
+      "overview": "John Rambo é um veterano de guerra atormentado pelas lembranças do Vietnã. Numa viagem à procura de um colega do exército, passa por uma cidadezinha cujo xerife o toma por vagabundo, e acaba detido. Lá, a agressividade dos policiais traz à tona todos os seus traumas, mas também toda sua habilidade de guerra. Rambo foge, então, para uma floresta vizinha, e dá início a uma caçada explosiva, em que será preciso toda uma força policial para combater um só homem.",
+      "poster_path": "\/eAMjdsh4kHBorUksz9rLY3fJhMj.jpg"
+    },
+    {
+      "popularity": 25.66,
+      "id": 530385,
+      "video": false,
+      "vote_count": 438,
+      "vote_average": 7.2,
+      "title": "Midsommar",
+      "release_date": "2019-09-19",
+      "original_language": "en",
+      "original_title": "Midsommar",
+      "genre_ids": [
+        27,
+        18
+      ],
+      "backdrop_path": "\/iNNhPRLRbdp1ESbm91KJzyUIyIJ.jpg",
+      "adult": false,
+      "overview": "",
+      "poster_path": "\/7LEI8ulZzO5gy9Ww2NVCrKmHeDZ.jpg"
+    },
+    {
+      "popularity": 26.69,
+      "vote_count": 48,
+      "video": false,
+      "poster_path": "\/86Y6qM8zTn3PFVfCm9J98Ph7JEB.jpg",
+      "id": 566555,
+      "adult": false,
+      "backdrop_path": "\/wf6VDSi4aFCZfuD8sX8JAKLfJ5m.jpg",
+      "original_language": "ja",
+      "original_title": "名探偵コナン 紺青の拳（フィスト）",
+      "genre_ids": [
+        28,
+        16,
+        35,
+        18,
+        9648
+      ],
+      "title": "名探偵コナン 紺青の拳（フィスト）",
+      "vote_average": 5,
+      "overview": "",
+      "release_date": "2019-04-12"
+    },
+    {
+      "popularity": 21.977,
+      "id": 438674,
+      "video": false,
+      "vote_count": 179,
+      "vote_average": 6.6,
+      "title": "Na Sombra da Lei",
+      "release_date": "2019-02-21",
+      "original_language": "en",
+      "original_title": "Dragged Across Concrete",
+      "genre_ids": [
+        80,
+        28,
+        53
+      ],
+      "backdrop_path": "\/crRdazoirgBIB50ScJns8KMsZNM.jpg",
+      "adult": false,
+      "overview": "Uma vez que dois policiais zelosos são suspensos da força, eles devem mergulhar no submundo do crime para obter uma compensação adequada. (e 18 - Estimado 18 Anos)",
+      "poster_path": "\/9g7UWlFPrfi31pNVSHBPqY9c7Gp.jpg"
+    }
+  ],
+  "page": 1,
+  "total_results": 292,
+  "dates": {
+    "maximum": "2019-09-30",
+    "minimum": "2019-09-13"
+  },
+  "total_pages": 15
+}
