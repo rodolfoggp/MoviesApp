@@ -29,10 +29,18 @@ open class FavoritesRepository private constructor(
         favorites
     }
 
-    open fun getFavoriteById(id: Int): LiveData<Movie> = favoriteDao.getFavoriteById(id)
+    open fun getFavoriteById(id: Int): LiveData<Movie> =
+        Transformations.switchMap(favoriteDao.getFavoriteById(id)) {
+            val favorite = MutableLiveData<Movie>()
+            GlobalScope.launch(dispatcher) {
+                it.genres = movieGenreJoinDao.getGenresForMovie(it.id)
+                favorite.postValue(it)
+            }
+            favorite
+        }
 
     fun isFavorite(id: Int): LiveData<Boolean> =
-        Transformations.map(getFavoriteById(id)) {
+        Transformations.map(favoriteDao.getFavoriteById(id)) {
             it != null
         }
 
