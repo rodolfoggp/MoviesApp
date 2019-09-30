@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_details.*
 
 abstract class DetailsActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityDetailsBinding
+    private lateinit var binding: ActivityDetailsBinding
     lateinit var viewModel: DetailsViewModel
 
     abstract fun getViewModel(id: Int): DetailsViewModel

@@ -4,7 +4,6 @@
     <dimen name="singleSpace">8dp</dimen>
     <dimen name="doubleSpace">16dp</dimen>
     <dimen name="tripleSpace">24dp</dimen>
-    <dimen name="quadSpace">32dp</dimen>
 
     <dimen name="subActionBarHeight">50dp</dimen>
 

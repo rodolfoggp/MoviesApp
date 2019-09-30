@@ -44,7 +44,7 @@ class FavoritesRepositoryTest {
     }
 
     private val movieGenreJoinDaoMock: MovieGenreJoinDao = mock()
-    fun configureMovieGenreJoinDao() {
+    private fun configureMovieGenreJoinDao() {
         for (movie in moviesList) {
             whenever(movieGenreJoinDaoMock.getGenresForMovie(movie.id))
                 .thenReturn(testHelper.genresFor(movie.id))
