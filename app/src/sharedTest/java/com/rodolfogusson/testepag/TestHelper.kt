@@ -45,9 +45,15 @@ class TestHelper {
         Genre(6, "F")
     )
 
-    fun includeGenresInMovies() {
-        moviesList[0].genres = listOf(genresList[0], genresList[1])
-        moviesList[1].genres = listOf(genresList[2], genresList[3])
-        moviesList[2].genres = listOf(genresList[4], genresList[5])
+    fun includeGenresInMovies() =
+        moviesList.forEach { movie -> movie.genres = genresFor(movie.id) }
+
+    fun genresFor(movieId: Int): List<Genre>? {
+        return when (movieId) {
+            1 -> listOf(genresList[0], genresList[1])
+            2 -> listOf(genresList[2], genresList[3])
+            3 -> listOf(genresList[4], genresList[5])
+            else -> null
+        }
     }
 }

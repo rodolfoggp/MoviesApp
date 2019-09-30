@@ -15,7 +15,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
 
 class FavoritesRepositoryTest {
 
@@ -24,24 +23,37 @@ class FavoritesRepositoryTest {
 
     private lateinit var repository: FavoritesRepository
 
-    private val favoriteLiveData = MutableLiveData<Movie>()
-    private val favoriteListLiveData = MutableLiveData<List<Movie>>()
+    private val getFavoriteByIdLiveData = MutableLiveData<Movie>()
+    private val getAllFavoritesLiveData = MutableLiveData<List<Movie>>()
+
     private val testHelper = TestHelper()
 
-    private val moviesList = testHelper.moviesList
+    private val moviesList = TestHelper().moviesList
+    private val moviesWithGenresList =
+        TestHelper().moviesList.apply { forEach { it.genres = testHelper.genresFor(it.id) } }
+
     private val movie = moviesList[0]
+    private val movieWithGenres =
+        TestHelper().moviesList[0].apply { genres = testHelper.genresFor(moviesList[0].id) }
+
     private val id = movie.id
 
     private val favoriteDaoMock: FavoriteDao = mock {
-        on { getFavoriteById(id) } doReturn favoriteLiveData
-        on { getAllFavorites() } doReturn favoriteListLiveData
+        on { getFavoriteById(id) } doReturn getFavoriteByIdLiveData
+        on { getAllFavorites() } doReturn getAllFavoritesLiveData
     }
 
     private val movieGenreJoinDaoMock: MovieGenreJoinDao = mock()
+    fun configureMovieGenreJoinDao() {
+        for (movie in moviesList) {
+            whenever(movieGenreJoinDaoMock.getGenresForMovie(movie.id))
+                .thenReturn(testHelper.genresFor(movie.id))
+        }
+    }
 
     @Before
     fun setup() {
-        testHelper.includeGenresInMovies()
+        configureMovieGenreJoinDao()
         repository = FavoritesRepository.getInstance(
             favoriteDaoMock,
             movieGenreJoinDaoMock,
@@ -67,10 +79,7 @@ class FavoritesRepositoryTest {
     @Test
     fun `getFavorites should return all the favorites with their genres`() {
         //GIVEN
-        favoriteListLiveData.value = moviesList
-        for (movie in moviesList) {
-            whenever(movieGenreJoinDaoMock.getGenresForMovie(movie.id)).thenReturn(movie.genres)
-        }
+        getAllFavoritesLiveData.value = moviesList
 
         //WHEN
         val result = repository.getFavorites()
@@ -81,31 +90,30 @@ class FavoritesRepositoryTest {
             .test()
             .awaitValue()
             .value()
-        assertEquals(moviesList, favorites)
+        assertEquals(moviesWithGenresList, favorites)
     }
 
     @Test
-    fun `getFavoriteById should get the correct favorite`() {
+    fun `getFavoriteById should get the correct favorite with its genres`() {
         //GIVEN
-        favoriteLiveData.value = movie
+        getFavoriteByIdLiveData.value = movie
 
         //WHEN
-        val liveData = repository.getFavoriteById(id)
+        val result = repository.getFavoriteById(id)
 
         //THEN
         verify(favoriteDaoMock).getFavoriteById(id)
-        val favorite = liveData
+        val favorite = result
             .test()
             .awaitValue()
             .value()
-        assertEquals(movie, favorite)
+        assertEquals(movieWithGenres, favorite)
     }
-
 
     @Test
     fun `isFavorite should getFavoriteById and return true if it exists`() {
         //GIVEN
-        favoriteLiveData.value = movie
+        getFavoriteByIdLiveData.value = movie
 
         //WHEN
         val result = repository.isFavorite(movie.id)
@@ -121,7 +129,7 @@ class FavoritesRepositoryTest {
     @Test
     fun `isFavorite should getFavoriteById and return false if it doesn't exist`() {
         //GIVEN
-        favoriteLiveData.value = null
+        getFavoriteByIdLiveData.value = null
 
         //WHEN
         val result = repository.isFavorite(id)
@@ -137,14 +145,14 @@ class FavoritesRepositoryTest {
     @Test
     fun `add should save a movie to the database and save all related moviegenrejoins`() {
         //GIVEN
-        val genres = movie.genres ?: emptyList()
+        val genres = movieWithGenres.genres ?: emptyList()
         assert(genres.isNotEmpty())
 
         //WHEN
-        repository.add(movie)
+        repository.add(movieWithGenres)
 
         //THEN
-        verify(favoriteDaoMock).insert(movie)
+        verify(favoriteDaoMock).insert(movieWithGenres)
         for (genre in genres) {
             verify(movieGenreJoinDaoMock).insert(argThat {
                 equals(
