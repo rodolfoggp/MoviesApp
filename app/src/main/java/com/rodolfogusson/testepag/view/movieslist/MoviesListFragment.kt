@@ -66,7 +66,7 @@ class MoviesListFragment : Fragment() {
         sortingDialog = AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog)
             .setSingleChoiceItems(values, initialCheckedItem) { dialog, index ->
                 viewModel.onSortingSelected(index)
-                recyclerView.scrollToPosition(0)
+                recyclerViewFavorites.scrollToPosition(0)
                 dialog.dismiss()
             }.create()
         sortButton.setOnClickListener { sortingDialog.show() }
@@ -74,14 +74,14 @@ class MoviesListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         layoutManager = LinearLayoutManager(this.activity)
-        recyclerView.layoutManager = layoutManager
+        recyclerViewFavorites.layoutManager = layoutManager
         setRecyclerViewScrollListener()
         adapter.clickListener = ::onMovieClicked
-        recyclerView.adapter = adapter
+        recyclerViewFavorites.adapter = adapter
     }
 
     private fun setupErrorDialog() {
-        dialog = AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog)
+        dialog = AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog)
             .setTitle(getString(R.string.dialog_error))
             .setMessage(getString(R.string.fetch_movies_error))
             .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
@@ -102,7 +102,7 @@ class MoviesListFragment : Fragment() {
                 }
             }
         }
-        recyclerView.addOnScrollListener(scrollListener)
+        recyclerViewFavorites.addOnScrollListener(scrollListener)
     }
 
     private fun registerObservers() {
@@ -140,7 +140,7 @@ class MoviesListFragment : Fragment() {
 
                 // Used to give a better loading effect on the last item
                 viewModel.movies.value?.data?.size?.let { size ->
-                    recyclerView.scrollToPosition(size - 1)
+                    recyclerViewFavorites.scrollToPosition(size - 1)
                 }
             } else {
                 nextPageProgress.visibility = View.GONE

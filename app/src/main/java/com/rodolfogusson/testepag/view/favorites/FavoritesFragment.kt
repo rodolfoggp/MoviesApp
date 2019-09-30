@@ -45,14 +45,14 @@ class FavoritesFragment : Fragment() {
 
     private fun setupLayout() {
         adapter.clickListener = ::onMovieClicked
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this.activity)
+        recyclerViewFavorites.adapter = adapter
+        recyclerViewFavorites.layoutManager = LinearLayoutManager(this.activity)
     }
 
     private fun registerObservers() {
         viewModel.favorites.observe(this, Observer {
             emptyView.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-            recyclerView.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
+            recyclerViewFavorites.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
 
             adapter.data = it
             adapter.notifyDataSetChanged()
