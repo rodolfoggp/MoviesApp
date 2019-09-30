@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.viewmodel.movieslist
+package com.rodolfogusson.testepag.viewmodel.movies
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepositor
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.infrastructure.service.MoviesService
 
-class MoviesListViewModelFactory(val context: Context) : ViewModelProvider.Factory {
+class MoviesViewModelFactory(val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val service = MoviesService.create()
 
@@ -18,6 +18,6 @@ class MoviesListViewModelFactory(val context: Context) : ViewModelProvider.Facto
         val genreDao = database.genreDao()
         val genresRepository = GenresRepository.getInstance(service, genreDao)
 
-        return MoviesListViewModel(moviesRepository, genresRepository) as T
+        return MoviesViewModel(moviesRepository, genresRepository) as T
     }
 }

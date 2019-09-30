@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.view.movieslist.adapter
+package com.rodolfogusson.testepag.view.main.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView

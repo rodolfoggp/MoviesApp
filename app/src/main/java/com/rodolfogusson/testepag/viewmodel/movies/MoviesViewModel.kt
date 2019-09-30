@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.viewmodel.movieslist
+package com.rodolfogusson.testepag.viewmodel.movies
 
 import androidx.lifecycle.*
 import com.rodolfogusson.testepag.infrastructure.data.Resource
@@ -8,9 +8,9 @@ import com.rodolfogusson.testepag.infrastructure.data.repository.GenresRepositor
 import com.rodolfogusson.testepag.infrastructure.data.repository.MoviesRepository
 import com.rodolfogusson.testepag.model.Genre
 import com.rodolfogusson.testepag.model.Movie
-import com.rodolfogusson.testepag.viewmodel.movieslist.SortingOrder.*
+import com.rodolfogusson.testepag.viewmodel.movies.SortingOrder.*
 
-class MoviesListViewModel(
+class MoviesViewModel(
     private val moviesRepository: MoviesRepository,
     genresRepository: GenresRepository
 ) : ViewModel() {

@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.view.movieslist
+package com.rodolfogusson.testepag.view.main.movies
 
 import android.app.AlertDialog
 import android.content.Context
@@ -17,20 +17,20 @@ import com.rodolfogusson.testepag.infrastructure.data.Status
 import com.rodolfogusson.testepag.model.Movie
 import com.rodolfogusson.testepag.view.details.DetailsActivity
 import com.rodolfogusson.testepag.view.details.MovieDetailsActivity
-import com.rodolfogusson.testepag.view.movieslist.adapter.MoviesListAdapter
-import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModel
-import com.rodolfogusson.testepag.viewmodel.movieslist.MoviesListViewModelFactory
-import com.rodolfogusson.testepag.viewmodel.movieslist.textFor
+import com.rodolfogusson.testepag.view.main.adapter.PaginatedMoviesAdapter
+import com.rodolfogusson.testepag.viewmodel.movies.MoviesViewModel
+import com.rodolfogusson.testepag.viewmodel.movies.MoviesViewModelFactory
+import com.rodolfogusson.testepag.viewmodel.movies.textFor
 import kotlinx.android.synthetic.main.fragment_movies_list.*
 
-class MoviesListFragment : Fragment() {
+class MoviesFragment : Fragment() {
 
-    private lateinit var viewModel: MoviesListViewModel
+    private lateinit var viewModel: MoviesViewModel
 
     private lateinit var layoutManager: LinearLayoutManager
     private val lastVisibleItemPosition: Int
         get() = layoutManager.findLastVisibleItemPosition()
-    private val adapter = MoviesListAdapter()
+    private val adapter = PaginatedMoviesAdapter()
     private lateinit var scrollListener: RecyclerView.OnScrollListener
     private lateinit var dialog: AlertDialog
     private lateinit var sortingDialog: AlertDialog
@@ -40,8 +40,8 @@ class MoviesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val context: Context = context ?: return null
-        viewModel = ViewModelProviders.of(this, MoviesListViewModelFactory(context))
-            .get(MoviesListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, MoviesViewModelFactory(context))
+            .get(MoviesViewModel::class.java)
         return inflater.inflate(R.layout.fragment_movies_list, container, false)
     }
 

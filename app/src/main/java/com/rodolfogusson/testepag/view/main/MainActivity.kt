@@ -1,14 +1,14 @@
-package com.rodolfogusson.testepag.view.tabbed
+package com.rodolfogusson.testepag.view.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.rodolfogusson.testepag.R
-import com.rodolfogusson.testepag.view.favorites.FavoritesFragment
-import com.rodolfogusson.testepag.view.movieslist.MoviesListFragment
-import com.rodolfogusson.testepag.view.tabbed.adapter.ViewPagerAdapter
+import com.rodolfogusson.testepag.view.main.adapter.ViewPagerAdapter
+import com.rodolfogusson.testepag.view.main.favorites.FavoritesFragment
+import com.rodolfogusson.testepag.view.main.movies.MoviesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class TabbedActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class TabbedActivity : AppCompatActivity() {
 
     private fun setupNavigation() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(MoviesListFragment())
+        adapter.addFragment(MoviesFragment())
         adapter.addFragment(FavoritesFragment())
 
         viewpager.adapter = adapter

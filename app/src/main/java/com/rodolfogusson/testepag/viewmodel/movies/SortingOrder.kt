@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.viewmodel.movieslist
+package com.rodolfogusson.testepag.viewmodel.movies
 
 import android.content.Context
 import com.rodolfogusson.testepag.R

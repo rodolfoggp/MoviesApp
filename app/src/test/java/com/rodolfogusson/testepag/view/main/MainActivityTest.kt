@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.view.tabbed
+package com.rodolfogusson.testepag.view.main
 
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -8,13 +8,13 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class TabbedActivityTest {
+class MainActivityTest {
 
-    private lateinit var activity: TabbedActivity
+    private lateinit var activity: MainActivity
 
     @Before
     fun setup() {
-        activity = Robolectric.buildActivity(TabbedActivity::class.java)
+        activity = Robolectric.buildActivity(MainActivity::class.java)
             .create()
             .resume()
             .get()

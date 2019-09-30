@@ -6,7 +6,7 @@
         android:id="@+id/movies_list_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.movieslist.MoviesListFragment">
+        tools:context=".view.main.movies.MoviesFragment">
 
         <ProgressBar
             android:id="@+id/progress"

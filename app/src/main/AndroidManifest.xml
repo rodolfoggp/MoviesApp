@@ -22,7 +22,7 @@
         <activity android:name=".view.details.FavoriteDetailsActivity" />
         <activity android:name=".view.details.DetailsActivity" />
 
-        <activity android:name=".view.tabbed.TabbedActivity">
+        <activity android:name=".view.main.MainActivity">
 
             <intent-filter>
 

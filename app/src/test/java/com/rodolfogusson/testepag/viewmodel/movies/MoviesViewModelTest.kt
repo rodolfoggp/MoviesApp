@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.viewmodel.movieslist
+package com.rodolfogusson.testepag.viewmodel.movies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +18,8 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyList
 
-class MoviesListViewModelTest {
-    private lateinit var viewModel: MoviesListViewModel
+class MoviesViewModelTest {
+    private lateinit var viewModel: MoviesViewModel
 
     private val moviesRepositoryMock = mock<MoviesRepository>()
     private val genresRepositoryMock = mock<GenresRepository>()
@@ -49,7 +49,7 @@ class MoviesListViewModelTest {
             .thenReturn(moviesReturn)
 
         //ViewModel instantiation
-        viewModel = MoviesListViewModel(moviesRepositoryMock, genresRepositoryMock)
+        viewModel = MoviesViewModel(moviesRepositoryMock, genresRepositoryMock)
     }
 
     @Test

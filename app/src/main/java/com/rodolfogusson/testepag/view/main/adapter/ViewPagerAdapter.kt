@@ -1,4 +1,4 @@
-package com.rodolfogusson.testepag.view.tabbed.adapter
+package com.rodolfogusson.testepag.view.main.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -1,21 +1,21 @@
-package com.rodolfogusson.testepag.view.favorites
+package com.rodolfogusson.testepag.view.main.favorites
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodolfogusson.testepag.databinding.FragmentFavoritesBinding
 import com.rodolfogusson.testepag.model.Movie
-import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModel
-import com.rodolfogusson.testepag.view.favorites.adapter.FavoritesAdapter
 import com.rodolfogusson.testepag.view.details.DetailsActivity
 import com.rodolfogusson.testepag.view.details.FavoriteDetailsActivity
+import com.rodolfogusson.testepag.view.main.adapter.MoviesAdapter
+import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModel
 import com.rodolfogusson.testepag.viewmodel.favorites.FavoritesViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorites.*
 
@@ -23,7 +23,7 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var viewModel: FavoritesViewModel
     private lateinit var binding: FragmentFavoritesBinding
-    private val adapter = FavoritesAdapter()
+    private val adapter = MoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
